@@ -3,11 +3,13 @@
 Plugin Name: BuddyPress Like
 Plugin URI: http://darrenmeehan.me/
 Description: Adds the ability for users to like content throughout your BuddyPress site.
-Author: Alex Hempton-Smith, Darren Meehan
-Version: 0.0.8
+Author: Darren Meehan
+Version: 0.0.9
 Author URI: http://darrenmeehan.me
-*/
 
+The original plugin was built by Alex Hempton-Smith who did a great job. I hope he's in good
+health and enjoying life. I plan to keep this plugin supported well, and improve it as often
+as possible.
 
 /* Make sure BuddyPress is loaded before we do anything. */
 if ( !function_exists( 'bp_core_install' ) ) {
@@ -22,7 +24,7 @@ if ( !function_exists( 'bp_core_install' ) ) {
 	}
 }
 
-define ( 'BP_LIKE_VERSION', '0.0.8' );
+define ( 'BP_LIKE_VERSION', '0.0.9' );
 define ( 'BP_LIKE_DB_VERSION', '10' );
 
 /**
@@ -300,19 +302,25 @@ function bp_like_process_ajax() {
 
 	$id = preg_replace( "/\D/", "", $_POST['id'] ); 
 	
-	if ( $_POST['type'] == 'like' )
+	if ( $_POST['type'] == 'button like' )
 		bp_like_add_user_like( $id, 'activity' );
 	
-	if ( $_POST['type'] == 'unlike' )
+	if ( $_POST['type'] == 'button unlike' )
 		bp_like_remove_user_like( $id, 'activity' );
 
-	if ( $_POST['type'] == 'view-likes' )
+	if ( $_POST['type'] == 'acomment-reply bp-primary-action like' )
+		bp_like_add_user_like( $id, 'activity' );
+	
+	if ( $_POST['type'] == 'acomment-reply bp-primary-action unlike' )
+		bp_like_remove_user_like( $id, 'activity' );
+
+	if ( $_POST['type'] == 'button view-likes' )
 		bp_like_get_likes( $id, 'activity' );
 
-	if ( $_POST['type'] == 'like_blogpost' )
+	if ( $_POST['type'] == 'button like_blogpost' )
 		bp_like_add_user_like( $id, 'blogpost' );
 
-	if ( $_POST['type'] == 'unlike_blogpost' )
+	if ( $_POST['type'] == 'button unlike_blogpost' )
 		bp_like_remove_user_like( $id, 'blogpost' );
 
 	die();
@@ -800,13 +808,11 @@ function bp_like_button( $id = '', $type = '' ) {
 		$bp_like_comment_id = bp_get_activity_comment_id();
 		
 		if ( empty( $bp_like_comment_id ) ) {
-
-			//this is for activity items
-			//echo "this is not a comment";
-			//echo 'Activty ID: ' . bp_get_activity_id();
-			$bp_like_id = bp_get_activity_id();
 			
-			if ( bp_like_is_liked( bp_get_activity_id(), 'activity' ) ) {
+			$bp_like_id = bp_get_activity_id();
+			$bp_like_view = 'button view-likes';
+			
+			if ( bp_like_is_liked( $bp_like_id, 'activity' ) ) {
 				$bp_like_css = 'button unlike';
 			} else {
 				$bp_like_css = 'button like';
@@ -814,42 +820,16 @@ function bp_like_button( $id = '', $type = '' ) {
 	
 		} else {
 
-			//this is for comments
-			//need to add a check to see if comment is liked or not
-			//echo 'Comment ID: ' . $bp_like_comment_id;
 			$bp_like_id = bp_get_activity_comment_id();
-			$bp_like_css = 'acomment-reply bp-primary-action';
+			$bp_like_view = 'acomment-reply bp-primary-action view-likes';
+
+			if ( bp_like_is_liked( $bp_like_id, 'activity' ) ) {
+				$bp_like_css = 'acomment-reply bp-primary-action unlike';
+			} else {
+				$bp_like_css = 'acomment-reply bp-primary-action like';
+			}
 
 		}	
-
-		/*
-		Array (
-	[activities] => 
-		Array ( 
-		[0] => stdClass Object ( 
-				[id] => 1338 
-				[user_id] => 1 
-				[component] => activity 
-				[type] => activity_update 
-				[action] => darren posted an update 
-				[content] => 5h56ju56ju56j56j 
-				[primary_link] => http://localhost/like/members/darren/ 
-				[item_id] => 0 
-				[secondary_item_id] => 0 
-				[date_recorded] => 2013-06-29 01:37:30 
-				[hide_sitewide] => 0 
-				[mptt_left] => 0 
-				[mptt_right] => 0 
-				[is_spam] => 0 
-				[user_email] => hey@darrenmeehan.me 
-				[user_nicename] => darren 
-				[user_login] => darren 
-				[display_name] => darren 
-				[user_fullname] => darren
-			 ) 
-		)
-
-	[total] => 1 ) */
 	
 		$activity = bp_activity_get_specific( array( 'activity_ids' => $bp_like_id ) );
 		$activity_type = @$activity['activities'][0]->type;
@@ -857,6 +837,7 @@ function bp_like_button( $id = '', $type = '' ) {
 
 		if( $activity_type === null )
     		$activity_type = 'activity_update';
+    		//need to test this more, seems to work though...
 
 		if ( is_user_logged_in() && $activity_type !== 'activity_liked' ) :
 			
@@ -866,13 +847,13 @@ function bp_like_button( $id = '', $type = '' ) {
 			}
 			
 			if ( !bp_like_is_liked( $bp_like_id, 'activity' ) ) : ?>
-				<a href="#" class="like" id="like-activity-<?php echo $bp_like_id; ?>" title="<?php echo bp_like_get_text( 'like_this_item' ); ?>"><?php echo bp_like_get_text( 'like' ); if ( $liked_count ) echo ' (' . $liked_count . ')'; ?></a>
+				<a href="#" class="<?php echo $bp_like_css; ?>" id="like-activity-<?php echo $bp_like_id; ?>" title="<?php echo bp_like_get_text( 'like_this_item' ); ?>"><?php echo bp_like_get_text( 'like' ); if ( $liked_count ) echo ' (' . $liked_count . ')'; ?></a>
 			<?php else : ?>
-				<a href="#" class="unlike" id="unlike-activity-<?php echo $bp_like_id; ?>" title="<?php echo bp_like_get_text( 'unlike_this_item' ); ?>"><?php echo bp_like_get_text( 'unlike' ); if ( $liked_count ) echo ' (' . $liked_count . ')'; ?></a>
+				<a href="#" class="<?php echo $bp_like_css; ?>" id="unlike-activity-<?php echo $bp_like_id; ?>" title="<?php echo bp_like_get_text( 'unlike_this_item' ); ?>"><?php echo bp_like_get_text( 'unlike' ); if ( $liked_count ) echo ' (' . $liked_count . ')'; ?></a>
 			<?php endif;
 			
 			if ( $users_who_like ): ?>
-				<a href="#" class="view-likes" id="view-likes-<?php echo $bp_like_id; ?>"><?php echo bp_like_get_text( 'view_likes' ); ?></a>
+				<a href="#" class="<?php echo $bp_like_view;?>" id="view-likes-<?php echo $bp_like_id; ?>"><?php echo bp_like_get_text( 'view_likes' ); ?></a>
 				<p class="users-who-like" id="users-who-like-<?php echo $bp_like_id; ?>"></p>
 			<?php
 			endif;
@@ -920,7 +901,7 @@ add_action( 'bp_group_activity_filter_options', 'bp_like_activity_filter' );
 /**
  * bp_like_list_scripts()
  *
- * Includes the Javascript required for Ajax etc.
+ * Includes the Javascript required for ajax etc.
  *
  */
 function bp_like_list_scripts() {
@@ -1005,6 +986,24 @@ function bp_like_insert_head() {
 		-webkit-border-radius: 3px;
 		border-radius: 3px;
 	}
+	.activity-meta.view-likes, .activity-meta.like, .activity-meta.unlike {
+		background: #ededed;
+		background: -moz-linear-gradient(top, #ffffff 0%, #e0e0e0 100%);
+		background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,#e0e0e0));
+		background: -webkit-linear-gradient(top, #ffffff 0%,#e0e0e0 100%);
+		background: -o-linear-gradient(top, #ffffff 0%,#e0e0e0 100%);
+		background: -ms-linear-gradient(top, #ffffff 0%,#e0e0e0 100%);
+		filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#e0e0e0',GradientType=0 );
+		background: linear-gradient(top, #ffffff 0%,#e0e0e0 100%);
+		border: 1px solid #bbb;
+		color: #777 !important;
+		outline: none;
+		text-decoration: none;
+		-moz-border-radius: 3px;
+		-webkit-border-radius: 3px;
+		border-radius: 3px;
+	}
+
 </style>
 <script type="text/javascript">
 /* <![CDATA[ */
@@ -1062,7 +1061,7 @@ add_action( 'init', 'bp_like_admin_page_verify_nonce' );
 function bp_like_admin_page() {
 	global $current_user;
 
-	wp_get_current_user();
+	wp_get_current_user(); //doesnt seem to be doing anything
 
 	/* Update our options if the form has been submitted */
     if( isset( $_POST['_wpnonce'] ) && isset( $_POST['bp_like_updated'] ) ) {
