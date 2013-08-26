@@ -49,7 +49,7 @@ jQuery(document).ready(function() {
                 // Show the 'View Likes' if user is first to like
                 if (data === bp_like_terms_unlike_1) {
                     pureID = id.replace("like-activity-", "");
-                    jQuery('li#activity-' + pureID + ' .activity-meta').append('<a href="" class="view-likes" id="view-likes-' + pureID + '">' + bp_like_terms_view_likes + '</a><p class="users-who-like" id="users-who-like-' + pureID + '"></p>');
+                    jQuery('li#activity-' + pureID + ' .activity-meta').append('<a href="" class="button view-likes" id="view-likes-' + pureID + '">' + bp_like_terms_view_likes + '</a><p class="users-who-like" id="users-who-like-' + pureID + '"></p>');
                 }
 
             });

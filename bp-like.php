@@ -7,9 +7,8 @@ Author: Darren Meehan
 Version: 0.0.9
 Author URI: http://darrenmeehan.me
 
-The original plugin was built by Alex Hempton-Smith who did a great job. I hope he's in good
-health and enjoying life. I plan to keep this plugin supported well, and improve it as often
-as possible.
+Credit: The original plugin was built by Alex Hempton-Smith who did a great job. I hope he's in good
+health and enjoying life.
 
 /* Make sure BuddyPress is loaded before we do anything. */
 if ( !function_exists( 'bp_core_install' ) ) {
