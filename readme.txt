@@ -1,9 +1,9 @@
 === Plugin Name ===
-Contributors: hempsworth
+Contributors: darrenmeehan,hempsworth
 Donate link: http://buddypress.org/community/groups/buddypress-like/donate/
 Tags: buddypress, like, rate, thumbs
-Requires at least: 2.9
-Tested up to: 3.0.1
+Requires at least: 3.8
+Tested up to: 3.8
 Stable tag: 0.0.8
 
 Gives users the ability to 'like' content across your BuddyPress enabled site.
@@ -30,8 +30,13 @@ Gives users the ability to 'like' content across your BuddyPress enabled site.
 
 == Changelog ==
 
+= 0.1.0 =
+* Tidied up Admin Panel
+* Removed bp_like_insert_head() as it's not needed anymore thanks to BuddyPress' theme compatibility
+* Added bp_like_users_who_like() function to output the users who liked an item
 = 0.0.9 =
 * Bug fixed: updates deprecated WordPress functions.
+
 
 = 0.0.8 =
 * New feature: blog posts can now be liked.
