@@ -891,7 +891,7 @@ add_filter( 'bp_activity_comment_options', 'bp_like_button' );
  */
 function bp_like_activity_filter() {
 	echo '<option value="activity_liked">' . bp_like_get_text( 'show_activity_likes' ) . '</option>';
-	echo '<option value="blogpost_liked">Show Blog Post Likes</option>';
+	echo '<option value="blogpost_liked">' . bp_like_get_text( 'show_blogpost_likes' ) . '</option>';
 }
 add_action( 'bp_activity_filter_options', 'bp_like_activity_filter' );
 add_action( 'bp_member_activity_filter_options', 'bp_like_activity_filter' );
