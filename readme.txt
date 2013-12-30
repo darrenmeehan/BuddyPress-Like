@@ -1,18 +1,19 @@
 === Plugin Name ===
 Contributors: darrenmeehan,hempsworth
 Donate link: http://buddypress.org/community/groups/buddypress-like/donate/
-Tags: buddypress, like, rate, thumbs
+Tags: buddypress, like, rate, thumbs, Post, button
 Requires at least: 3.8
 Tested up to: 3.8
-Stable tag: 0.0.8
+Stable tag: 0.1.0
 
-Gives users the ability to 'like' content across your BuddyPress enabled site.
+Gives users the ability to 'like' content across your BuddyPress enabled site. Note BuddyPress Like is currently in Beta.
 
 == Description ==
 
-Gives users the ability to 'like' content across your BuddyPress enabled site.
+Gives users the ability to 'like' content across your BuddyPress enabled site. Note BuddyPress Like is currently in Beta.
+While development will be based on Github, for now many updates will be uploaded to WordPress.org for ease of access for the people who want the most up to date version.
 
-(Requires <a href="http://wordpress.org/extend/plugins/buddypress/">BuddyPress 1.2</a> or higher.)
+Requires <a href="http://wordpress.org/plugins/buddypress//">BuddyPress</a>
 
 == Installation ==
 
@@ -31,9 +32,11 @@ Gives users the ability to 'like' content across your BuddyPress enabled site.
 == Changelog ==
 
 = 0.1.0 =
-* Tidied up Admin Panel
-* Removed bp_like_insert_head() as it's not needed anymore thanks to BuddyPress' theme compatibility
-* Added bp_like_users_who_like() function to output the users who liked an item
+* Tidied up Admin Panel.
+* Removed bp_like_insert_head() as it's not needed anymore thanks to BuddyPress' theme compatibility.
+* Added bp_like_users_who_like() function to output the users who liked an item.
+* Removed "View Likes" button, instead showing who liked each post.
+
 = 0.0.9 =
 * Bug fixed: updates deprecated WordPress functions.
 

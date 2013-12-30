@@ -779,14 +779,15 @@ function bp_like_get_likes($item_id = '', $type = '', $user_id = '') {
 function bp_like_users_who_like($bp_like_id = '') {
     $bp_like_id = bp_get_activity_id(); 
     $users_who_like = array_keys(bp_activity_get_meta($bp_like_id, 'liked_count', true));
-    if (count($users_who_like) == 1) {
-        echo bp_core_get_userlink($users_who_like[0], $no_anchor = false, $just_link = false) . _e('liked this', 'bp-like');
-    } else {
-        for ($i = count($users_who_like) - 1; $i >= 0; $i--) {
-            echo bp_core_get_userlink($users_who_like[0], $no_anchor = false, $just_link = false)
-            . _e('and', 'bp-like') . count($users_who_like) - 1
-            . _e('liked this', 'bp-like');
-        }
+    if (count($users_who_like) == 1) { ?>
+<p><?php echo bp_core_get_userlink($users_who_like[0], $no_anchor = false, $just_link = false); ?><?php _e(' liked this.', 'bp-like'); ?> </p>
+   <?php } else {
+       $others = count($users_who_like)-1;
+       echo bp_core_get_userlink($users_who_like[$others], $no_anchor = false, $just_link = false);
+       _e(' and ', 'bp-like'); 
+       echo bp_core_get_userlink($users_who_like[$others - 1], $no_anchor = false, $just_link = false);
+       _e(' and ', 'bp-like'); echo $others . _e('liked this', 'bp-like');
+        
     }
 }
 
@@ -865,10 +866,6 @@ function bp_like_button($id = '', $type = '') {
             endif;
 
             if ($users_who_like):
-                ?>
-                <a href="#" class="<?php echo $bp_like_view; ?>" id="view-likes-<?php echo $bp_like_id; ?>"><?php echo bp_like_get_text('view_likes'); ?></a>
-                <p class="users-who-like" id="users-who-like-<?php echo $bp_like_id; ?>"></p>
-                <?php
                 bp_like_users_who_like($bp_like_id);
 
             endif;
