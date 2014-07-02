@@ -13,6 +13,10 @@ if ( !defined( 'ABSPATH' ) ) {
  *
  */
 function bp_like_list_scripts() {
+	// Only load if the user is logged in and if they aren't in the dashboard
+	if ( ! is_user_logged_in() && ! is_admin() ) {
+		return;
+	}
     wp_register_script( 'bplike-jquery' , plugins_url( '/assets/js/bp-like.min.js' , dirname( __FILE__ ) ) , BP_LIKE_VERSION , array('jquery') );
     wp_enqueue_script( 'bplike-jquery' );
 
@@ -27,6 +31,10 @@ function bp_like_list_scripts() {
  *
  */
 function bp_like_insert_head() {
+	// Only load if the user is logged in and if they aren't in the dashboard
+	if ( ! is_user_logged_in() && ! is_admin() ) {
+		return;
+	}
     ?>	
     <script type="text/javascript">
         /* <![CDATA[ */
@@ -50,6 +58,5 @@ function bp_like_insert_head() {
     <?php
 }
 
-// TODO: only load these if user is logged in, test
 add_action( 'wp_head' , 'bp_like_insert_head' );
 add_action( 'wp_enqueue_scripts' , 'bp_like_list_scripts' );
