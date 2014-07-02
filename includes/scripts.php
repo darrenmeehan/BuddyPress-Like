@@ -53,4 +53,4 @@ function bp_like_insert_head() {
 
 // TODO: only load these if user is logged in, test
 add_action( 'wp_head' , 'bp_like_insert_head' );
-add_action( 'wp_print_scripts' , 'bp_like_list_scripts' );
+add_action( 'wp_enqueue_scripts' , 'bp_like_list_scripts' );
