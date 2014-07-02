@@ -1,10 +1,10 @@
-=== Plugin Name ===
+﻿=== BuddyPress Like ===
 Contributors: darrenmeehan,hempsworth
-Donate link: http://buddypress.org/community/groups/buddypress-like/donate/
-Tags: buddypress, like, rate, thumbs, Post, button
+Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=ZAJLLEJDBHAWL
+Tags: buddypress, like, rate, thumbs, Post, button, vote
 Requires at least: 3.8
-Tested up to: 3.8
-Stable tag: 0.1.0
+Tested up to: 3.9
+Stable tag: 0.1.7
 
 Gives users the ability to 'like' content across your BuddyPress enabled site. Note BuddyPress Like is currently in Beta.
 
@@ -13,7 +13,7 @@ Gives users the ability to 'like' content across your BuddyPress enabled site. N
 Gives users the ability to 'like' content across your BuddyPress enabled site. Note BuddyPress Like is currently in Beta.
 While development will be based on Github, for now many updates will be uploaded to WordPress.org for ease of access for the people who want the most up to date version.
 
-Requires <a href="http://wordpress.org/plugins/buddypress//">BuddyPress</a>
+Requires <a href="http://wordpress.org/plugins/buddypress/">BuddyPress</a>
 
 == Installation ==
 
@@ -31,6 +31,35 @@ Requires <a href="http://wordpress.org/plugins/buddypress//">BuddyPress</a>
 
 == Changelog ==
 
+= 0.1.7 =
+* No longer posts to activity feed when user likes post in a group.
+
+= 0.1.6 =
+* Fixed bug when displaying number of people who liked.
+* Fixed bug with jQuery not working after loading more statuses.
+
+= 0.1.5 =
+* Removed favorite/unfavorite button on activity items using jQuery. 
+* Added function: view_who_likes().
+* Added hook: view_who_likes, will be adding more.
+* Added function bp_like_get_num_likes() to return number of likes of an item.
+* Tidied up jQuery, now properly using no conflict mode, functions split up.
+* Fixed activity filter bug where custom text for 'Blog Post Likes' was not called.
+* Moved Settings Page to under "Settings" tab in Admin, previously was under legacy BuddyPress tab.
+* New donate link.
+* Organised functions into different files, no more having one massive file!
+* Function added: bp_like_post_to_stream() with some code clean up inside
+* Tidied up bp_like_list_scripts() function, properly registering and enqueuing the scripts.
+* Removed like visibility, more changes on this to come.
+
+= 0.1.1 =
+* Fixed errors in readme.txt
+* Started formating code to meet WordPress code Standards
+* Add in View Likes, until some bugs are fixed.
+* View Likes should now be working in comments.
+* Minified JavaScript.
+* Several other small fixes.
+
 = 0.1.0 =
 * Tidied up Admin Panel.
 * Removed bp_like_insert_head() as it's not needed anymore thanks to BuddyPress' theme compatibility.
@@ -39,7 +68,6 @@ Requires <a href="http://wordpress.org/plugins/buddypress//">BuddyPress</a>
 
 = 0.0.9 =
 * Bug fixed: updates deprecated WordPress functions.
-
 
 = 0.0.8 =
 * New feature: blog posts can now be liked.
@@ -72,6 +100,15 @@ Requires <a href="http://wordpress.org/plugins/buddypress//">BuddyPress</a>
 * Initial release.
 
 == Upgrade Notice ==
+
+= 0.1.7 =
+No longer posts statuses when something is liked in a group. Also includes some JQuery fixes.
+
+= 0.1.5 =
+Many fixes, but still only suitable for testing. Settings moved to Setting->BuddyPress Like. Can now like comments properly and remove the favourite button.
+
+= 0.1.1 =
+A few awesome fixes! Comments should now work properly.
 
 = 0.0.8 =
 The biggest update yet! Lots of new features, including the ability to like blog posts. Recommended for all users.
