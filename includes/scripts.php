@@ -13,23 +13,14 @@ if ( !defined( 'ABSPATH' ) ) {
  *
  */
 function bp_like_list_scripts() {
-<<<<<<< HEAD
-=======
 	// Only load if the user is logged in and if they aren't in the dashboard
 	if ( ! is_user_logged_in() && ! is_admin() ) {
 		return;
 	}
->>>>>>> 8a3df64fbb65a4bf3360000b3f002e62fd5e06f7
     wp_register_script( 'bplike-jquery' , plugins_url( '/assets/js/bp-like.min.js' , dirname( __FILE__ ) ) , BP_LIKE_VERSION , array('jquery') );
     wp_enqueue_script( 'bplike-jquery' );
 
     /* JQuery dialog for likers popup. */
-<<<<<<< HEAD
-   /// wp_register_script('jquery-ui-dialog', array('jquery'));
-    wp_enqueue_script(' jquery-ui-dialog');
-=======
-    wp_enqueue_script( 'jquery-ui-dialog' );
->>>>>>> 8a3df64fbb65a4bf3360000b3f002e62fd5e06f7
 }
 
 /**
@@ -39,13 +30,10 @@ function bp_like_list_scripts() {
  *
  */
 function bp_like_insert_head() {
-<<<<<<< HEAD
-=======
 	// Only load if the user is logged in and if they aren't in the dashboard
 	if ( ! is_user_logged_in() && ! is_admin() ) {
 		return;
 	}
->>>>>>> 8a3df64fbb65a4bf3360000b3f002e62fd5e06f7
     ?>	
     <script type="text/javascript">
         /* <![CDATA[ */
@@ -69,11 +57,6 @@ function bp_like_insert_head() {
     <?php
 }
 
-<<<<<<< HEAD
 // TODO: only load these if user is logged in, test
 add_action( 'wp_head' , 'bp_like_insert_head' );
 add_action( 'wp_print_scripts' , 'bp_like_list_scripts' );
-=======
-add_action( 'wp_head' , 'bp_like_insert_head' );
-add_action( 'wp_enqueue_scripts' , 'bp_like_list_scripts' );
->>>>>>> 8a3df64fbb65a4bf3360000b3f002e62fd5e06f7
