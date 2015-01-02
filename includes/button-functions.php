@@ -116,7 +116,11 @@ function bplike_activity_button() {
         }
 
         // Checking if there are users who like item.
+<<<<<<< HEAD
         if ( isset( $users_who_like ) ) {
+=======
+        if ( $users_who_like ) {
+>>>>>>> 8a3df64fbb65a4bf3360000b3f002e62fd5e06f7
             view_who_likes();
         }
     }
