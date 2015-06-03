@@ -17,10 +17,12 @@ if ( !defined( 'ABSPATH' ) ) {
     exit;
 }
 
-/* Only load code that needs BuddyPress to run once BP is loaded and initialized. */
-
+/* Only load BuddyPress Like once BuddyPress has loaded and been initialized. */
 function bplike_init() {
-    require_once( 'includes/bplike.php' );
+  // Because we will be using BP_Component, we require BuddyPress 1.5 or greater.
+  if ( version_compare( BP_VERSION, '1.5', '>' ) ) {
+    require_once 'includes/bplike.php';
+  }
 }
 
 add_action( 'bp_include' , 'bplike_init' );

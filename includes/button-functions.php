@@ -75,14 +75,9 @@ function bplike_activity_button() {
         }
     }
 
-    // Debugging.
-    //print_r( bp_activity_get_meta( $bp_like_id , 'liked_count' , true ));
-
-
     $activity = bp_activity_get_specific( array('activity_ids' => $bp_like_id) );
-    $activity_type = $activity['activities'][0]->type;
-    // Debugging.
-    //print_r($activity);
+    $activity_type = bp_get_activity_type();
+
 
     if ( $activity_type === null ) {
         $activity_type = 'activity_update';

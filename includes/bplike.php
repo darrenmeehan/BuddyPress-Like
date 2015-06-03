@@ -25,7 +25,6 @@ load_plugin_textdomain( 'buddypress-like' , false , BPLIKE_PATH . '/languages/' 
  *
  */
 function bp_like_get_text( $text = false , $type = 'custom' ) {
-
     $settings = get_site_option( 'bp_like_settings' );
     $text_strings = $settings['text_strings'];
     $string = $text_strings[$text];
@@ -33,7 +32,7 @@ function bp_like_get_text( $text = false , $type = 'custom' ) {
 }
 
 if ( is_admin() ) {
-    require_once BPLIKE_PATH . 'includes/admin.php';
+    require_once BPLIKE_PATH . 'admin/admin.php';
 }
 require_once BPLIKE_PATH . 'includes/button-functions.php';
 require_once BPLIKE_PATH . 'includes/install-functions.php';

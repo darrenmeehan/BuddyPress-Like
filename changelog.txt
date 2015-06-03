@@ -1,0 +1,13 @@
+Changes
+
+// This file is for development purposes only
+// Any changes placed here should be reflected in commit messages
+
+Branch: development
+- Added changelog.txt
+- Added LICENCE.txt
+- Added check for BuddyPress 1.5 to bplike_init() in  bp-like-loader.php
+- moved admin.php to /admin folder
+- renamed bp-like.dev.js to bp-like.js
+- implemented bp_get_activity_type() in button-functions.php
+- tidied up scripts.php. Thanks to vasikgreif (https://wordpress.org/support/profile/vasikgreif)
