@@ -1,5 +1,3 @@
-/*global $, jQuery, ajaxurl, like, like_message,bp_like_terms_like_message,bp_like_terms_unlike_message,bp_like_terms_like, unlike_message, view_likes, hide_likes, unlike_1, bp_like_terms, bp_like_terms_unlike_1, bp_like_terms_view_likes, bp_like_terms_hide_likes*/
-
 jQuery(document).ready(function() {
     "use strict";
     jQuery('.author-box').each(function() {
@@ -27,29 +25,29 @@ jQuery(document).ready(function() {
                 var newID, pureID;
                 if (type === 'like') {
                     newID = id.replace("like", "unlike");
-                    jQuery('#' + id).removeClass('like').addClass('unlike').attr('title', bp_like_terms_unlike_message).attr('id', newID);
+                    jQuery('#' + id).removeClass('like').addClass('unlike').attr('title', bplikeTerms.unlike_message).attr('id', newID);
                 } else if (type === 'like_blogpost') {
                     newID = id.replace("like", "unlike");
-                    jQuery('#' + id).removeClass('like_blogpost').addClass('unlike_blogpost').attr('title', bp_like_terms_unlike_message).attr('id', newID);
+                    jQuery('#' + id).removeClass('like_blogpost').addClass('unlike_blogpost').attr('title', bplikeTerms.unlike_message).attr('id', newID);
                 } else if (type === 'unlike_blogpost') {
                     newID = id.replace("unlike", "like");
-                    jQuery('#' + id).removeClass('unlike_blogpost').addClass('like_blogpost').attr('title', bp_like_terms_unlike_message).attr('id', newID);
+                    jQuery('#' + id).removeClass('unlike_blogpost').addClass('like_blogpost').attr('title', bplikeTerms.unlike_message).attr('id', newID);
                 } else {
                     newID = id.replace("unlike", "like");
-                    jQuery('#' + id).removeClass('unlike').addClass('like').attr('title', bp_like_terms_like_message).attr('id', newID);
+                    jQuery('#' + id).removeClass('unlike').addClass('like').attr('title', bplikeTerms.like_message).attr('id', newID);
                 }
 
                 // Nobody else liked this, so remove the 'View Likes'
-                if (data === bp_like_terms_like) {
+                if (data === bplikeTerms.like) {
                     pureID = id.replace("unlike-activity-", "");
                     jQuery('.view-likes#view-likes-' + pureID).remove();
                     jQuery('.users-who-like#users-who-like-' + pureID).remove();
                 }
 
                 // Show the 'View Likes' if user is first to like
-                if (data === bp_like_terms_unlike_1) {
+                if (data === bplikeTerms.unlike_1) {
                     pureID = id.replace("like-activity-", "");
-                    jQuery('li#activity-' + pureID + ' .activity-meta').append('<a href="" class="button view-likes" id="view-likes-' + pureID + '">' + bp_like_terms_view_likes + '</a><p class="users-who-like" id="users-who-like-' + pureID + '"></p>');
+                    jQuery('li#activity-' + pureID + ' .activity-meta').append('<a href="" class="button view-likes" id="view-likes-' + pureID + '">' + bplikeTerms.view_likes + '</a><p class="users-who-like" id="users-who-like-' + pureID + '"></p>');
                 }
 
             });
@@ -73,13 +71,13 @@ jQuery(document).ready(function() {
                 'id': id
             },
                 function(data) {
-                    jQuery('#' + id).html(bp_like_terms_hide_likes).removeClass('loading').addClass('open');
+                    jQuery('#' + id).html(bplikeTerms.hide_likes).removeClass('loading').addClass('open');
                     jQuery('#' + parentID).html(data).slideDown('fast');
                 });
             return false;
 
         }
-        jQuery(this).html(bp_like_terms_view_likes).removeClass('loading, open');
+        jQuery(this).html(bplikeTerms.view_likes).removeClass('loading, open');
         jQuery('#' + parentID).slideUp('fast');
         return false;
 

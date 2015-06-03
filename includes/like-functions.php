@@ -509,6 +509,11 @@ function bp_like_get_some_likes( $number = '' ) {
     } elseif ( count ($users_who_like) > 2 ) {
         
         $others = count ($users_who_like);
+
+        // output last two people to like (2 at end of array)
+        $one = bp_core_get_userlink( $users_who_like[$others - 1] );
+        $two = bp_core_get_userlink( $users_who_like[$others - 2] );
+        
         // $users_who_like will always be greater than 2.
         if ( $users_who_like == 3 ) {
             $others = $others - 1;
@@ -516,15 +521,9 @@ function bp_like_get_some_likes( $number = '' ) {
             $others = $others - 2;
         }
 
-
         $string = '<p class="users-who-like" id="users-who-like-';
         $string .= $bp_like_id;
         $string .= '">%s, %s and %s ' . _n( 'other', 'others', $others ) . ' liked this.</p>';
-
-        $others = count ($users_who_like);
-        // output last two people to like (2 at end of array)
-        $one = bp_core_get_userlink( $users_who_like[0] );
-        $two = bp_core_get_userlink( $users_who_like[1] );
 
         printf( $string , $one , $two , $others );
     }

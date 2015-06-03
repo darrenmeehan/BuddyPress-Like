@@ -27,6 +27,20 @@ Gives users the ability to 'like' content across your BuddyPress enabled site.
 2. Activate the plugin through the 'Plugins' menu in WordPress
 
 == Changelog ==
+= 0.2.2 =
+- Fixed output for when three people like an activity
+- removed inline comment at top of bplike.js
+- added term variables to array bplikeTerms. Thanks to vasikgreif (https://wordpress.org/support/profile/vasikgreif)
+
+= 0.2.1 =
+* Added changelog.txt
+* Added LICENCE.txt
+* Added check for BuddyPress 1.5 to bplike_init() in  bp-like-loader.php
+* moved admin.php to /admin folder
+* renamed bp-like.dev.js to bp-like.js
+* implemented bp_get_activity_type() in button-functions.php
+* tidied up scripts.php. Thanks to vasikgreif (https://wordpress.org/support/profile/vasikgreif)
+
 = 0.2.0 = 
 * Added jQuery UI again.
 

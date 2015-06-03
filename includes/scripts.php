@@ -18,13 +18,13 @@ function bp_like_print_scripts() {
     if ( !is_admin() ) {
         wp_enqueue_script( 'bplike-jquery' );
         wp_localize_script( 'bplike-jquery', 'bplikeTerms', array(
-                'like' => bp_like_get_text( 'like' ),
-                'like_message' => bp_like_get_text( 'like_this_item' ),
+                'like'           => bp_like_get_text( 'like' ),
+                'like_message'   => bp_like_get_text( 'like_this_item' ),
                 'unlike_message' => bp_like_get_text( 'unlike_this_item' ),
-                'view_likes' => bp_like_get_text( 'view_likes' ),
-                'hide_likes' => bp_like_get_text( 'hide_likes' ),
-                'unlike_1' => bp_like_get_text( 'unlike' ),
-                'fav_remove'            => bp_like_get_settings( 'remove_fav_button' ) == 1 ? '1' : '0'
+                'view_likes'     => bp_like_get_text( 'view_likes' ),
+                'hide_likes'     => bp_like_get_text( 'hide_likes' ),
+                'unlike_1'       => bp_like_get_text( 'unlike' ),
+                'fav_remove'     => bp_like_get_settings( 'remove_fav_button' ) == 1 ? '1' : '0'
             )
         );
     }
