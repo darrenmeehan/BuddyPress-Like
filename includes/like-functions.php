@@ -143,7 +143,7 @@ function bp_like_add_user_like( $item_id = '' , $type = 'activity' ) {
         }
     }
 
-    echo bp_like_get_text( 'unlike' );
+    __('Unlike', 'buddypress-like');
 
     if ( $liked_count ) {
         echo ' (' . $liked_count . ')';
@@ -168,7 +168,7 @@ function bp_like_remove_user_like( $item_id = '' , $type = 'activity' ) {
     }
 
     if ( $user_id == 0 ) {
-        echo bp_like_get_text( 'must_be_logged_in' );
+        __('Sorry, you must be logged in to like that.', 'buddypress-like');
         return false;
     }
 
@@ -252,29 +252,10 @@ function bp_like_remove_user_like( $item_id = '' , $type = 'activity' ) {
         );
     }
 
-    echo bp_like_get_text( 'like' );
+    __('Like', 'buddypress-like');
     if ( $liked_count ) {
         echo ' (' . $liked_count . ')';
     }
-}
-
-/**
-*
-* bp_like_number_of_likers()
-* 
-* Paramter: Takes in ID of item.
-*
-* Outputs the number of users who have liked a given item.
-*/
-function bp_like_number_of_likers($item_id ='') {
-
-    global $bp;
-    /* Grab some core data we will need later on, specific to activities */
-    $users_who_like = array_keys( bp_activity_get_meta( $item_id , 'liked_count' ) );
-    $number_of_likers = count( bp_activity_get_meta( $item_id , 'liked_count' ) );
-
-    return $number_of_likers;
-
 }
 
 
@@ -488,7 +469,7 @@ function bp_like_get_some_likes( $number = '' ) {
         $string = '<p class="users-who-like" id="users-who-like-';
         $string .= $bp_like_id;
         $string .= '">%s liked this.</p>';
-
+        
         $one = bp_core_get_userlink( $users_who_like[0] );
 
         printf( $string , $one );

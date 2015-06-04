@@ -12,8 +12,8 @@ if ( !defined( 'ABSPATH' ) ) {
  *
  */
 function bp_like_activity_filter() {
-    echo '<option value="activity_liked">' . bp_like_get_text( 'show_activity_likes' ) . '</option>';
-    echo '<option value="blogpost_liked">' . bp_like_get_text( 'show_blogpost_likes') . '</option>';
+    echo '<option value="activity_liked">' . __('Show Activity Likes', 'buddypress-like') . '</option>';
+    echo '<option value="blogpost_liked">' . __('Show Blog Post Likes', 'buddypress-like') . '</option>';
 }
 
 add_action( 'bp_activity_filter_options' , 'bp_like_activity_filter' );
@@ -29,8 +29,8 @@ add_action( 'bp_group_activity_filter_options' , 'bp_like_activity_filter' );
  * Also no point having 20 posts saying people liked the same status..
  * 
  */
-function bp_like_post_to_stream( $item_id , $user_id ) {
-
+function bp_like_post_to_stream( $item_id , $user_id ) 
+{
     if ( bp_like_get_settings( 'post_to_activity_stream' ) == 1) {
 
         $activity = bp_activity_get_specific( array('activity_ids' => $item_id , 'component' => 'buddypress-like') );
@@ -38,6 +38,8 @@ function bp_like_post_to_stream( $item_id , $user_id ) {
 
         if ( $user_id == $author_id ) {
             $action = bp_like_get_text( 'record_activity_likes_own' );
+            // need to test this one
+            //$action = sprintf( __('%1$d likes their own <a href="%2$d">activity</a>', 'buddypress-like') $liker, $activity_url );
         } elseif ( $user_id == 0 ) {
             $action = bp_like_get_text( 'record_activity_likes_an' );
         } else {

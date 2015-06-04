@@ -47,9 +47,6 @@ add_filter( 'bp_activity_comment_options' , 'bp_like_button', 1000 );
 
 function bplike_activity_button() {
 
-    // Debugging.
-    // echo bp_get_activity_type();
-
     $liked_count = 0;
     $bp_like_comment_id = bp_get_activity_comment_id();
 
@@ -66,12 +63,12 @@ function bplike_activity_button() {
     } else {
 
         $bp_like_id = bp_get_activity_comment_id();
-        $bp_like_view = 'acomment-reply bp-primary-action view-likes';
+        $bp_like_view = 'acomment-meta bp-secondary-action view-likes';
 
         if ( bp_like_is_liked( $bp_like_id , 'activity' ) ) {
-            $bp_like_css = 'acomment-reply bp-primary-action unlike';
+            $bp_like_css = 'acomment-reply bp-secondary-action unlike';
         } else {
-            $bp_like_css = 'acomment-reply bp-primary-action like';
+            $bp_like_css = 'acomment-reply bp-secondary-action like';
         }
     }
 
@@ -92,15 +89,15 @@ function bplike_activity_button() {
 
         if ( !bp_like_is_liked( $bp_like_id , 'activity' ) ) {
             ?>
-            <a href="#" class="<?php echo $bp_like_css; ?>" id="like-activity-<?php echo $bp_like_id; ?>" title="<?php echo bp_like_get_text( 'like_this_item' ); ?>"><?php
-                echo bp_like_get_text( 'like' );
+            <a href="#" class="<?php echo $bp_like_css; ?>" id="like-activity-<?php echo $bp_like_id; ?>" title="<?php __('Like this item', 'buddypress-like'); ?>"><?php
+                __('Like', 'buddypress-like');
                 if ( $liked_count ) {
                     echo ' (' . $liked_count . ')';
                 }
                 ?></a>
         <?php } else { ?>
-            <a href="#" class="<?php echo $bp_like_css; ?>" id="unlike-activity-<?php echo $bp_like_id; ?>" title="<?php echo bp_like_get_text( 'unlike_this_item' ); ?>"><?php
-                echo bp_like_get_text( 'unlike' );
+            <a href="#" class="<?php echo $bp_like_css; ?>" id="unlike-activity-<?php echo $bp_like_id; ?>" title="<?php __('Unlike this item', 'buddypress-like'); ?>"><?php
+                echo __('Unlike', 'buddypress-like');
                 if ( $liked_count ) {
                     echo ' (' . $liked_count . ')';
                 }

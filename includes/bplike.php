@@ -16,7 +16,10 @@ if ( !defined( 'BPLIKE_PATH' ) ) {
     define( 'BPLIKE_PATH' , plugin_dir_path( dirname( __FILE__ ) ) );
 }
 
-load_plugin_textdomain( 'buddypress-like' , false , BPLIKE_PATH . '/languages/' );
+add_action('plugins_loaded', 'bp_like_load_textdomain');
+function bp_like_load_textdomain() {
+	load_plugin_textdomain( 'buddypress-like' , false , BPLIKE_PATH . '/languages/' );
+}
 
 /**
  * bp_like_get_text()

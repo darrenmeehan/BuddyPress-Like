@@ -24,11 +24,11 @@ function bp_like_process_ajax() {
         bp_like_remove_user_like( $id , 'activity' );
     }
 
-    if ( $_POST['type'] == 'acomment-reply bp-primary-action like' ) {
+    if ( $_POST['type'] == 'acomment-reply bp-secondary-action like' ) {
         bp_like_add_user_like( $id , 'activity' );
     }
 
-    if ( $_POST['type'] == 'acomment-reply bp-primary-action unlike' ) {
+    if ( $_POST['type'] == 'acomment-reply bp-secondary-action unlike' ) {
         bp_like_remove_user_like( $id , 'activity' );
     }
 
