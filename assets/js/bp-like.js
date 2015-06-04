@@ -82,4 +82,8 @@ jQuery(document).ready(function() {
         return false;
 
     });
+        if (bplikeTerms.fav_remove == 1) {
+        jQuery(".fav").remove();
+        jQuery(".unfav").remove();
+    }
 });
