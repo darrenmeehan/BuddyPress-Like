@@ -142,8 +142,7 @@ function bp_like_add_user_like( $item_id = '' , $type = 'activity' ) {
             );
         }
     }
-
-    __('Unlike', 'buddypress-like');
+    echo __('Unlike', 'buddypress-like');
 
     if ( $liked_count ) {
         echo ' (' . $liked_count . ')';

@@ -10,7 +10,7 @@ if ( !defined( 'ABSPATH' ) ) {
  * Outputs the 'Like/Unlike' button.
  * 
  * TODO: Need to find/make function for getting activity type.
- * Also idea to get all registered types on site, and alert admin of unspoorted types,
+ * Also idea to get all registered types on site, and alert admin of unsupported types,
  * and ask them to report them to myself.
  *
  */
@@ -89,14 +89,14 @@ function bplike_activity_button() {
 
         if ( !bp_like_is_liked( $bp_like_id , 'activity' ) ) {
             ?>
-            <a href="#" class="<?php echo $bp_like_css; ?>" id="like-activity-<?php echo $bp_like_id; ?>" title="<?php __('Like this item', 'buddypress-like'); ?>"><?php
-                __('Like', 'buddypress-like');
+            <a href="#" class="<?php echo $bp_like_css; ?>" id="like-activity-<?php echo $bp_like_id; ?>" title="<?php echo __('Like this item', 'buddypress-like'); ?>"><?php
+               echo __('Like', 'buddypress-like');
                 if ( $liked_count ) {
                     echo ' (' . $liked_count . ')';
                 }
                 ?></a>
         <?php } else { ?>
-            <a href="#" class="<?php echo $bp_like_css; ?>" id="unlike-activity-<?php echo $bp_like_id; ?>" title="<?php __('Unlike this item', 'buddypress-like'); ?>"><?php
+            <a href="#" class="<?php echo $bp_like_css; ?>" id="unlike-activity-<?php echo $bp_like_id; ?>" title="<?php echo __('Unlike this item', 'buddypress-like'); ?>"><?php
                 echo __('Unlike', 'buddypress-like');
                 if ( $liked_count ) {
                     echo ' (' . $liked_count . ')';
