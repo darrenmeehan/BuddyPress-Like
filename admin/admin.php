@@ -59,7 +59,7 @@ function bp_like_admin_page() {
 
         /* Now actually save the data to the options table */
         update_site_option(
-                'bp_like_settings' , array(
+            'bp_like_settings' , array(
             'likers_visibility' => $_POST['bp_like_admin_likers_visibility'] ,
             'post_to_activity_stream' => $_POST['bp_like_admin_post_to_activity_stream'] ,
             'show_excerpt' => $_POST['bp_like_admin_show_excerpt'] ,
@@ -94,7 +94,7 @@ function bp_like_admin_page() {
     </script>
 
     <div class="wrap">
-        <h2><?php echo esc_html( $title ); ?></h2>
+        <h1><?php echo esc_html( $title ); ?></h1>
         <form action="" method="post">
             <input type="hidden" name="bp_like_updated" value="updated">
 
@@ -152,7 +152,7 @@ function bp_like_admin_page() {
 
                     <strong>Want to help?</strong>
                     <ul>
-                        <li><a href="http://wordpress.org/support/view/plugin-reviews/buddypress-like">Give 5 stars on WordPress.org</a></li>
+                        <li><a href="https://wordpress.org/support/view/plugin-reviews/buddypress-like?filter=5">Give 5 stars on WordPress.org</a></li>
                         <li>Development takes place publicly on <a href="https://github.com/Darrenmeehan/BuddyPress-Like">Github</a>. Is there any issues or bugs you have?</li>
                         <li><a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=ZAJLLEJDBHAWL"><strong>Donate</strong></a></li>
                     </ul>

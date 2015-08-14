@@ -13,11 +13,11 @@ if ( !defined( 'ABSPATH' ) ) {
  */
 add_action( 'wp_print_scripts' , 'bp_like_print_scripts' );
 function bp_like_print_scripts() {
-    wp_register_script( 'bplike-jquery', plugins_url( '/assets/js/bp-like.js', dirname( __FILE__ ) ), array( 'jquery' ), BP_LIKE_VERSION );
+    wp_register_script( 'bplike', plugins_url( '/assets/js/bp-like.js', dirname( __FILE__ ) ), array( 'jquery' ), BP_LIKE_VERSION );
 
     if ( !is_admin() ) {
-        wp_enqueue_script( 'bplike-jquery' );
-        wp_localize_script( 'bplike-jquery', 'bplikeTerms', array(
+        wp_enqueue_script( 'bplike' );
+        wp_localize_script( 'bplike', 'bplikeTerms', array(
                 'like'           => bp_like_get_text( 'like' ),
                 'like_message'   => bp_like_get_text( 'like_this_item' ),
                 'unlike_message' => bp_like_get_text( 'unlike_this_item' ),
@@ -29,7 +29,7 @@ function bp_like_print_scripts() {
         );
     }
     /* JQuery dialog for likers popup. */
-    wp_enqueue_script( 'jquery-ui-dialog' );
+   // wp_enqueue_script( 'jquery-ui-dialog' );
 }
 function bp_like_remove_favourites() {
     if( bp_like_get_settings('remove_fav_button') == 1 ) {
