@@ -354,9 +354,7 @@ function bp_like_get_likes( $item_id = '' , $type = '' , $user_id = '' ) {
 
                 /* Output the name of each friend who has liked it. */
                 foreach ( $users_who_like as $id ) {
-
                     if ( in_array( $id , $friends_who_like ) ) {
-                        //$output .= ' &middot <a href="' . bp_core_get_user_domain( $id ) . '" title="' . bp_core_get_user_displayname( $id ) . '">' . bp_core_get_user_displayname( $id ) . '</a> ';
                         $output .= bp_core_get_userlink( $id );
                         $liked_count = $liked_count - 1;
                     }
@@ -428,10 +426,10 @@ function bp_like_users_who_like( $bp_like_id = '' ) {
 
     $users_who_like = array_keys( bp_activity_get_meta( $bp_like_id , 'liked_count' , true ) );
     if ( count( $users_who_like ) == 1 ) {
-        echo bp_core_get_userlink( $users_who_like[0] , $no_anchor = false , $just_link = false ) . _e( 'liked this' , 'buddypress-like' );
+        echo bp_core_get_userlink( $users_who_like[0] , false , false ) . _e( 'liked this' , 'buddypress-like' );
     } else {
         for ( $i = count( $users_who_like ) - 1; $i >= 0; $i-- ) {
-            echo bp_core_get_userlink( $users_who_like[0] , $no_anchor = false , $just_link = false )
+            echo bp_core_get_userlink( $users_who_like[0] , false , false )
             . _e( 'and' , 'buddypress-like' ) . count( $users_who_like ) - 1
             . _e( 'like this' , 'buddypress-like' );
         }
@@ -444,13 +442,10 @@ function bp_like_users_who_like( $bp_like_id = '' ) {
  * Description: Returns a defined number of likers, beginning with more recent.
  * 
  */
-function bp_like_get_some_likes( $number = '' ) {
-    
-    // $number is max likers it will output. Currently only takes 2.
-    // need to decide if checking number of likes here, or in another fucntion, or in call to here..
+function bp_like_get_some_likes() {
+
     $bp_like_id = bp_get_activity_id();
     $users_who_like = array_keys((array)(bp_activity_get_meta( $bp_like_id , 'liked_count' , true )));
-
     
     if ( count( $users_who_like ) == 0 ) {
     // if no user likes this.
@@ -465,7 +460,6 @@ function bp_like_get_some_likes( $number = '' ) {
         $one = bp_core_get_userlink( $users_who_like[0] );
 
         printf( $string , $one );
-
 
     } elseif ( count( $users_who_like ) == 2 ) {
         // If two people like the current item.

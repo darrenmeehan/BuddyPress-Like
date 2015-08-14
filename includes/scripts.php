@@ -30,8 +30,6 @@ function bp_like_print_scripts() {
             )
         );
     }
-    /* JQuery dialog for likers popup. */
-   wp_enqueue_script( 'jquery-ui-dialog' );
 }
 function bp_like_remove_favourites() {
     if( bp_like_get_settings('remove_fav_button') == 1 ) {

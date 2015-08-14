@@ -47,7 +47,6 @@ function bplike_activity_button() {
     if ( empty( $bp_like_comment_id ) ) {
 
         $bp_like_id = bp_get_activity_id();
-        $bp_like_view = 'button view-likes';
 
         if ( bp_like_is_liked( $bp_like_id , 'activity' ) ) {
             $bp_like_class = 'button unlike bp-primary-action';
@@ -57,7 +56,6 @@ function bplike_activity_button() {
     } else {
 
         $bp_like_id = bp_get_activity_comment_id();
-        $bp_like_view = 'acomment-meta bp-primary-action view-likes';
 
         if ( bp_like_is_liked( $bp_like_id , 'activity' ) ) {
             $bp_like_class = 'acomment-reply unlike bp-primary-action';
@@ -66,7 +64,6 @@ function bplike_activity_button() {
         }
     }
 
-    $activity = bp_activity_get_specific( array('activity_ids' => $bp_like_id) );
     $activity_type = bp_get_activity_type();
 
     if ( $activity_type === null ) {
