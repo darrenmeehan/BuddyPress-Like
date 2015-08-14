@@ -15,20 +15,20 @@ function bp_like_process_ajax() {
 
     $id = preg_replace( "/\D/" , "" , $_POST['id'] );
 
-    if ( $_POST['type'] == 'button like' ) {
+    if ( $_POST['type'] == 'button like bp-primary-action' ) {
         bp_like_add_user_like( $id , 'activity' );
         add_action( 'view_who_likes' , 'bp_like_get_some_likes' );
     }
 
-    if ( $_POST['type'] == 'button unlike' ) {
+    if ( $_POST['type'] == 'button unlike bp-primary-action' ) {
         bp_like_remove_user_like( $id , 'activity' );
     }
 
-    if ( $_POST['type'] == 'acomment-reply bp-secondary-action like' ) {
+    if ( $_POST['type'] == 'acomment-reply like bp-secondary-action' ) {
         bp_like_add_user_like( $id , 'activity' );
     }
 
-    if ( $_POST['type'] == 'acomment-reply bp-secondary-action unlike' ) {
+    if ( $_POST['type'] == 'acomment-reply unlike bp-secondary-action' ) {
         bp_like_remove_user_like( $id , 'activity' );
     }
 

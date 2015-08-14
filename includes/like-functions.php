@@ -49,8 +49,6 @@ function bp_like_is_liked( $item_id = '' , $type = '' , $user_id = '' ) {
  * bp_like_add_user_like()
  *
  * Registers that the user likes a given item.
- * 
- * TODO: adding $user_id as a parameter may be a good idea.
  *
  */
 function bp_like_add_user_like( $item_id = '' , $type = 'activity' ) {
@@ -78,11 +76,8 @@ function bp_like_add_user_like( $item_id = '' , $type = 'activity' ) {
         $liked_count = count( $users_who_like );
 
         /* Publish to the activity stream if we're allowed to. */
-
-        //TODO change value from 1 to something more descriptive
-        //TODO change this to seperate function
-        // add in function to post to stream here..
         bp_like_post_to_stream( $item_id , $user_id );
+
     } elseif ( $type == 'blogpost' ) {
 
         /* Add to the users liked blog posts. */
@@ -142,10 +137,10 @@ function bp_like_add_user_like( $item_id = '' , $type = 'activity' ) {
             );
         }
     }
-    echo __('Unlike', 'buddypress-like');
+    echo __('Unlike ', 'buddypress-like');
 
     if ( $liked_count ) {
-        echo ' (' . $liked_count . ')';
+        echo ' <span>' . $liked_count . '</span>';
     }
 }
 
@@ -251,9 +246,9 @@ function bp_like_remove_user_like( $item_id = '' , $type = 'activity' ) {
         );
     }
 
-    __('Like', 'buddypress-like');
+    __('Like ', 'buddypress-like');
     if ( $liked_count ) {
-        echo ' (' . $liked_count . ')';
+        echo '<span>' . $liked_count . '</span>';
     }
 }
 
@@ -433,12 +428,12 @@ function bp_like_users_who_like( $bp_like_id = '' ) {
 
     $users_who_like = array_keys( bp_activity_get_meta( $bp_like_id , 'liked_count' , true ) );
     if ( count( $users_who_like ) == 1 ) {
-        echo bp_core_get_userlink( $users_who_like[0] , $no_anchor = false , $just_link = false ) . _e( 'liked this' , 'bp-like' );
+        echo bp_core_get_userlink( $users_who_like[0] , $no_anchor = false , $just_link = false ) . _e( 'liked this' , 'buddypress-like' );
     } else {
         for ( $i = count( $users_who_like ) - 1; $i >= 0; $i-- ) {
             echo bp_core_get_userlink( $users_who_like[0] , $no_anchor = false , $just_link = false )
-            . _e( 'and' , 'bp-like' ) . count( $users_who_like ) - 1
-            . _e( 'liked this' , 'bp-like' );
+            . _e( 'and' , 'buddypress-like' ) . count( $users_who_like ) - 1
+            . _e( 'like this' , 'buddypress-like' );
         }
     }
 }
@@ -448,8 +443,6 @@ function bp_like_users_who_like( $bp_like_id = '' ) {
  * 
  * Description: Returns a defined number of likers, beginning with more recent.
  * 
- * TODO: Use this function throughout plugin where needed.
- * Check if user liked item and "You, x,y, and z others liked this".
  */
 function bp_like_get_some_likes( $number = '' ) {
     
@@ -467,7 +460,7 @@ function bp_like_get_some_likes( $number = '' ) {
 
         $string = '<p class="users-who-like" id="users-who-like-';
         $string .= $bp_like_id;
-        $string .= '">%s liked this.</p>';
+        $string .= '">%s like this.</p>';
         
         $one = bp_core_get_userlink( $users_who_like[0] );
 
@@ -479,7 +472,7 @@ function bp_like_get_some_likes( $number = '' ) {
 
         $string = '<p class="users-who-like" id="users-who-like-';
         $string .= $bp_like_id;
-        $string .= '">%s and %s liked this.</p>';
+        $string .= '">%s and %s like this.</p>';
 
         $one = bp_core_get_userlink( $users_who_like[0] );
         $two = bp_core_get_userlink( $users_who_like[1] );
@@ -503,7 +496,7 @@ function bp_like_get_some_likes( $number = '' ) {
 
         $string = '<p class="users-who-like" id="users-who-like-';
         $string .= $bp_like_id;
-        $string .= '">%s, %s and %s ' . _n( 'other', 'others', $others ) . ' liked this.</p>';
+        $string .= '">%s, %s and %s ' . _n( 'other', 'others', $others ) . ' like this.</p>';
 
         printf( $string , $one , $two , $others );
     }

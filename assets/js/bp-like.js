@@ -10,31 +10,44 @@ jQuery(document).ready(function() {
 
         jQuery(this).addClass('loading');
 
-        jQuery.post(ajaxurl, {
+        jQuery.post(bplikeTerms.ajaxurl, {
             action: 'activity_like',
             'cookie': encodeURIComponent(document.cookie),
             'type': type,
             'id': id
         },
             function(data) {
+                console.log(data);
                 jQuery('#' + id).fadeOut(100, function() {
                     jQuery(this).html(data).removeClass('loading').fadeIn(100);
                 });
 
+                //when clicking unlike:
+                // class="button bp-primary-action like"
+                // like-activity-2446
+                console.log('type: ' + type );
+                console.log('id: ' + id);
+                type = type.replace('button','').replace('bp-primary-action','').trim();
+                console.log('pure type:' + type);
+
                 // Swap from like to unlike
                 var newID, pureID;
-                if (type === 'like') {
+                if (type == 'like') {
                     newID = id.replace("like", "unlike");
-                    jQuery('#' + id).removeClass('like').addClass('unlike').attr('title', bplikeTerms.unlike_message).attr('id', newID);
-                } else if (type === 'like_blogpost') {
+                    jQuery('#' + id).removeClass('like').addClass('unlike').attr('title', bplikeTerms.unlike_message).attr('id', newID).text('Unlike');
+                } else if (type == 'like_blogpost') {
                     newID = id.replace("like", "unlike");
                     jQuery('#' + id).removeClass('like_blogpost').addClass('unlike_blogpost').attr('title', bplikeTerms.unlike_message).attr('id', newID);
-                } else if (type === 'unlike_blogpost') {
+                } else if (type == 'unlike_blogpost') {
                     newID = id.replace("unlike", "like");
                     jQuery('#' + id).removeClass('unlike_blogpost').addClass('like_blogpost').attr('title', bplikeTerms.unlike_message).attr('id', newID);
-                } else {
+                } else if (type == 'unlike') {
                     newID = id.replace("unlike", "like");
-                    jQuery('#' + id).removeClass('unlike').addClass('like').attr('title', bplikeTerms.like_message).attr('id', newID);
+                    jQuery('#' + id).removeClass('unlike').addClass('like').attr('title', bplikeTerms.like_message).attr('id', newID).text('Like');
+                } else {
+                    console.log('Something went wrong');
+                    console.log('type: ' + type );
+                    console.log('id: ' + id + 'newID: ' + newID);
                 }
 
                 // Nobody else liked this, so remove the 'View Likes'
@@ -47,7 +60,7 @@ jQuery(document).ready(function() {
                 // Show the 'View Likes' if user is first to like
                 if (data === bplikeTerms.unlike_1) {
                     pureID = id.replace("like-activity-", "");
-                    jQuery('li#activity-' + pureID + ' .activity-meta').append('<a href="" class="button view-likes" id="view-likes-' + pureID + '">' + bplikeTerms.view_likes + '</a><p class="users-who-like" id="users-who-like-' + pureID + '"></p>');
+                    //jQuery('li#activity-' + pureID + ' .activity-meta').text('<a href="" class="button view-likes" id="view-likes-' + pureID + '">' + bplikeTerms.view_likes + '</a><p class="users-who-like" id="users-who-like-' + pureID + '"></p>');
                 }
 
             });
@@ -64,7 +77,7 @@ jQuery(document).ready(function() {
         if (!jQuery(this).hasClass('open')) {
 
             jQuery(this).addClass('loading');
-            jQuery.post(ajaxurl, {
+            jQuery.post(bplikeTerms.ajaxurl, {
                 action: 'activity_like',
                 'cookie': encodeURIComponent(document.cookie),
                 'type': type,

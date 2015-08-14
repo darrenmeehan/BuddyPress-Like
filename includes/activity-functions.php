@@ -25,9 +25,6 @@ add_action( 'bp_group_activity_filter_options' , 'bp_like_activity_filter' );
  * 
  * Posts to stream, depending on settings
  * 
- * TODO, Should we be posted that people like comments to the feed? This can get messy..
- * Also no point having 20 posts saying people liked the same status..
- * 
  */
 function bp_like_post_to_stream( $item_id , $user_id ) 
 {

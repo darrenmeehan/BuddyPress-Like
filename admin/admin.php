@@ -15,7 +15,6 @@ function bp_like_add_admin_page_menu() {
             'options-general.php' , 'BuddyPress Like' , 'BuddyPress Like' , 'manage_options' , 'bp-like-settings' , 'bp_like_admin_page'
     );
 }
-
 add_action( 'admin_menu' , 'bp_like_add_admin_page_menu' );
 
 /**

@@ -88,8 +88,6 @@ function bp_like_install() {
             'default' => __( 'You and %count% other people like this' , 'buddypress-like' ) ,
             'custom' => __( 'You and %count% other people like this' , 'buddypress-like' )
         ) ,
-        
-        //TODO: wont need this, as displaying "Darren likes this"
         'get_likes_count_people_singular' => array(
             'default' => __( '%count% person likes this.' , 'buddypress-like' ) ,
             'custom' => __( '%count% person likes this.' , 'buddypress-like' )
@@ -171,7 +169,6 @@ function bp_like_install() {
 
     if ( $current_settings['text_strings'] ) {
 
-        // TODO not sure if this is used anywhere... test
         $current_text_strings = $current_settings['text_strings'];
 
         /* Go through each string and update the default to the current default, keep the custom settings */

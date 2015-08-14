@@ -8,13 +8,9 @@ if ( !defined( 'ABSPATH' ) ) {
  * bp_like_button()
  *
  * Outputs the 'Like/Unlike' button.
- * 
- * TODO: Need to find/make function for getting activity type.
- * Also idea to get all registered types on site, and alert admin of unsupported types,
- * and ask them to report them to myself.
  *
  */
-function bp_like_button( $id = '' , $type = '' ) {
+function bp_like_button( $type = '' ) {
 
     /* Set the type if not already set, and check whether we are outputting the button on a blogpost or not. */
     if ( !$type && !is_single() ) {
@@ -40,11 +36,9 @@ add_filter( 'bp_activity_comment_options' , 'bp_like_button', 1000 );
  * 
  * Outputs Like/Unlike button for activity items. 
  * 
- * TODO: Try to have one function for all. 
  * Make simplier.
  * Get type in a better way. (comment or activty item, etc)
  */
-
 function bplike_activity_button() {
 
     $liked_count = 0;
@@ -56,25 +50,24 @@ function bplike_activity_button() {
         $bp_like_view = 'button view-likes';
 
         if ( bp_like_is_liked( $bp_like_id , 'activity' ) ) {
-            $bp_like_css = 'button unlike';
+            $bp_like_class = 'button unlike bp-primary-action';
         } else {
-            $bp_like_css = 'button like';
+            $bp_like_class = 'button like bp-primary-action';
         }
     } else {
 
         $bp_like_id = bp_get_activity_comment_id();
-        $bp_like_view = 'acomment-meta bp-secondary-action view-likes';
+        $bp_like_view = 'acomment-meta bp-primary-action view-likes';
 
         if ( bp_like_is_liked( $bp_like_id , 'activity' ) ) {
-            $bp_like_css = 'acomment-reply bp-secondary-action unlike';
+            $bp_like_class = 'acomment-reply unlike bp-primary-action';
         } else {
-            $bp_like_css = 'acomment-reply bp-secondary-action like';
+            $bp_like_class = 'acomment-reply like bp-primary-action';
         }
     }
 
     $activity = bp_activity_get_specific( array('activity_ids' => $bp_like_id) );
     $activity_type = bp_get_activity_type();
-
 
     if ( $activity_type === null ) {
         $activity_type = 'activity_update';
@@ -89,17 +82,17 @@ function bplike_activity_button() {
 
         if ( !bp_like_is_liked( $bp_like_id , 'activity' ) ) {
             ?>
-            <a href="#" class="<?php echo $bp_like_css; ?>" id="like-activity-<?php echo $bp_like_id; ?>" title="<?php echo __('Like this item', 'buddypress-like'); ?>"><?php
-               echo __('Like', 'buddypress-like');
+            <a href="#" class="<?php echo $bp_like_class; ?>" id="like-activity-<?php echo $bp_like_id; ?>" title="<?php echo __('Like this item', 'buddypress-like'); ?>"><?php
+               echo __('Like ', 'buddypress-like');
                 if ( $liked_count ) {
-                    echo ' (' . $liked_count . ')';
+                    echo '<span>' . $liked_count . '</span>';
                 }
                 ?></a>
         <?php } else { ?>
-            <a href="#" class="<?php echo $bp_like_css; ?>" id="unlike-activity-<?php echo $bp_like_id; ?>" title="<?php echo __('Unlike this item', 'buddypress-like'); ?>"><?php
-                echo __('Unlike', 'buddypress-like');
+            <a href="#" class="<?php echo $bp_like_class; ?>" id="unlike-activity-<?php echo $bp_like_id; ?>" title="<?php echo __('Unlike this item', 'buddypress-like'); ?>"><?php
+                echo __('Unlike ', 'buddypress-like');
                 if ( $liked_count ) {
-                    echo ' (' . $liked_count . ')';
+                    echo '<span>' . $liked_count . '</span>';
                 }
                 ?></a>
             <?php
