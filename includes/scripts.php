@@ -8,9 +8,9 @@ defined( 'ABSPATH' ) || exit;
  * Includes the terms required by plugins Javascript.
  *
  */
-add_action( 'wp_print_scripts' , 'bp_like_print_scripts' );
+add_action( 'wp_enqueue_scripts' , 'bp_like_enqueue_scripts' );
 
-function bp_like_print_scripts() {
+function bp_like_enqueue_scripts() {
     wp_register_script( 'bplike', plugins_url( '/assets/js/bp-like.js', dirname( __FILE__ ) ), array( 'jquery' ), BP_LIKE_VERSION );
 
     if ( !is_admin() ) {

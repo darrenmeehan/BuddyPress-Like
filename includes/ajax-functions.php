@@ -46,7 +46,8 @@ function bp_like_process_ajax() {
         bp_like_get_some_likes( $id , 'activity' );
     }
 
-    die();
+    wp_die();
+
 }
 
 add_action( 'wp_ajax_activity_like' , 'bp_like_process_ajax' );
