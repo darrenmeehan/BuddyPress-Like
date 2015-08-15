@@ -1,8 +1,6 @@
 <?php
 // Exit if accessed directly
-if ( !defined( 'ABSPATH' ) ) {
-    exit;
-}
+defined( 'ABSPATH' ) || exit;
 
 /**
  * bp_like_process_ajax()
@@ -15,25 +13,25 @@ function bp_like_process_ajax() {
 
     $id = preg_replace( "/\D/" , "" , $_POST['id'] );
 
-    if ( $_POST['type'] == 'button like bp-primary-action' ) {
+    if ( $_POST['type'] == 'button bp-primary-action like' ) {
         bp_like_add_user_like( $id , 'activity' );
         add_action( 'view_who_likes' , 'bp_like_get_some_likes' );
     }
 
-    if ( $_POST['type'] == 'button unlike bp-primary-action' ) {
+    if ( $_POST['type'] == 'button bp-primary-action unlike' ) {
         bp_like_remove_user_like( $id , 'activity' );
     }
 
-    if ( $_POST['type'] == 'acomment-reply like bp-secondary-action' ) {
+    if ( $_POST['type'] == 'acomment-reply bp-primary-action like' ) {
         bp_like_add_user_like( $id , 'activity' );
     }
 
-    if ( $_POST['type'] == 'acomment-reply unlike bp-secondary-action' ) {
+    if ( $_POST['type'] == 'acomment-reply bp-primary-action unlike' ) {
         bp_like_remove_user_like( $id , 'activity' );
     }
 
     if ( $_POST['type'] == 'button view-likes' ) {
-        bp_like_get_likes( $id , 'activity' );
+        bp_like_get_some_likes( $id , 'activity' );
     }
 
     if ( $_POST['type'] == 'button like_blogpost' ) {
@@ -45,7 +43,7 @@ function bp_like_process_ajax() {
     }
 
     if ( $_POST['type'] == 'acomment-reply bp-primary-action view-likes' ) {
-        bp_like_get_likes( $id , 'activity' );
+        bp_like_get_some_likes( $id , 'activity' );
     }
 
     die();

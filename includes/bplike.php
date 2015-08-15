@@ -1,8 +1,6 @@
 <?php
 // Exit if accessed directly
-if ( !defined( 'ABSPATH' ) ) {
-    exit;
-}
+defined( 'ABSPATH' ) || exit;
 
 if ( !defined( 'BP_LIKE_VERSION' ) ) {
     define( 'BP_LIKE_VERSION' , '0.2.0' );

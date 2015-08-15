@@ -13,33 +13,38 @@ if ( !defined( 'ABSPATH' ) ) {
 function bp_like_button( $type = '' ) {
 
     /* Set the type if not already set, and check whether we are outputting the button on a blogpost or not. */
-    if ( !$type && !is_single() ) {
+    if ( ! $type && ! is_single() ) {
+        
         $type = 'activity';
-    } elseif ( !$type && is_single() ) {
+
+    } elseif ( ! $type && is_single() ) {
+        
         $type = 'blogpost';
+
     }
     if ( $type == 'activity' ) {
-        bplike_activity_button();
+
+        bplike_activity_update_button();
+
     } elseif ( $type == 'blogpost' ) {
-        bplike_blog_button();
-        bp_get_activity_type();
+
+        //bplike_blog_button();
+       // bp_get_activity_type();
     }
 }
 
 // Filters to display BuddyPress Like button.
-add_filter( 'bp_activity_entry_meta' , 'bp_like_button', 1000 );
-add_action( 'bp_before_blog_single_post' , 'bp_like_button' , 1000 );
-add_filter( 'bp_activity_comment_options' , 'bp_like_button', 1000 );
+add_action( 'bp_activity_entry_meta' , 'bp_like_button' );
+add_action( 'bp_before_blog_single_post' , 'bp_like_button'  );
+add_action( 'bp_activity_comment_options' , 'bp_like_button' );
 
 /*
- * bplike_activity_button()
+ * bplike_activity_update_button()
  * 
- * Outputs Like/Unlike button for activity items. 
+ * Outputs Like/Unlike button for activity updates. 
  * 
- * Make simplier.
- * Get type in a better way. (comment or activty item, etc)
  */
-function bplike_activity_button() {
+function bplike_activity_update_button() {
 
     $liked_count = 0;
     $bp_like_comment_id = bp_get_activity_comment_id();
@@ -49,18 +54,18 @@ function bplike_activity_button() {
         $bp_like_id = bp_get_activity_id();
 
         if ( bp_like_is_liked( $bp_like_id , 'activity' ) ) {
-            $bp_like_class = 'button unlike bp-primary-action';
+            $bp_like_class = 'button bp-primary-action unlike';
         } else {
-            $bp_like_class = 'button like bp-primary-action';
+            $bp_like_class = 'button bp-primary-action like';
         }
     } else {
 
         $bp_like_id = bp_get_activity_comment_id();
 
         if ( bp_like_is_liked( $bp_like_id , 'activity' ) ) {
-            $bp_like_class = 'acomment-reply unlike bp-primary-action';
+            $bp_like_class = 'acomment-reply bp-primary-action unlike';
         } else {
-            $bp_like_class = 'acomment-reply like bp-primary-action';
+            $bp_like_class = 'acomment-reply bp-primary-action like';
         }
     }
 

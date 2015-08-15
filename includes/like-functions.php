@@ -1,9 +1,7 @@
 <?php
 
 // Exit if accessed directly
-if ( !defined( 'ABSPATH' ) ) {
-    exit;
-}
+defined( 'ABSPATH' ) || exit;
 
 /**
  * bp_like_is_liked()
@@ -51,7 +49,7 @@ function bp_like_is_liked( $item_id = '' , $type = '' , $user_id = '' ) {
  * Registers that the user likes a given item.
  *
  */
-function bp_like_add_user_like( $item_id = '' , $type = 'activity' ) {
+function bp_like_add_user_like( $item_id = '' , $type = '' ) {
     global $bp;
 
     if ( !isset( $user_id ) ) {
@@ -137,7 +135,7 @@ function bp_like_add_user_like( $item_id = '' , $type = 'activity' ) {
             );
         }
     }
-    echo __('Unlike ', 'buddypress-like');
+    echo __('Unlike', 'buddypress-like');
 
     if ( $liked_count ) {
         echo ' <span>' . $liked_count . '</span>';
@@ -150,7 +148,7 @@ function bp_like_add_user_like( $item_id = '' , $type = 'activity' ) {
  * Registers that the user has unliked a given item.
  *
  */
-function bp_like_remove_user_like( $item_id = '' , $type = 'activity' ) {
+function bp_like_remove_user_like( $item_id = '' , $type = '' ) {
     global $bp;
 
     if ( !$item_id ) {
@@ -246,193 +244,9 @@ function bp_like_remove_user_like( $item_id = '' , $type = 'activity' ) {
         );
     }
 
-    __('Like ', 'buddypress-like');
+    echo __('Like ', 'buddypress-like');
     if ( $liked_count ) {
         echo '<span>' . $liked_count . '</span>';
-    }
-}
-
-
-/**
- * bp_like_get_likes()
- *
- * Outputs a list of users who have liked a given item.
- *
- */
-function bp_like_get_likes( $item_id = '' , $type = '' , $user_id = '' ) {
-    global $bp;
-
-    if ( !$type || !$item_id ) {
-        return false;
-    }
-
-    if ( !$user_id ) {
-        $user_id = $bp->loggedin_user->id;
-    }
-
-    if ( $type == 'activity' ) {
-
-        /* Grab some core data we will need later on, specific to activities */
-        $users_who_like = array_keys( bp_activity_get_meta( $item_id , 'liked_count' ) );
-        $liked_count = count( bp_activity_get_meta( $item_id , 'liked_count' ) );
-        $output = '';
-
-        /* Intercept any messages if nobody likes it, just incase the button was clicked when it shouldn't be */
-        if ( $liked_count == 0 ) {
-            $output .= bp_like_get_text( 'get_likes_no_likes' );
-        }
-
-        /* We should show information about all likers */ elseif ( bp_like_get_settings( 'likers_visibility' ) == 'show_all' ) {
-
-            /* Settings say we should show their name. */
-            if ( bp_like_get_settings( 'name_or_avatar' ) == 'name' ) {
-
-                /* Current user likes it too, remove them from the liked count and output appropriate message */
-                if ( bp_like_is_liked( $item_id , 'activity' , $user_id ) ) {
-
-                    // remove current user from liked count.
-                    $liked_count = $liked_count - 1;
-
-                    if ( $liked_count == 1 ) {
-                        //only current user and 1 other person likes this.
-                        $output .= bp_like_get_text( 'get_likes_you_and_singular' );
-
-                        $other = $users_who_like[count( $users_who_like )];
-                        $output .= 'You and ' . bp_core_get_userlink( $other ) . ' liked this.';
-                    } elseif ( $liked_count == 0 ) {
-                        //current user is the only person to like this.
-                        $output .= bp_like_get_text( 'get_likes_only_liker' );
-                    } else {
-                        $output .= bp_like_get_text( 'get_likes_you_and_plural' );
-                    }
-                } else {
-
-                    if ( $liked_count == 1 ) {
-                        $output .= bp_like_get_text( 'get_likes_count_people_singular' );
-                    } else {
-                        $output .= bp_like_get_text( 'get_likes_count_people_plural' );
-                    }
-                }
-
-                /* Now output the name of each person who has liked it (except the current user obviously) */
-                foreach ( $users_who_like as $id ) {
-
-                    if ( $id != $user_id ) {
-                        $output .= ' &middot <a href="' . bp_core_get_user_domain( $id ) . '" title="' . bp_core_get_user_displayname( $id ) . '">' . bp_core_get_user_displayname( $id ) . '</a>';
-                    }
-                }
-            }
-            /* Settings say we should show their avatar. */ elseif ( bp_like_get_settings( 'name_or_avatar' ) == 'avatar' ) {
-
-                /* Output the avatar of each person who has liked it. */
-                foreach ( $users_who_like as $id ) {
-
-                    $output .= '<a href="' . bp_core_get_user_domain( $id ) . '" title="' . bp_core_get_user_displayname( $id ) . '">' . bp_core_fetch_avatar( array('item_id' => $id , 'object' => 'user' , 'type' => 'thumb' , 'width' => 30 , 'height' => 30) ) . '</a> ';
-                }
-            }
-        }
-        /* We should show the information of friends, but only the number of non-friends. */ elseif ( bp_like_get_settings( 'likers_visibility' ) == 'friends_names_others_numbers' && bp_is_active( 'friends' ) ) {
-
-            /* Grab some information about their friends. */
-            $users_friends = friends_get_friend_user_ids( $user_id );
-            if ( !empty( $users_friends ) ) {
-                $friends_who_like = array_intersect( $users_who_like , $users_friends );
-            }
-
-            /* Current user likes it, so reduce the liked count by 1, to get the number of other people who like it. */
-            if ( bp_like_is_liked( $item_id , 'activity' , $user_id ) ) {
-                $liked_count = $liked_count - 1;
-            }
-
-            /* Settings say we should show their names. */
-            if ( bp_like_get_settings( 'name_or_avatar' ) == 'name' ) {
-
-                /* Current user likes it too, tell them. */
-                if ( bp_like_is_liked( $item_id , 'activity' , $user_id ) ) {
-                    $output .= 'You ';
-                }
-
-                /* Output the name of each friend who has liked it. */
-                foreach ( $users_who_like as $id ) {
-                    if ( in_array( $id , $friends_who_like ) ) {
-                        $output .= bp_core_get_userlink( $id );
-                        $liked_count = $liked_count - 1;
-                    }
-                }
-
-                /* If non-friends like it, say so. */
-                if ( $liked_count == 1 ) {
-                    $output .= bp_like_get_text( 'get_likes_and_people_singular' );
-                } elseif ( $liked_count > 1 ) {
-                    $output .= bp_like_get_text( 'get_likes_and_people_plural' );
-                } else {
-                    $output .= bp_like_get_text( 'get_likes_like_this' );
-                }
-            }
-            /* Settings say we should show their avatar. */ elseif ( bp_like_get_settings( 'name_or_avatar' ) == 'avatar' ) {
-
-                /* Output the avatar of each friend who has liked it, as well as the current users' if they have. */
-                if ( !empty( $friends_who_like ) ) {
-
-                    foreach ( $users_who_like as $id ) {
-
-                        if ( $id == $user_id || in_array( $id , $friends_who_like ) ) {
-                            $user_info = get_userdata( $id );
-                            $output .= '<a href="' . bp_core_get_user_domain( $id ) . '" title="' . bp_core_get_user_displayname( $id ) . '">' . get_avatar( $user_info->user_email , 30 ) . '</a> ';
-                        }
-                    }
-                }
-            } elseif ( bp_like_get_settings( 'likers_visibility' ) == 'friends_names_others_numbers' && !bp_is_active( 'friends' ) || bp_like_get_settings( 'likers_visibility' ) == 'just_numbers' ) {
-
-                /* Current user likes it too, remove them from the liked count and output appropriate message */
-                if ( bp_like_is_liked( $item_id , 'activity' , $user_id ) ) {
-
-                    $liked_count = $liked_count - 1;
-
-                    if ( $liked_count == 1 ) {
-                        $output .= bp_like_get_text( 'get_likes_you_and_singular' );
-                    } elseif ( $liked_count == 0 ) {
-                        $output .= bp_like_get_text( 'get_likes_only_liker' );
-                    } else {
-                        $output .= bp_like_get_text( 'get_likes_you_and_plural' );
-                    }
-                } else {
-
-                    if ( $liked_count == 1 ) {
-                        $output .= bp_like_get_text( 'get_likes_count_people_singular' );
-                    } else {
-                        $output .= bp_like_get_text( 'get_likes_count_people_plural' );
-                    }
-                }
-            }
-        }
-    }
-
-    /* Filter out the placeholder. */
-    $output = str_replace( '%count%' , $liked_count , $output );
-
-    echo $output;
-}
-
-/**
- * 
- * bp_like_users_who_like()
- * 
- * Gets the usernames of users who liked post id
- * 
- */
-function bp_like_users_who_like( $bp_like_id = '' ) {
-    $bp_like_id = bp_get_activity_id();
-
-    $users_who_like = array_keys( bp_activity_get_meta( $bp_like_id , 'liked_count' , true ) );
-    if ( count( $users_who_like ) == 1 ) {
-        echo bp_core_get_userlink( $users_who_like[0] , false , false ) . _e( 'liked this' , 'buddypress-like' );
-    } else {
-        for ( $i = count( $users_who_like ) - 1; $i >= 0; $i-- ) {
-            echo bp_core_get_userlink( $users_who_like[0] , false , false )
-            . _e( 'and' , 'buddypress-like' ) . count( $users_who_like ) - 1
-            . _e( 'like this' , 'buddypress-like' );
-        }
     }
 }
 
@@ -455,7 +269,7 @@ function bp_like_get_some_likes() {
 
         $string = '<p class="users-who-like" id="users-who-like-';
         $string .= $bp_like_id;
-        $string .= '">%s like this.</p>';
+        $string .= '">%s likes this.</p>';
         
         $one = bp_core_get_userlink( $users_who_like[0] );
 
@@ -490,7 +304,7 @@ function bp_like_get_some_likes() {
 
         $string = '<p class="users-who-like" id="users-who-like-';
         $string .= $bp_like_id;
-        $string .= '">%s, %s and %s ' . _n( 'other', 'others', $others ) . ' like this.</p>';
+        $string .= '">%s, %s and %d ' . _n( 'other', 'others', $others ) . ' like this.</p>';
 
         printf( $string , $one , $two , $others );
     }
@@ -499,12 +313,22 @@ function bp_like_get_some_likes() {
 /**
  * 
  * view_who_likes() hook
- * 
- * using hook, as I may add in option to use view-likes button.
- *  * 
+ *
  */
-function view_who_likes() {
-    do_action( 'view_who_likes');
+function view_who_likes( $type = "" ) {
+
+    do_action( 'bp_like_before_view_who_likes' );
+
+    if ( $type == 'activty_comment' ) {
+
+    } elseif ( $type == 'activty_update') {
+
+    } else {
+        do_action( 'view_who_likes');
+    }
+
+    do_action( 'bp_like_after_view_who_likes' );
+
 }
 
 add_action( 'view_who_likes' , 'bp_like_get_some_likes', 1000 );

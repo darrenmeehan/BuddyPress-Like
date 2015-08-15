@@ -1,10 +1,5 @@
 jQuery(document).ready(function() {
     "use strict";
-    jQuery('.author-box').each(function() {
-        var id = jQuery(this).attr('id');
-        jQuery(this).append(jQuery(id + ' .like-box'));
-    });
-
     jQuery('.like, .unlike, .like_blogpost, .unlike_blogpost').live('click', function() {
         var type = jQuery(this).attr('class'), id = jQuery(this).attr('id');
 
@@ -17,14 +12,11 @@ jQuery(document).ready(function() {
             'id': id
         },
             function(data) {
-                console.log(data);
-                jQuery('#' + id).fadeOut(100, function() {
-                    jQuery(this).html(data).removeClass('loading').fadeIn(100);
+                console.log('data: ' + data);
+                jQuery('#' + id).fadeOut(50, function() {
+                    jQuery(this).html(data).removeClass('loading').fadeIn(50);
                 });
 
-                //when clicking unlike:
-                // class="button bp-primary-action like"
-                // like-activity-2446
                 console.log('type: ' + type );
                 console.log('id: ' + id);
                 type = type.replace('button','').replace('bp-primary-action','').trim();
@@ -51,49 +43,22 @@ jQuery(document).ready(function() {
                 }
 
                 // Nobody else liked this, so remove the 'View Likes'
-                if (data === bplikeTerms.like) {
+                if (data == 'Like ') {
+                    console.log('But you were the only one to like this!');
                     pureID = id.replace("unlike-activity-", "");
-                    jQuery('.view-likes#view-likes-' + pureID).remove();
-                    jQuery('.users-who-like#users-who-like-' + pureID).remove();
+                    jQuery('#users-who-like-' + pureID ).remove();
                 }
 
                 // Show the 'View Likes' if user is first to like
-                if (data === bplikeTerms.unlike_1) {
+                if (data == 'Unlike <span>1</span>') {
+                    console.log('You\'re the first person to like this!');
                     pureID = id.replace("like-activity-", "");
-                    //jQuery('li#activity-' + pureID + ' .activity-meta').text('<a href="" class="button view-likes" id="view-likes-' + pureID + '">' + bplikeTerms.view_likes + '</a><p class="users-who-like" id="users-who-like-' + pureID + '"></p>');
+                    jQuery('li#activity-' + pureID + ' .activity-meta').append('<p class="users-who-like" id="users-who-like-' + pureID + '">You like this.</p>');
                 }
 
             });
 
         return false;
-    });
-
-    jQuery('.view-likes').on('click', function() {
-        var type, id, parentID;
-        type = jQuery(this).attr('class');
-        id = jQuery(this).attr('id');
-        parentID = id.replace("view-likes", "users-who-like");
-
-        if (!jQuery(this).hasClass('open')) {
-
-            jQuery(this).addClass('loading');
-            jQuery.post(bplikeTerms.ajaxurl, {
-                action: 'activity_like',
-                'cookie': encodeURIComponent(document.cookie),
-                'type': type,
-                'id': id
-            },
-                function(data) {
-                    jQuery('#' + id).html(bplikeTerms.hide_likes).removeClass('loading').addClass('open');
-                    jQuery('#' + parentID).html(data).slideDown('fast');
-                });
-            return false;
-
-        }
-        jQuery(this).html(bplikeTerms.view_likes).removeClass('loading, open');
-        jQuery('#' + parentID).slideUp('fast');
-        return false;
-
     });
         if (bplikeTerms.fav_remove == 1) {
         jQuery(".fav").remove();
