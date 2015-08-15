@@ -24,8 +24,8 @@ add_action( 'bp_group_activity_filter_options' , 'bp_like_activity_filter' );
  * Posts to stream, depending on settings
  * 
  */
-function bp_like_post_to_stream( $item_id , $user_id ) 
-{
+function bp_like_post_to_stream( $item_id , $user_id ) {
+    
     if ( bp_like_get_settings( 'post_to_activity_stream' ) == 1) {
 
         $activity = bp_activity_get_specific( array('activity_ids' => $item_id , 'component' => 'buddypress-like') );
@@ -63,12 +63,12 @@ function bp_like_post_to_stream( $item_id , $user_id )
 
         bp_activity_add(
                 array(
-                    'action' => $action ,
-                    'content' => $content ,
-                    'primary_link' => $activity_url ,
-                    'component' => 'bp-like' ,
-                    'type' => 'activity_liked' ,
-                    'user_id' => $user_id ,
+                    'action' => $action,
+                    'content' => $content,
+                    'primary_link' => $activity_url,
+                    'component' => 'bp-like',
+                    'type' => 'activity_liked',
+                    'user_id' => $user_id,
                     'item_id' => $item_id
                 )
         );

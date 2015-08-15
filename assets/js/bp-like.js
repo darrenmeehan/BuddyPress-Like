@@ -12,7 +12,7 @@ jq(document).ready(function() {
 
         jq(this).addClass('loading');
 
-        jq.post(bplikeTerms.ajaxurl, {
+        jq.post(ajaxurl, {
             action: 'activity_like',
             'cookie': encodeURIComponent(document.cookie),
             'type': type,

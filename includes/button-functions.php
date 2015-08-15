@@ -1,8 +1,6 @@
 <?php
 // Exit if accessed directly
-if ( !defined( 'ABSPATH' ) ) {
-    exit;
-}
+defined( 'ABSPATH' ) || exit;
 
 /**
  * bp_like_button()
@@ -22,9 +20,13 @@ function bp_like_button( $type = '' ) {
         $type = 'blogpost';
 
     }
-    if ( $type == 'activity' ) {
+    if ( $type == 'activity' || $type == 'activity_update' ) {
 
         bplike_activity_update_button();
+
+    } elseif ( $type == 'activty_comment') {
+
+        bplike_activty_comment_button();
 
     } elseif ( $type == 'blogpost' ) {
 
@@ -34,9 +36,9 @@ function bp_like_button( $type = '' ) {
 }
 
 // Filters to display BuddyPress Like button.
-add_action( 'bp_activity_entry_meta' , 'bp_like_button' );
+add_action( 'bp_activity_entry_meta' , 'bp_like_button', 'activty_update' );
 add_action( 'bp_before_blog_single_post' , 'bp_like_button'  );
-add_action( 'bp_activity_comment_options' , 'bp_like_button' );
+add_action( 'bp_activity_comment_options' , 'bp_like_button' , 'activity_comment' );
 
 /*
  * bplike_activity_update_button()

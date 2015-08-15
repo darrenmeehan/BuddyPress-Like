@@ -331,4 +331,4 @@ function view_who_likes( $type = "" ) {
 
 }
 
-add_action( 'view_who_likes' , 'bp_like_get_some_likes', 1000 );
+add_action( 'view_who_likes' , 'bp_like_get_some_likes' );

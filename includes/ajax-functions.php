@@ -5,7 +5,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * bp_like_process_ajax()
  *
- * Runs the relevant function depending on what Ajax call has been made.
+ * Runs the relevant function depending on what AJAX call has been made.
  *
  */
 function bp_like_process_ajax() {
@@ -15,7 +15,7 @@ function bp_like_process_ajax() {
 
     if ( $_POST['type'] == 'button bp-primary-action like' ) {
         bp_like_add_user_like( $id , 'activity' );
-        add_action( 'view_who_likes' , 'bp_like_get_some_likes' );
+        //add_action( 'view_who_likes' , 'bp_like_get_some_likes' );
     }
 
     if ( $_POST['type'] == 'button bp-primary-action unlike' ) {
@@ -46,7 +46,7 @@ function bp_like_process_ajax() {
         bp_like_get_some_likes( $id , 'activity' );
     }
 
-    wp_die();
+    die();
 
 }
 
