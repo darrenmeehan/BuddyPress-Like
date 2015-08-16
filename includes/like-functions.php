@@ -59,7 +59,7 @@ function bp_like_add_user_like( $item_id = '' , $type = '' ) {
         return false;
     }
 
-    if ( $type == 'activity' ) {
+    if ( $type == 'activity_update' ) {
 
         /* Add to the  users liked activities. */
         $user_likes = get_user_meta( $user_id , 'bp_liked_activities' , true );
@@ -75,6 +75,20 @@ function bp_like_add_user_like( $item_id = '' , $type = '' ) {
 
         /* Publish to the activity stream if we're allowed to. */
         bp_like_post_to_stream( $item_id , $user_id );
+
+    } elseif ($type == 'activty_comment') {
+
+        /* Add to the  users liked activities. */
+        $user_likes = get_user_meta( $user_id , 'bp_liked_activities' , true );
+        $user_likes[$item_id] = 'activity_liked';
+        update_user_meta( $user_id , 'bp_liked_activities' , $user_likes );
+
+        /* Add to the total likes for this activity. */
+        $users_who_like = bp_activity_get_meta( $item_id , 'liked_count' , true );
+        $users_who_like[$user_id] = 'user_likes';
+        bp_activity_update_meta( $item_id , 'liked_count' , $users_who_like );
+
+        $liked_count = count( $users_who_like );
 
     } elseif ( $type == 'blogpost' ) {
 
@@ -151,20 +165,23 @@ function bp_like_add_user_like( $item_id = '' , $type = '' ) {
 function bp_like_remove_user_like( $item_id = '' , $type = '' ) {
     global $bp;
 
-    if ( !$item_id ) {
+    if ( ! $item_id ) {
+
         return false;
     }
 
-    if ( !isset( $user_id ) ) {
+    if ( ! isset( $user_id ) ) {
+
         $user_id = $bp->loggedin_user->id;
     }
 
-    if ( $user_id == 0 ) {
+    if ( 0 == $user_id ) {
+
         __('Sorry, you must be logged in to like that.', 'buddypress-like');
         return false;
     }
 
-    if ( $type == 'activity' ) {
+    if ( $type == 'activity_update' ) {
 
         /* Remove this from the users liked activities. */
         $user_likes = get_user_meta( $user_id , 'bp_liked_activities' , true );
@@ -203,6 +220,46 @@ function bp_like_remove_user_like( $item_id = '' , $type = '' ) {
                     'user_id' => $user_id
                 )
         );
+    } elseif ( $type == 'activity_comment' ) {
+
+        /* Remove this from the users liked activities. */
+        $user_likes = get_user_meta( $user_id , 'bp_liked_activities' , true );
+        unset( $user_likes[$item_id] );
+        update_user_meta( $user_id , 'bp_liked_activities' , $user_likes );
+
+        /* Update the total number of users who have liked this activity. */
+        $users_who_like = bp_activity_get_meta( $item_id , 'liked_count' , true );
+        unset( $users_who_like[$user_id] );
+
+        /* If nobody likes the activity, delete the meta for it to save space, otherwise, update the meta */
+        if ( empty( $users_who_like ) ) {
+            bp_activity_delete_meta( $item_id , 'liked_count' );
+        } else {
+            bp_activity_update_meta( $item_id , 'liked_count' , $users_who_like );
+        }
+
+        $liked_count = count( $users_who_like );
+
+        /* Remove the update on the users profile from when they liked the activity. */
+        $update_id = bp_activity_get_activity_id(
+                array(
+                    'item_id' => $item_id ,
+                    'component' => 'bp-like' ,
+                    'type' => 'activity_liked' ,
+                    'user_id' => $user_id
+                )
+        );
+
+        bp_activity_delete(
+                array(
+                    'id' => $update_id ,
+                    'item_id' => $item_id ,
+                    'component' => 'bp-like' ,
+                    'type' => 'activity_liked' ,
+                    'user_id' => $user_id
+                )
+        );
+
     } elseif ( $type == 'blogpost' ) {
 
         /* Remove this from the users liked activities. */

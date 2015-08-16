@@ -2,53 +2,74 @@
 // AJAX Functions
 var jq = jQuery;
 
-// Global variable to prevent multiple AJAX requests
-var bp_like_ajax_request = null;
+var bp_like_ajax_request = null;                                // TODO implement this. Global variable to prevent multiple AJAX requests
+
 
 jq(document).ready(function() {
     "use strict";
-    jq('.like, .unlike, .like_blogpost, .unlike_blogpost').live('click', function() {
-        var type = jq(this).attr('class'), id = jq(this).attr('id');
+    jq('.like, .unlike').live('click', function() {
+        
+        var id = jq(this).attr('id');                           // Used to get the id of the entity liked or unliked
 
+        var type = jq(this).attr('class')                       // 
+            .replace('bp-primary-action ','')                   // end space needed to avoid double space in var type
+            .replace('button', 'activity_update')               // clearer variable naming
+            .trim();
+        
         jq(this).addClass('loading');
 
         jq.post(ajaxurl, {
-            action: 'activity_like',
-            'cookie': encodeURIComponent(document.cookie),
+            action: 'activity_like',                            // TODO this could be named clearer
+            'cookie': encodeURIComponent(document.cookie),      // TODO could remove this? What size are these cookies?
             'type': type,
             'id': id
         },
             function(data) {
+                console.log('type: ' + type);
                 console.log('data: ' + data);
-                jq('#' + id).fadeOut(50, function() {
-                    jq(this).html(data).removeClass('loading').fadeIn(50);
+                jq('#' + id).fadeOut(100, function() {
+                    jq(this).html(data).removeClass('loading').fadeIn(100);
                 });
 
-                console.log('type: ' + type );
-                console.log('id: ' + id);
-                type = type.replace('button','').replace('bp-primary-action','').trim();
-                console.log('pure type:' + type);
+                // may only need one if and else if
+                // if (like) {} else if (unlike) {} else {oops()}
+                // leave for now as may need something for messages
+                if (type == 'activity_update like') {
 
-                // Swap from like to unlike
-                var newID, pureID;
-                if (type == 'like') {
-                    newID = id.replace("like", "unlike");
-                    jq('#' + id).removeClass('like').addClass('unlike').attr('title', bplikeTerms.unlike_message).attr('id', newID).text('Unlike');
-                } else if (type == 'like_blogpost') {
-                    newID = id.replace("like", "unlike");
-                    jq('#' + id).removeClass('like_blogpost').addClass('unlike_blogpost').attr('title', bplikeTerms.unlike_message).attr('id', newID);
-                } else if (type == 'unlike_blogpost') {
-                    newID = id.replace("unlike", "like");
-                    jq('#' + id).removeClass('unlike_blogpost').addClass('like_blogpost').attr('title', bplikeTerms.unlike_message).attr('id', newID);
-                } else if (type == 'unlike') {
-                    newID = id.replace("unlike", "like");
-                    jq('#' + id).removeClass('unlike').addClass('like').attr('title', bplikeTerms.like_message).attr('id', newID).text('Like');
+                    jq('#' + id).removeClass('like')
+                        .addClass('unlike')
+                        .attr('title', bplikeTerms.unlike_message)
+                        .attr('id', id.replace("like", "unlike") );
+                
+                } else if (type == 'activity_update unlike') {
+
+                    jq('#' + id).removeClass('unlike')
+                        .addClass('like')
+                        .attr('title', bplikeTerms.like_message)
+                        .attr('id', id.replace("unlike", "like"));
+
+                }
+                 else if (type == 'activity_comment like') {
+
+                    jq('#' + id).removeClass('like')
+                        .addClass('unlike')
+                        .attr('title', bplikeTerms.unlike_message)      // may want different (smaller) message for comments
+                        .attr('id', id.replace("like", "unlike") );
+
+                }else if (type == 'activity_comment unlike') {
+
+                    jq('#' + id).removeClass('unlike')
+                        .addClass('like')
+                        .attr('title', bplikeTerms.like_message)
+                        .attr('id', id.replace("unlike", "like") );
+                
                 } else {
                     console.log('Something went wrong');
                     console.log('type: ' + type );
-                    console.log('id: ' + id + 'newID: ' + newID);
+                    console.log('id: ' + id );
                 }
 
+                var pureID;
                 // Nobody else liked this, so remove the 'View Likes'
                 if (data == 'Like ') {
                     console.log('But you were the only one to like this!');
@@ -67,8 +88,10 @@ jq(document).ready(function() {
 
         return false;
     });
-        if (bplikeTerms.fav_remove == 1) {
-        jq(".fav").remove();
-        jq(".unfav").remove();
+        // if the option is set to remove favorites, remove all favorite classes
+        // TODO check if this code is still needed
+        if ( 1 == bplikeTerms.fav_remove ) {
+            jq(".fav").remove();
+            jq(".unfav").remove();
     }
 });
