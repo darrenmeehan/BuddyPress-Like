@@ -68,19 +68,18 @@ jq(document).ready(function() {
                     console.log('id: ' + id );
                 }
 
-                var pureID;
                 // Nobody else liked this, so remove the 'View Likes'
                 if (data == 'Like ') {
                     console.log('But you were the only one to like this!');
-                    pureID = id.replace("unlike-activity-", "");
-                    jq('#users-who-like-' + pureID ).remove();
+                    id = id.replace("unlike-activity-", "");
+                    jq('#users-who-like-' + id ).remove();
                 }
 
                 // Show the 'View Likes' if user is first to like
                 if (data == 'Unlike <span>1</span>') {
                     console.log('You\'re the first person to like this!');
-                    pureID = id.replace("like-activity-", "");
-                    jq('li#activity-' + pureID + ' .activity-meta').append('<p class="users-who-like" id="users-who-like-' + pureID + '">You like this.</p>');
+                    id = id.replace("like-activity-", "");
+                    jq('li#activity-' + id + ' .activity-meta').append('<p class="users-who-like" id="users-who-like-' + id + '">You like this.</p>');
                 }
 
             });
