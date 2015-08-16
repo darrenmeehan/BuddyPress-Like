@@ -20,7 +20,6 @@ jq(document).ready(function() {
 
         jq.post(ajaxurl, {
             action: 'activity_like',                            // TODO this could be named clearer
-            'cookie': encodeURIComponent(document.cookie),      // TODO could remove this? What size are these cookies?
             'type': type,
             'id': id
         },
