@@ -7,7 +7,7 @@ var bp_like_ajax_request = null;                                // TODO implemen
 
 jq(document).ready(function() {
     "use strict";
-    jq('.like, .unlike').live('click', function() {
+    jq('.like, .unlike').live('click', function() {             // TODO ensure all links only use .like or .unlike
         
         var id = jq(this).attr('id');                           // Used to get the id of the entity liked or unliked
 
@@ -16,7 +16,7 @@ jq(document).ready(function() {
             .replace('button', 'activity_update')               // clearer variable naming
             .trim();
         
-        jq(this).addClass('loading');
+        jq(this).addClass('loading');                           
 
         jq.post(ajaxurl, {
             action: 'activity_like',                            // TODO this could be named clearer
@@ -87,10 +87,4 @@ jq(document).ready(function() {
 
         return false;
     });
-        // if the option is set to remove favorites, remove all favorite classes
-        // TODO check if this code is still needed
-        if ( 1 == bplikeTerms.fav_remove ) {
-            jq(".fav").remove();
-            jq(".unfav").remove();
-    }
 });
