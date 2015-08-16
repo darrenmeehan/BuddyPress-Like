@@ -12,11 +12,7 @@ defined( 'ABSPATH' ) || exit;
 function bp_like_is_liked( $item_id = '' , $type = '' , $user_id = '' ) {
     global $bp;
 
-    if ( !$type ) {
-        return false;
-    }
-
-    if ( !$item_id ) {
+    if ( !$type || !$item_id ) {
         return false;
     }
 
@@ -30,11 +26,7 @@ function bp_like_is_liked( $item_id = '' , $type = '' , $user_id = '' ) {
         $user_likes = get_user_meta( $user_id , 'bp_liked_activities' , true );
     }
 
-    if ( $type == 'blogpost' ) {
-        $user_likes = get_user_meta( $user_id , 'bp_liked_blogposts' , true );
-    }
-
-    if ( !$user_likes ) {
+    if ( ! $user_likes ) {
         return false;
     } elseif ( !array_key_exists( $item_id , $user_likes ) ) {
         return false;
@@ -370,6 +362,7 @@ function bp_like_get_some_likes() {
 /**
  * 
  * view_who_likes() hook
+ * TODO explain better
  *
  */
 function view_who_likes( $type = "" ) {
@@ -388,4 +381,5 @@ function view_who_likes( $type = "" ) {
 
 }
 
+// TODO comment why this is here
 add_action( 'view_who_likes' , 'bp_like_get_some_likes' );

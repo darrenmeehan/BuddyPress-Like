@@ -21,9 +21,9 @@ function bplike_activity_comment_button() {
     $bp_like_id = bp_get_activity_comment_id();
 
     if ( bp_like_is_liked( $bp_like_id , 'activity' ) ) {
-        $bp_like_class = 'acomment-reply bp-primary-action unlike';
+        $bp_like_class = 'unlike';
     } else {
-        $bp_like_class = 'acomment-reply bp-primary-action like';
+        $bp_like_class = 'like';
     }
 
     if ( is_user_logged_in() && $activity_type !== 'activity_liked' ) {
@@ -35,14 +35,14 @@ function bplike_activity_comment_button() {
 
         if ( !bp_like_is_liked( $bp_like_id , 'activity_comment' ) ) {
             ?>
-            <a href="#" class="<?php echo $bp_like_class; ?>" id="like-activity-<?php echo $bp_like_id; ?>" title="<?php echo __('Like this item', 'buddypress-like'); ?>"><?php
+            <a href="#" class="acomment-reply bp-primary-action <?php echo $bp_like_class; ?>" id="like-activity-<?php echo $bp_like_id; ?>" title="<?php echo __('Like this item', 'buddypress-like'); ?>"><?php
                echo __('Like ', 'buddypress-like');
                 if ( $liked_count ) {
                     echo '<span>' . $liked_count . '</span>';
                 }
                 ?></a>
         <?php } else { ?>
-            <a href="#" class="<?php echo $bp_like_class; ?>" id="unlike-activity-<?php echo $bp_like_id; ?>" title="<?php echo __('Unlike this item', 'buddypress-like'); ?>"><?php
+            <a href="#" class="acomment-reply bp-primary-action <?php echo $bp_like_class; ?>" id="unlike-activity-<?php echo $bp_like_id; ?>" title="<?php echo __('Unlike this item', 'buddypress-like'); ?>"><?php
                 echo __('Unlike ', 'buddypress-like');
                 if ( $liked_count ) {
                     echo '<span>' . $liked_count . '</span>';
