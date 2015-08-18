@@ -44,10 +44,10 @@ function bp_like_is_liked( $item_id = '' , $type = '' , $user_id = '' ) {
 function bp_like_add_user_like( $item_id = '' , $type = '' ) {
     global $bp;
 
-    if ( !isset( $user_id ) ) {
+    if ( ! isset( $user_id ) ) {
         $user_id = $bp->loggedin_user->id;
     }
-    if ( !$item_id || !is_user_logged_in() ) {
+    if ( ! $item_id || !is_user_logged_in() ) {
         return false;
     }
 
@@ -68,7 +68,7 @@ function bp_like_add_user_like( $item_id = '' , $type = '' ) {
         /* Publish to the activity stream if we're allowed to. */
         bp_like_post_to_stream( $item_id , $user_id );
 
-    } elseif ($type == 'activty_comment') {
+    } elseif ($type == 'activity_comment') {
 
         /* Add to the  users liked activities. */
         $user_likes = get_user_meta( $user_id , 'bp_liked_activities' , true );
@@ -293,9 +293,9 @@ function bp_like_remove_user_like( $item_id = '' , $type = '' ) {
         );
     }
 
-    echo __('Like ', 'buddypress-like');
+    echo __('Like', 'buddypress-like');
     if ( $liked_count ) {
-        echo '<span>' . $liked_count . '</span>';
+        echo ' <span>' . $liked_count . '</span>';
     }
 }
 
@@ -344,7 +344,7 @@ function bp_like_get_some_likes() {
         $one = bp_core_get_userlink( $users_who_like[$others - 1] );
         $two = bp_core_get_userlink( $users_who_like[$others - 2] );
         
-        // $users_who_like will always be greater than 2.
+        // $users_who_like will always be greater than 2 in here
         if ( $users_who_like == 3 ) {
             $others = $others - 1;
         } else {
@@ -369,9 +369,9 @@ function view_who_likes( $type = "" ) {
 
     do_action( 'bp_like_before_view_who_likes' );
 
-    if ( $type == 'activty_comment' ) {
+    if ( $type == 'activity_comment' ) {
 
-    } elseif ( $type == 'activty_update') {
+    } elseif ( $type == 'activity_update') {
 
     } else {
         do_action( 'view_who_likes');

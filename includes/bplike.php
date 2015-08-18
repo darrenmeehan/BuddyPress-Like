@@ -36,6 +36,7 @@ if ( is_admin() ) {
     require_once BPLIKE_PATH . 'admin/admin.php';
 }
 require_once BPLIKE_PATH . 'includes/button-functions.php';
+require_once BPLIKE_PATH . 'includes/activity-comment-button.php';
 require_once BPLIKE_PATH . 'includes/install-functions.php';
 require_once BPLIKE_PATH . 'includes/activity-functions.php';
 require_once BPLIKE_PATH . 'includes/ajax.php';

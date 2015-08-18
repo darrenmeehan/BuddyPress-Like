@@ -22,12 +22,12 @@ function bp_like_process_ajax() {
         bp_like_remove_user_like( $id , 'activity_update' );
     }
 
-    if ( $_POST['type'] == 'acomment-reply bp-primary-action like' ) {
-        bp_like_add_user_like( $id , 'activity' );
+    if ( $_POST['type'] == 'activity_comment like' ) {
+        bp_like_add_user_like( $id , 'activity_comment' );
     }
 
-    if ( $_POST['type'] == 'acomment-reply bp-primary-action unlike' ) {
-        bp_like_remove_user_like( $id , 'activity' );
+    if ( $_POST['type'] == 'activity_comment unlike' ) {
+        bp_like_remove_user_like( $id , 'activity_comment' );
     }
 
     if ( $_POST['type'] == 'button view-likes' ) {
