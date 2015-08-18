@@ -37,7 +37,7 @@ function bplike_activity_comment_button() {
             <a href="#" class="acomment-reply bp-primary-action unlike" id="unlike-activity-<?php echo bp_get_activity_comment_id(); ?>" title="<?php echo __('Unlike this item', 'buddypress-like'); ?>"><?php
                 echo __('Unlike', 'buddypress-like');
                 if ( $liked_count ) {
-                    echo '<span>' . $liked_count . '</span>';
+                    echo '<span><small>' . $liked_count . '</small></span>';
                 }
                 ?></a>
             <?php
