@@ -26,12 +26,11 @@ add_action( 'admin_menu' , 'bp_like_add_admin_page_menu' );
 function bp_like_admin_page_verify_nonce() {
     if ( isset( $_POST['_wpnonce'] ) && isset( $_POST['bp_like_updated'] ) ) {
         $nonce = $_REQUEST['_wpnonce'];
-        if ( !wp_verify_nonce( $nonce , 'bp-like-admin' ) ) {
+        if ( ! wp_verify_nonce( $nonce , 'bp-like-admin' ) ) {
             wp_die( __( 'You do not have permission to do that.' ) );
         }
     }
 }
-
 add_action( 'init' , 'bp_like_admin_page_verify_nonce' );
 
 /**
@@ -141,28 +140,31 @@ function bp_like_admin_page() {
             </table> 
 
             <div id="bplike-about" style="float:right; background:#fff;max-width:300px;padding:20px;margin-bottom:30px;">
-                <h3 class="hndle"><span>About BuddyPress Like</span></h3>
+                <h3>About</h3>
                 <p><strong>Version: <?php echo BP_LIKE_VERSION; ?></strong></p>
                 <div class="inside">
 
-                    Gives users the ability to 'like' content across your BuddyPress enabled site.
+                    <p>Gives users the ability to 'like' content across your BuddyPress enabled site.</p>
 
                     <p>Available for free on <a href="http://wordpress.org/plugins/buddypress-like/">WordPress.org</a>.</p>
 
-                    <strong>Want to help?</strong>
+                    <h4>Want to help?</h4>
                     <ul>
                         <li><a href="https://wordpress.org/support/view/plugin-reviews/buddypress-like?filter=5">Give 5 stars on WordPress.org</a></li>
                         <li>Development takes place publicly on <a href="https://github.com/Darrenmeehan/BuddyPress-Like">Github</a>. Is there any issues or bugs you have?</li>
                         <li><a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=ZAJLLEJDBHAWL"><strong>Donate</strong></a></li>
                     </ul>
 
-                    <strong>Need help?</strong>
+                    <h4>Need help?</h4>
                     <ul><li>Ask on the <a href="http://wordpress.org/support/plugin/buddypress-like">WordPress.org forum</a></li></ul>
 
                 </div>          
             </div>
 
+
             <table class="form-table">
+                        <p>Note custom messages will be getting phased out soon. If you'd like to change the text displayed on your site please translate using .POT file</p>
+
                 <tr valign="top">
                     <th scope="row"><?php _e( 'Custom Messages' , 'buddypress-like' ); ?></th>
                     <td>
@@ -171,15 +173,13 @@ function bp_like_admin_page() {
                                 <span><?php _e( 'Custom Messages' , 'buddypress-like' ); ?></span>
                             </legend>
                             <label for="bp_like_admin_post_activity_updates">
-    <?php _e( "Change what messages are shown to users. For example, they can 'love' or 'dig' items instead of liking them." , "bp-like" ); ?>
+    <?php _e( "Change what messages are shown to users. For example, they can 'love' or 'dig' items instead of liking them." , "buddypress-like" ); ?>
                             </label>
                         </fieldset>
                     </td>
                 </tr>   
             </table>
             <table class="widefat fixed" cellspacing="0">
-
-
                 <thead>
                     <tr>
                         <th scope="col" id="default" class="column-name" style="width: 43%;"><?php _e( 'Default' , 'buddypress-like' ); ?></th>
