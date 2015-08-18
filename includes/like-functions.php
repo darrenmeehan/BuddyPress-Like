@@ -10,15 +10,15 @@ defined( 'ABSPATH' ) || exit;
  *
  */
 function bp_like_is_liked( $item_id = '' , $type = '' , $user_id = '' ) {
-    global $bp;
+    //global $bp;
 
     if ( !$type || !$item_id ) {
         return false;
     }
 
     if ( isset( $user_id ) ) {
-        if ( !$user_id ) {
-            $user_id = $bp->loggedin_user->id;
+        if ( ! $user_id ) {
+            $user_id = get_current_user_id();
         }
     }
 
@@ -311,14 +311,15 @@ function bp_like_get_some_likes() {
     $users_who_like = array_keys((array)(bp_activity_get_meta( $bp_like_id , 'liked_count' , true )));
     
     if ( count( $users_who_like ) == 0 ) {
+    
     // if no user likes this.
-}
-    elseif ( count( $users_who_like ) == 1 ) {
+    
+    } elseif ( count( $users_who_like ) == 1 ) {
         // If only one person likes the current item.
 
         $string = '<p class="users-who-like" id="users-who-like-';
         $string .= $bp_like_id;
-        $string .= '">%s likes this.</p>';
+        $string .= '"><small>%s likes this.</small></p>';
         
         $one = bp_core_get_userlink( $users_who_like[0] );
 
@@ -329,7 +330,7 @@ function bp_like_get_some_likes() {
 
         $string = '<p class="users-who-like" id="users-who-like-';
         $string .= $bp_like_id;
-        $string .= '">%s and %s like this.</p>';
+        $string .= '"><small>%s and %s like this.</small></p>';
 
         $one = bp_core_get_userlink( $users_who_like[0] );
         $two = bp_core_get_userlink( $users_who_like[1] );
@@ -353,7 +354,7 @@ function bp_like_get_some_likes() {
 
         $string = '<p class="users-who-like" id="users-who-like-';
         $string .= $bp_like_id;
-        $string .= '">%s, %s and %d ' . _n( 'other', 'others', $others ) . ' like this.</p>';
+        $string .= '"><small>%s, %s and %d ' . _n( 'other', 'others', $others ) . ' like this.</small></p>';
 
         printf( $string , $one , $two , $others );
     }

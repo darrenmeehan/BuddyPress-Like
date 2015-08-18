@@ -75,8 +75,8 @@ function bp_like_install() {
             'custom' => __( 'Nobody likes this yet.' , 'buddypress-like' )
         ) ,
         'get_likes_only_liker' => array(
-            'default' => __( 'You are the only person who likes this so far.' , 'buddypress-like' ) ,
-            'custom' => __( 'You are the only person who likes this so far.' , 'buddypress-like' )
+            'default' => __( 'You like this.' , 'buddypress-like' ) ,
+            'custom' => __( 'You like this.' , 'buddypress-like' )
         ) ,
         'get_likes_you_and_singular' => array(
             'default' => __( 'You and %count% other person like this.' , 'buddypress-like' ) ,
@@ -213,11 +213,11 @@ function bp_like_install() {
 function bp_like_check_installed() {
     global $wpdb;
 
-    if ( !is_super_admin() ) {
+    if ( ! is_super_admin() ) {
         return false;
     }
 
-    if ( !get_site_option( 'bp_like_settings' ) || get_site_option( 'bp-like-db-version' ) ) {
+    if ( ! get_site_option( 'bp_like_settings' ) || get_site_option( 'bp-like-db-version' ) ) {
         bp_like_install();
     }
 
@@ -235,7 +235,7 @@ add_action( 'admin_menu' , 'bp_like_check_installed' );
 
 function bp_like_updated_notice() {
 
-    if ( !is_super_admin() ) {
+    if ( ! is_super_admin() ) {
         return false;
     } else {
         echo '<div id="message" class="updated fade"><p style="line-height: 150%">';

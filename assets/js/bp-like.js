@@ -68,8 +68,9 @@ jq(document).ready(function() {
                 }
 
                 // Nobody else liked this, so remove the 'View Likes'
-                if (data == 'Like ') {
+                if (data == 'Like') {
                     console.log('But you were the only one to like this!');
+                    console.log('Deleting  like for update id: ' + id);
                     id = id.replace("unlike-activity-", "");
                     jq('#users-who-like-' + id ).remove();
                 }
@@ -79,7 +80,7 @@ jq(document).ready(function() {
                     console.log('You\'re the first person to like this!');
                     id = id.replace("like-activity-", "");
                     jq('li#activity-' + id + ' .activity-meta')
-                        .append('<p class="users-who-like" id="users-who-like-' + id + '">' + bplikeTerms.you_like_this +'</p>')
+                        .append('<p class="users-who-like" id="users-who-like-' + id + '"><small>' + bplikeTerms.you_like_this +'</small></p>')
                         .slideDown(1000); // quick attempt as some animation. Needs worked properly
                 }
 

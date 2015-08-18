@@ -65,17 +65,20 @@ function bplike_activity_update_button() {
 
         if ( !bp_like_is_liked( bp_get_activity_id() , 'activity' ) ) {
             ?>
-            <a href="#" class="button bp-primary-action <?php echo $bp_like_class; ?>" id="like-activity-<?php echo bp_get_activity_id(); ?>" title="<?php echo __('Like this item', 'buddypress-like'); ?>">
+            <a href="#" class="button bp-primary-action <?php echo $bp_like_class; ?>" id="like-activity-<?php echo bp_get_activity_id(); ?>" title="<?php echo bp_like_get_text( 'like_this_item' ); ?>">
                 <?php 
-                    echo __('Like ', 'buddypress-like');
+                    //echo __('Like ', 'buddypress-like');
+                    echo bp_like_get_text( 'like' );
                     if ( $liked_count ) {
-                        echo '<span>' . $liked_count . '</span>';
+                        echo ' <span>' . $liked_count . '</span>';
                     }
                 ?>
             </a>
         <?php } else { ?>
-            <a href="#" class="button bp-primary-action <?php echo $bp_like_class; ?>" id="unlike-activity-<?php echo bp_get_activity_id(); ?>" title="<?php echo __('Unlike this item', 'buddypress-like'); ?>">
-                <?php echo __('Unlike ', 'buddypress-like');
+            <a href="#" class="button bp-primary-action <?php echo $bp_like_class; ?>" id="unlike-activity-<?php echo bp_get_activity_id(); ?>" title="<?php echo bp_like_get_text( 'unlike_this_item' ); ?>">
+                <?php
+                    //echo __('Unlike ', 'buddypress-like');
+                    echo bp_like_get_text( 'unlike' );
                     if ( $liked_count ) {
                         echo '<span>' . $liked_count . '</span>';
                     }
