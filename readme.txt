@@ -3,8 +3,8 @@ Contributors: darrenmeehan,hempsworth
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=ZAJLLEJDBHAWL
 Tags: buddypress, like, rate, thumbs, Post, button, vote
 Requires at least: 3.8
-Tested up to: 4.1
-Stable tag: 0.2
+Tested up to: 4.3
+Stable tag: 0.3
 
 Gives users the ability to 'like' content across your BuddyPress enabled site.
 
@@ -27,6 +27,15 @@ Gives users the ability to 'like' content across your BuddyPress enabled site.
 2. Activate the plugin through the 'Plugins' menu in WordPress
 
 == Changelog ==
+= 0.3 =
+- No longer posting update when someone likes a comment
+- Now enqeueing scripts through recommended wp_enqueue_scripts
+- Removed jQuery UI as themes should include this if needed
+- Add <span></span> around like count - similar to comment count in BuddyPress
+- Added <small></small> around display of who likes updates
+- Fixes applied to AJAX
+- Test with WordPress 4.3
+
 = 0.2.2 =
 - Fixed output for when three people like an activity
 - removed inline comment at top of bplike.js
@@ -121,6 +130,8 @@ Gives users the ability to 'like' content across your BuddyPress enabled site.
 * Initial release.
 
 == Upgrade Notice ==
+
+= jQuery UI removed as it should be utlised in theme
 
 = 0.2.0 = 
 jQuery UI added back, which is required for some themes.

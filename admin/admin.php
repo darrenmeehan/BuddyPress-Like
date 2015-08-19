@@ -163,8 +163,6 @@ function bp_like_admin_page() {
 
 
             <table class="form-table">
-                        <p>Note custom messages will be getting phased out soon. If you'd like to change the text displayed on your site please translate using .POT file</p>
-
                 <tr valign="top">
                     <th scope="row"><?php _e( 'Custom Messages' , 'buddypress-like' ); ?></th>
                     <td>
