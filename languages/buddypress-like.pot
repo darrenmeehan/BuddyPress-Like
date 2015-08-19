@@ -1,0 +1,306 @@
+# Copyright (C) 2015 BuddyPress Like
+# This file is distributed under the same license as the BuddyPress Like package.
+msgid ""
+msgstr ""
+"Project-Id-Version: BuddyPress Like 0.2.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/buddypress-like\n"
+"POT-Creation-Date: 2015-08-19 11:04:54+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2015-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+
+#: includes/activity-functions.php:13 includes/install.php:37
+#: includes/install.php:38
+msgid "Show Activity Likes"
+msgstr ""
+
+#: includes/activity-functions.php:14 includes/install.php:41
+#: includes/install.php:42
+msgid "Show Blog Post Likes"
+msgstr ""
+
+#: includes/admin.php:31
+msgid "You do not have permission to do that."
+msgstr ""
+
+#: includes/admin.php:76
+msgid "Settings saved."
+msgstr ""
+
+#. #-#-#-#-#  plugin.pot (BuddyPress Like 0.2.0)  #-#-#-#-#
+#. Plugin Name of the plugin/theme
+#: includes/admin.php:81
+msgid "BuddyPress Like"
+msgstr ""
+
+#: includes/admin.php:103 includes/admin.php:107
+msgid "Posting Settings"
+msgstr ""
+
+#: includes/admin.php:111
+msgid "Post an activity update when something is liked"
+msgstr ""
+
+#: includes/admin.php:113
+msgid "e.g. "
+msgstr ""
+
+#: includes/admin.php:113
+msgid " liked Darren's activity. "
+msgstr ""
+
+#: includes/admin.php:117
+msgid "Show a short excerpt of the activity that has been liked."
+msgstr ""
+
+#: includes/admin.php:126 includes/admin.php:130
+msgid "Remove Favorite Button"
+msgstr ""
+
+#: includes/admin.php:134
+msgid "Remove the BuddyPress favorite button from activity."
+msgstr ""
+
+#: includes/admin.php:136
+msgid " Currently only uses jQuery to remove the buttons."
+msgstr ""
+
+#: includes/admin.php:168 includes/admin.php:172
+msgid "Custom Messages"
+msgstr ""
+
+#: includes/admin.php:175
+msgid ""
+"Change what messages are shown to users. For example, they can 'love' or "
+"'dig' items instead of liking them."
+msgstr ""
+
+#: includes/admin.php:186
+msgid "Default"
+msgstr ""
+
+#: includes/admin.php:187
+msgid "Custom"
+msgstr ""
+
+#: includes/admin.php:206
+msgid "Save Changes"
+msgstr ""
+
+#: includes/install-functions.php:14 includes/install-functions.php:15
+#: includes/install.php:13 includes/install.php:14
+#: includes/like-functions.php:296
+msgid "Like"
+msgstr ""
+
+#: includes/install-functions.php:18 includes/install-functions.php:19
+#: includes/install.php:17 includes/install.php:18
+#: includes/like-functions.php:144
+msgid "Unlike"
+msgstr ""
+
+#: includes/install-functions.php:22 includes/install-functions.php:23
+#: includes/install.php:21 includes/install.php:22
+msgid "Like this item"
+msgstr ""
+
+#: includes/install-functions.php:26 includes/install-functions.php:27
+#: includes/install.php:25 includes/install.php:26
+msgid "Unlike this item"
+msgstr ""
+
+#: includes/install-functions.php:30 includes/install-functions.php:31
+#: includes/install.php:29 includes/install.php:30
+msgid "View likes"
+msgstr ""
+
+#: includes/install-functions.php:34 includes/install-functions.php:35
+#: includes/install.php:33 includes/install.php:34
+msgid "Hide likes"
+msgstr ""
+
+#: includes/install-functions.php:38 includes/install-functions.php:39
+msgid "Activity Likes"
+msgstr ""
+
+#: includes/install-functions.php:42 includes/install-functions.php:43
+msgid "Blog Post Likes"
+msgstr ""
+
+#: includes/install-functions.php:46 includes/install-functions.php:47
+#: includes/install.php:45 includes/install.php:46
+#: includes/like-functions.php:172
+msgid "Sorry, you must be logged in to like that."
+msgstr ""
+
+#: includes/install-functions.php:50 includes/install-functions.php:51
+msgid "%user% liked their own <a href=\"%permalink%\">activity</a>"
+msgstr ""
+
+#: includes/install-functions.php:54 includes/install-functions.php:55
+msgid "%user% liked an <a href=\"%permalink%\">activity</a>"
+msgstr ""
+
+#: includes/install-functions.php:58 includes/install-functions.php:59
+msgid "%user% liked %author%'s <a href=\"%permalink%\">activity</a>"
+msgstr ""
+
+#: includes/install-functions.php:62 includes/install-functions.php:63
+msgid "%user% liked their own blog post, <a href=\"%permalink%\">%title%</a>"
+msgstr ""
+
+#: includes/install-functions.php:66
+msgid "%user% liked a blog post, <a href=\"%permalink%\">%title%</a>"
+msgstr ""
+
+#: includes/install-functions.php:67
+msgid "%user% liked an blog post, <a href=\"%permalink%\">%title%</a>"
+msgstr ""
+
+#: includes/install-functions.php:70 includes/install-functions.php:71
+msgid "%user% liked %author%'s blog post, <a href=\"%permalink%\">%title%</a>"
+msgstr ""
+
+#: includes/install-functions.php:74 includes/install-functions.php:75
+#: includes/install.php:72 includes/install.php:73
+msgid "Nobody likes this yet."
+msgstr ""
+
+#: includes/install-functions.php:78 includes/install-functions.php:79
+msgid "You like this."
+msgstr ""
+
+#: includes/install-functions.php:82 includes/install-functions.php:83
+#: includes/install.php:80 includes/install.php:81
+msgid "You and %count% other person like this."
+msgstr ""
+
+#: includes/install-functions.php:86 includes/install-functions.php:87
+#: includes/install.php:84 includes/install.php:85
+msgid "You and %count% other people like this"
+msgstr ""
+
+#: includes/install-functions.php:90 includes/install-functions.php:91
+#: includes/install.php:88 includes/install.php:89
+msgid "%count% person likes this."
+msgstr ""
+
+#: includes/install-functions.php:94 includes/install-functions.php:95
+#: includes/install.php:92 includes/install.php:93
+msgid "%count% people like this."
+msgstr ""
+
+#: includes/install-functions.php:98 includes/install-functions.php:99
+#: includes/install.php:96 includes/install.php:97
+msgid "and %count% other person like this."
+msgstr ""
+
+#: includes/install-functions.php:102 includes/install-functions.php:103
+#: includes/install.php:100 includes/install.php:101
+msgid "and %count% other people like this."
+msgstr ""
+
+#: includes/install-functions.php:106 includes/install-functions.php:107
+msgid "liked this."
+msgstr ""
+
+#: includes/install-functions.php:110 includes/install-functions.php:111
+#: includes/install.php:108 includes/install.php:109
+msgid "like this."
+msgstr ""
+
+#: includes/install-functions.php:114 includes/install-functions.php:115
+#: includes/install.php:112 includes/install.php:113
+msgid ""
+"None of your friends like this yet, but you and %count% other person does."
+msgstr ""
+
+#: includes/install-functions.php:118 includes/install-functions.php:119
+#: includes/install.php:116 includes/install.php:117
+msgid ""
+"None of your friends like this yet, but you and %count% other people do."
+msgstr ""
+
+#: includes/install-functions.php:122 includes/install-functions.php:123
+#: includes/install.php:120 includes/install.php:121
+msgid "None of your friends like this yet, but %count% other person does."
+msgstr ""
+
+#: includes/install-functions.php:126 includes/install-functions.php:127
+#: includes/install.php:124 includes/install.php:125
+msgid "None of your friends like this yet, but %count% other people do."
+msgstr ""
+
+#: includes/install-functions.php:242
+msgid ""
+"<strong>BuddyPress Like</strong> has been successfully updated to version %s."
+msgstr ""
+
+#: includes/install-functions.php:254
+msgid ""
+"<strong>BuddyPress Like</strong></a> requires the BuddyPress plugin to work. "
+"Please <a href=\"http://buddypress.org\">install BuddyPress</a> first, or <a "
+"href=\"plugins.php\">deactivate BuddyPress Like</a>."
+msgstr ""
+
+#: includes/install.php:48 includes/install.php:49
+msgid "%user% likes their own <a href=\"%permalink%\">activity</a>"
+msgstr ""
+
+#: includes/install.php:52 includes/install.php:53
+msgid "%user% likes an <a href=\"%permalink%\">activity</a>"
+msgstr ""
+
+#: includes/install.php:56 includes/install.php:57
+msgid "%user% likes %author%'s <a href=\"%permalink%\">activity</a>"
+msgstr ""
+
+#: includes/install.php:60 includes/install.php:61
+msgid "%user% likes their own blog post, <a href=\"%permalink%\">%title%</a>"
+msgstr ""
+
+#: includes/install.php:64
+msgid "%user% likes a blog post, <a href=\"%permalink%\">%title%</a>"
+msgstr ""
+
+#: includes/install.php:65
+msgid "%user% likes an blog post, <a href=\"%permalink%\">%title%</a>"
+msgstr ""
+
+#: includes/install.php:68 includes/install.php:69
+msgid "%user% likes %author%'s blog post, <a href=\"%permalink%\">%title%</a>"
+msgstr ""
+
+#: includes/install.php:76 includes/install.php:77
+msgid "You are the only person who likes this so far."
+msgstr ""
+
+#: includes/install.php:104 includes/install.php:105
+msgid "likes this."
+msgstr ""
+
+#: includes/like-functions.php:357
+msgid "other"
+msgid_plural "others"
+msgstr[0] ""
+msgstr[1] ""
+
+#. Plugin URI of the plugin/theme
+msgid "http://darrenmeehan.me/"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid ""
+"Adds the ability for users to like content throughout your BuddyPress site."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "Darren Meehan"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "http://darrenmeehan.me"
+msgstr ""
