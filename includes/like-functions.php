@@ -319,7 +319,10 @@ function bp_like_get_some_likes() {
 
         $string = '<p class="users-who-like" id="users-who-like-';
         $string .= $bp_like_id;
-        $string .= '"><small>%s likes this.</small></p>';
+        $string .= '"><small>';
+        $string .= bp_like_get_text( 'one_likes_this' );
+        $string .= '</small></p>';
+        //$string .= '"><small>%s likes this.</small></p>';
         
         $one = bp_core_get_userlink( $users_who_like[0] );
 
@@ -330,7 +333,9 @@ function bp_like_get_some_likes() {
 
         $string = '<p class="users-who-like" id="users-who-like-';
         $string .= $bp_like_id;
-        $string .= '"><small>%s and %s like this.</small></p>';
+        $string .= '"><small>';
+        $string .= bp_like_get_text( 'two_like_this' );
+        $string .= '</small></p>';
 
         $one = bp_core_get_userlink( $users_who_like[0] );
         $two = bp_core_get_userlink( $users_who_like[1] );

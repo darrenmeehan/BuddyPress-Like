@@ -2,15 +2,15 @@
 // Exit if accessed directly
 defined( 'ABSPATH' ) || exit;
 
-if ( !defined( 'BP_LIKE_VERSION' ) ) {
+if ( ! defined( 'BP_LIKE_VERSION' ) ) {
     define( 'BP_LIKE_VERSION' , '0.3.0' );
 }
 
-if ( !defined( 'BP_LIKE_DB_VERSION' ) ) {
-    define( 'BP_LIKE_DB_VERSION' , '26' );
+if ( ! defined( 'BP_LIKE_DB_VERSION' ) ) {
+    define( 'BP_LIKE_DB_VERSION' , '29' );
 }
 
-if ( !defined( 'BPLIKE_PATH' ) ) {
+if ( ! defined( 'BPLIKE_PATH' ) ) {
     define( 'BPLIKE_PATH' , plugin_dir_path( dirname( __FILE__ ) ) );
 }
 
