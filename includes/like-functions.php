@@ -141,7 +141,8 @@ function bp_like_add_user_like( $item_id = '' , $type = '' ) {
             );
         }
     }
-    echo __('Unlike', 'buddypress-like');
+	//echo __('Unlike', 'buddypress-like');
+    echo bp_like_get_text( 'unlike' ); // Uses custom text if it has been set. 
 
     if ( $liked_count ) {
         echo ' <span>' . $liked_count . '</span>';
@@ -293,7 +294,8 @@ function bp_like_remove_user_like( $item_id = '' , $type = '' ) {
         );
     }
 
-    echo __('Like', 'buddypress-like');
+    echo bp_like_get_text( 'like' );  //uses custom text if it exists
+    //echo __('Like', 'buddypress-like');
     if ( $liked_count ) {
         echo ' <span>' . $liked_count . '</span>';
     }
