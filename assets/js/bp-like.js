@@ -7,16 +7,17 @@ var bp_like_ajax_request = null;                                // TODO implemen
 jq(document).ready(function() {
     "use strict";
     jq('.like, .unlike').live('click', function() {             // TODO ensure all links only use .like or .unlike
-        
+
         var id = jq(this).attr('id');                           // Used to get the id of the entity liked or unliked
 
-        var type = jq(this).attr('class')                       // 
+        var type = jq(this).attr('class')                       //
             .replace('bp-primary-action ','')                   // end space needed to avoid double space in var type
             .replace('button', 'activity_update')               // clearer variable naming
             .replace('acomment-reply', 'activity_comment')
+            .replace('blogpost', 'blog_post')
             .trim();
-        
-        jq(this).addClass('loading');                           
+
+        jq(this).addClass('loading');
 
         jq.post(ajaxurl, {
             action: 'activity_like',                            // TODO this could be named clearer
@@ -37,14 +38,14 @@ jq(document).ready(function() {
                         .addClass('unlike')
                         .attr('title', bplikeTerms.unlike_message)
                         .attr('id', id.replace("like", "unlike") );
-                
+
                 } else if (type == 'activity_update unlike') {
 
                     jq('#' + id).removeClass('unlike')
                         .addClass('like')
                         .attr('title', bplikeTerms.like_message)
                         .attr('id', id.replace("unlike", "like"));
- 
+
                 } else if (type == 'activity_comment like') {
 
                     jq('#' + id).removeClass('like')
@@ -58,7 +59,21 @@ jq(document).ready(function() {
                         .addClass('like')
                         .attr('title', bplikeTerms.like_message)
                         .attr('id', id.replace("unlike", "like") );
-                
+
+                }  else if (type == 'blog_post like') {
+
+                    jq('#' + id).removeClass('like')
+                        .addClass('unlike')
+                        .attr('title', bplikeTerms.unlike_message)      // may want different (smaller) message for comments
+                        .attr('id', id.replace("like", "unlike") );
+
+                } else if (type == 'blog_post unlike') {
+
+                    jq('#' + id).removeClass('unlike')
+                        .addClass('like')
+                        .attr('title', bplikeTerms.like_message)
+                        .attr('id', id.replace("unlike", "like") );
+
                 } else {
                     console.log('Opps. Something went wrong');
                     console.log('type: ' + type );

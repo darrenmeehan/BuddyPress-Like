@@ -64,9 +64,9 @@ function bp_like_admin_page() {
             'excerpt_length' => $_POST['bp_like_admin_excerpt_length'] ,
             'text_strings' => $strings_to_save ,
             'translate_nag' => bp_like_get_settings( 'translate_nag' ) ,
-            'name_or_avatar' => $_POST['name_or_avatar'],
+            'name_or_avatar' => $_POST['name_or_avatar'] ,
             'remove_fav_button' => $_POST['bp_like_remove_fav_button']
-                )
+            )
         );
 
         /* Let the user know everything's cool */
@@ -118,8 +118,8 @@ function bp_like_admin_page() {
                         </fieldset>
                     </td>
                 </tr>
-                
-                
+
+
                 <tr valign="top">
                     <th scope="row"><?php _e( 'Remove Favorite Button' , 'buddypress-like' ); ?></th>
                     <td>
@@ -136,8 +136,7 @@ function bp_like_admin_page() {
                         </fieldset>
                     </td>
                 </tr>
-
-            </table> 
+            </table>
 
             <div id="bplike-about" style="float:right; background:#fff;max-width:300px;padding:20px;margin-bottom:30px;">
                 <h3>About</h3>
@@ -158,7 +157,7 @@ function bp_like_admin_page() {
                     <h4>Need help?</h4>
                     <ul><li>Ask on the <a href="http://wordpress.org/support/plugin/buddypress-like">WordPress.org forum</a></li></ul>
 
-                </div>          
+                </div>
             </div>
 
 
@@ -175,7 +174,7 @@ function bp_like_admin_page() {
                             </label>
                         </fieldset>
                     </td>
-                </tr>   
+                </tr>
             </table>
             <table class="widefat fixed" cellspacing="0">
                 <thead>

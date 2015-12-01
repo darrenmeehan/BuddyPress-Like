@@ -9,13 +9,12 @@ defined( 'ABSPATH' ) || exit;
  *
  */
 function bp_like_process_ajax() {
-  //  global $bp;
 
+    // ensuring $id only contains an integer
     $id = preg_replace( "/\D/" , "" , $_POST['id'] );
 
     if ( $_POST['type'] == 'activity_update like' ) {
         bp_like_add_user_like( $id , 'activity_update' );
-        //add_action( 'view_who_likes' , 'bp_like_get_some_likes' );
     }
 
     if ( $_POST['type'] == 'activity_update unlike' ) {
@@ -34,12 +33,12 @@ function bp_like_process_ajax() {
         bp_like_get_some_likes( $id , 'activity' );
     }
 
-    if ( $_POST['type'] == 'button like_blogpost' ) {
-        bp_like_add_user_like( $id , 'blogpost' );
+    if ( $_POST['type'] == 'blog_post like' ) {
+        bp_like_add_user_like( $id , 'blog_post' );
     }
 
-    if ( $_POST['type'] == 'button unlike_blogpost' ) {
-        bp_like_remove_user_like( $id , 'blogpost' );
+    if ( $_POST['type'] == 'blog_post unlike' ) {
+        bp_like_remove_user_like( $id , 'blog_post' );
     }
 
     if ( $_POST['type'] == 'acomment-reply bp-primary-action view-likes' ) {

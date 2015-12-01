@@ -7,7 +7,7 @@ if ( ! defined( 'BP_LIKE_VERSION' ) ) {
 }
 
 if ( ! defined( 'BP_LIKE_DB_VERSION' ) ) {
-    define( 'BP_LIKE_DB_VERSION' , '29' );
+    define( 'BP_LIKE_DB_VERSION' , '30' );
 }
 
 if ( ! defined( 'BPLIKE_PATH' ) ) {
@@ -36,11 +36,14 @@ if ( is_admin() ) {
     require_once BPLIKE_PATH . 'admin/admin.php';
 }
 require_once BPLIKE_PATH . 'includes/button-functions.php';
-require_once BPLIKE_PATH . 'includes/activity-comment-button.php';
+require_once BPLIKE_PATH . 'includes/templates/activity-update.php';
+require_once BPLIKE_PATH . 'includes/templates/activity-comment.php';
+//require_once BPLIKE_PATH . 'includes/templates/blog-post.php';
+//require_once BPLIKE_PATH . 'includes/templates/blog-comment.php';
 require_once BPLIKE_PATH . 'includes/install-functions.php';
 require_once BPLIKE_PATH . 'includes/activity-functions.php';
 require_once BPLIKE_PATH . 'includes/ajax.php';
 require_once BPLIKE_PATH . 'includes/like-functions.php';
 require_once BPLIKE_PATH . 'includes/scripts.php';
 require_once BPLIKE_PATH . 'includes/settings.php';
-require_once BPLIKE_PATH . 'includes/blogpost.php';
+//require_once BPLIKE_PATH . 'includes/blogpost.php';

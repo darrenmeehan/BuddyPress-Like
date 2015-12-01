@@ -1,6 +1,6 @@
 <?php
 /**
- * BuddyPress Like - Activty Comment Like Button
+ * BuddyPress Like - Activty Comment Button
  *
  * This function is used to display the BuddyPress Like button on comments in the activity stream
  *
@@ -10,13 +10,13 @@
 
 /*
  * bplike_activity_comment_button()
- * 
- * Outputs Like/Unlike button for activity comments. 
- * 
+ *
+ * Outputs Like/Unlike button for activity comments.
+ *
  */
 function bplike_activity_comment_button() {
 
-    $liked_count = 0; // is this needed?
+    $liked_count = 0;
 
     if ( is_user_logged_in() ) {
 
@@ -30,7 +30,7 @@ function bplike_activity_comment_button() {
             <a href="#" class="acomment-reply bp-primary-action like" id="like-activity-<?php echo bp_get_activity_comment_id(); ?>" title="<?php echo bp_like_get_text( 'like_this_item' ); ?>"><?php
                echo bp_like_get_text( 'like' );
                 if ( $liked_count ) {
-                    echo ' <span> ' . $liked_count . '</span>';
+                    echo ' <span><small>' . $liked_count . '</small></span>';
                 }
                 ?></a>
         <?php } else { ?>

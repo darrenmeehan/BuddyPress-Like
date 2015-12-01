@@ -4,6 +4,12 @@ Changes
 // Any changes placed here should be reflected in commit messages
 
 Branch: development
+- 
+- Improved usage of text strings in move to help translation
+- Added functionality for liking blog posts
+- Moved bp_like_remove_favourites() from scripts.php to settings.php
+- Implemented Like button is different templates
+- Changed Option: Post to activity stream default setting is now off
 - Added changelog.txt
 - Added LICENCE.txt
 - Added check for BuddyPress 1.5 to bplike_init() in  bp-like-loader.php

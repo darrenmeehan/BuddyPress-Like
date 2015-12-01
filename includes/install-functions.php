@@ -34,9 +34,9 @@ function bp_like_install() {
             'default' => __( 'Hide likes' , 'buddypress-like' ) ,
             'custom' => __( 'Hide likes' , 'buddypress-like' )
         ) ,
-        'show_activity_likes' => array(
-            'default' => __( 'Activity Likes' , 'buddypress-like' ) ,
-            'custom' => __( 'Activity Likes' , 'buddypress-like' )
+        'update_likes' => array(
+            'default' => __( 'Update Likes' , 'buddypress-like' ) ,
+            'custom' => __( 'Update Likes' , 'buddypress-like' )
         ) ,
         'show_blogpost_likes' => array(
             'default' => __( 'Blog Post Likes' , 'buddypress-like' ) ,
@@ -129,7 +129,7 @@ function bp_like_install() {
     if ( $current_settings['post_to_activity_stream'] ) {
         $post_to_activity_stream = $current_settings['post_to_activity_stream'];
     } else {
-        $post_to_activity_stream = 1;
+        $post_to_activity_stream = 0;
     }
 
     if ( $current_settings['show_excerpt'] ) {
@@ -242,7 +242,7 @@ function bp_like_updated_notice() {
 
 
 /*
- * The notice we show when the plugin is installed. 
+ * The notice we show when the plugin is installed.
  */
 
 function bp_like_install_buddypress_notice() {

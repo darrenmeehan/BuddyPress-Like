@@ -1,4 +1,5 @@
 <?php
+
 // Exit if accessed directly
 defined( 'ABSPATH' ) || exit;
 
@@ -12,76 +13,33 @@ function bp_like_button( $type = '' ) {
 
     /* Set the type if not already set, and check whether we are outputting the button on a blogpost or not. */
     if ( ! $type && ! is_single() ) {
-        
+
         $type = 'activity';
 
     } elseif ( ! $type && is_single() ) {
-        
-        $type = 'blogpost';
+
+        $type = 'blog_post';
 
     }
     if ( $type == 'activity' || $type == 'activity_update' ) {
 
+        // TODO change this to use hook
         bplike_activity_update_button();
 
     } elseif ( $type == 'activity_comment') {
 
+        // TODO change this to hook
         bplike_activity_comment_button();
 
-    } elseif ( $type == 'blogpost' ) {
+    } elseif ( $type == 'blog_post' ) {
 
-        //bplike_blog_button();
-       // bp_get_activity_type();
+        // TODO change this to hook
+        bplike_blog_button();
+       //bp_get_activity_type();
     }
 }
 
 // Filters to display BuddyPress Like button.
-add_action( 'bp_activity_entry_meta' , 'bp_like_button' );
-add_action( 'bp_before_blog_single_post' , 'bp_like_button'  );
+add_action( 'bp_activity_entry_meta' , 'bplike_activity_update_button' );
+add_action( 'bp_before_blog_single_post' , 'bplike_blog_post_button'  );
 add_action( 'bp_activity_comment_options' , 'bplike_activity_comment_button' );
-
-/*
- * bplike_activity_update_button()
- * 
- * Outputs Like/Unlike button for activity updates. 
- * 
- */
-function bplike_activity_update_button() {
-
-    $liked_count = 0; // is this really needed?
-
-    if ( is_user_logged_in() && bp_get_activity_type() !== 'activity_liked' ) {
-
-        if ( bp_activity_get_meta( bp_get_activity_id() , 'liked_count' , true ) ) {
-            $users_who_like = array_keys( bp_activity_get_meta( bp_get_activity_id() , 'liked_count' , true ) );
-            $liked_count = count( $users_who_like );
-        }
-
-        if ( !bp_like_is_liked( bp_get_activity_id() , 'activity' ) ) {
-            ?>
-            <a href="#" class="button bp-primary-action like" id="like-activity-<?php echo bp_get_activity_id(); ?>" title="<?php echo bp_like_get_text( 'like_this_item' ); ?>">
-                <?php 
-                    echo bp_like_get_text( 'like' );
-                    if ( $liked_count ) {
-                        echo ' <span>' . $liked_count . '</span>';
-                    }
-                ?>
-            </a>
-        <?php } else { ?>
-            <a href="#" class="button bp-primary-action unlike" id="unlike-activity-<?php echo bp_get_activity_id(); ?>" title="<?php echo bp_like_get_text( 'unlike_this_item' ); ?>">
-                <?php
-                    echo bp_like_get_text( 'unlike' );
-                    if ( $liked_count ) {
-                        echo '<span>' . $liked_count . '</span>';
-                    }
-                ?>
-            </a>
-            <?php
-        }
-
-        // Checking if there are users who like item.
-        if ( isset ($users_who_like) ) {
-            view_who_likes();
-        }
-    }
-}
