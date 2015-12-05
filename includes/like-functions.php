@@ -364,11 +364,16 @@ function bp_like_get_some_likes( $id ='' , $type = '' ) {
 
     } elseif (  count( $users_who_like ) > 3 ) {
 
+      $key = array_search( get_current_user_id(), $users_who_like, true );
+
+      // removing current user from $users_who_like
+      array_splice( $users_who_like, $key, 1 );
+
           $others = count ($users_who_like);
 
           // output last two people to like (2 at end of array)
-          $one = bp_core_get_userlink( $users_who_like[$others - 1] );
-          $two = bp_core_get_userlink( $users_who_like[$others - 2] );
+          $one = bp_core_get_userlink( $users_who_like[$others - 2] );
+          $two = bp_core_get_userlink( $users_who_like[$others - 1] );
 
           $others = $others - 2;
 
@@ -410,9 +415,9 @@ function bp_like_get_some_likes( $id ='' , $type = '' ) {
 
     } elseif ( count( $users_who_like ) == 3 ) {
 
-          $one = bp_core_get_userlink( $users_who_like[$others - 1] );
-          $two = bp_core_get_userlink( $users_who_like[$others - 2] );
-          $three = bp_core_get_userlink( $users_who_like[$others - 3] );
+          $one = bp_core_get_userlink( $users_who_like[0] );
+          $two = bp_core_get_userlink( $users_who_like[1] );
+          $three = bp_core_get_userlink( $users_who_like[2] );
 
           $string = '<p class="users-who-like" id="users-who-like-';
           $string .= $id;
@@ -433,7 +438,8 @@ function bp_like_get_some_likes( $id ='' , $type = '' ) {
 
           $string = '<p class="users-who-like" id="users-who-like-';
           $string .= $id;
-          $string .= '"><small>%s, %s, %s and %d ' . _n( 'other', 'others', $others ) . ' like this.</small></p>';
+          $string .= '"><small>';
+          $string .= '%s, %s, %s and %d ' . _n( 'other', 'others', $others ) . ' like this.</small></p>';
 
           printf( $string , $one , $two , $three, $others );
         }

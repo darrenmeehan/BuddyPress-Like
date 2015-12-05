@@ -38,7 +38,7 @@ Gives users the ability to 'like' content across your BuddyPress enabled site.
 - Add <span></span> around like count - similar to comment count in BuddyPress
 - Added <small></small> around display of who likes updates
 - Fixes applied to AJAX
-- Test with WordPress 4.4 and BuddyPress 2.4
+- Tested with WordPress 4.4 and BuddyPress 2.4
 
 = 0.2.2 =
 - Fixed output for when three people like an activity
