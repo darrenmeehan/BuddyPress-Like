@@ -312,13 +312,14 @@ function bp_like_get_some_likes( $id ='' , $type = '' ) {
     $users_who_like = array_keys((array) (bp_activity_get_meta( $id , 'liked_count' , true )));
   }
 
+  // if the current users likes the item
+  if ( in_array( get_current_user_id(), $users_who_like ) ) {
+
     if ( count( $users_who_like ) == 0 ) {
-    // if no user likes this.
+      // if noone likes this, do nothing as nothing gets outputted
 
     } elseif ( count( $users_who_like ) == 1 ) {
-      // If only one person likes the current item.
 
-      if ( get_current_user_id() == $users_who_like[0] ) {
         $string = '<p class="users-who-like" id="users-who-like-';
         $string .= $id;
         $string .= '"><small>';
@@ -327,7 +328,63 @@ function bp_like_get_some_likes( $id ='' , $type = '' ) {
 
         print($string);
 
-      } else {
+    } elseif ( count( $users_who_like ) == 2 ) {
+
+        // find where the current_user is in the array $users_who_like
+        $key = array_search( get_current_user_id(), $users_who_like, true );
+
+        // removing current user from $users_who_like
+        // TODO is key the same as offset?
+        array_splice( $users_who_like, $key, 1 );
+
+        $one = bp_core_get_userlink( $users_who_like[0] );
+
+        $string = '<p class="users-who-like" id="users-who-like-';
+        $string .= $id;
+        $string .= '"><small>You and %s like this.</small></p>'; // TODO translate
+
+        printf( $string , $one );
+
+    } elseif ( count( $users_who_like ) == 3 ) {
+
+          $key = array_search( get_current_user_id(), $users_who_like, true );
+
+          // removing current user from $users_who_like
+          array_splice( $users_who_like, $key, 1 );
+
+          $others = count ($users_who_like);
+          $one = bp_core_get_userlink( $users_who_like[$others - 1] );
+          $two = bp_core_get_userlink( $users_who_like[$others - 2] );
+
+          $string = '<p class="users-who-like" id="users-who-like-';
+          $string .= $id;
+          $string .= '"><small>You, %s and %s like this.</small></p>';
+
+          printf( $string , $one , $two );
+
+    } elseif (  count( $users_who_like ) > 3 ) {
+
+          $others = count ($users_who_like);
+
+          // output last two people to like (2 at end of array)
+          $one = bp_core_get_userlink( $users_who_like[$others - 1] );
+          $two = bp_core_get_userlink( $users_who_like[$others - 2] );
+
+          $others = $others - 2;
+
+          $string = '<p class="users-who-like" id="users-who-like-';
+          $string .= $id;
+          $string .= '"><small>You, %s, %s and %d ' . _n( 'other', 'others', $others ) . ' like this.</small></p>';
+
+          printf( $string , $one , $two , $others );
+
+        }
+    } else {
+
+    if ( count( $users_who_like ) == 0 ) {
+      // if noone likes this, do nothing as nothing gets outputted
+
+    } elseif ( count( $users_who_like ) == 1 ) {
 
         $string = '<p class="users-who-like" id="users-who-like-';
         $string .= $id;
@@ -337,118 +394,52 @@ function bp_like_get_some_likes( $id ='' , $type = '' ) {
 
         $one = bp_core_get_userlink( $users_who_like[0] );
 
-        printf( $string , $one );
-      }
+        printf($string, $one);
+
     } elseif ( count( $users_who_like ) == 2 ) {
-        // If two people like the current item.
-
-        if ( get_current_user_id() == $users_who_like[0] ) {
-
-          $string = '<p class="users-who-like" id="users-who-like-';
-          $string .= $id;
-          $string .= '"><small>';
-          $string .= bp_like_get_text( 'you_and_username_like_this' );
-          $string .= '</small></p>';
-          //$string .= '"><small>%s likes this.</small></p>';
-
-          $one = bp_core_get_userlink( $users_who_like[1] );
-
-          printf( $string , $one );
-
-        } elseif ( get_current_user_id() == $users_who_like[1] ) {
-
-          $string = '<p class="users-who-like" id="users-who-like-';
-          $string .= $id;
-          $string .= '"><small>';
-          $string .= bp_like_get_text( 'you_and_username_like_this' );
-          $string .= '</small></p>';
-          //$string .= '"><small>%s likes this.</small></p>';
-
-          $one = bp_core_get_userlink( $users_who_like[0] );
-
-          printf( $string , $one );
-        }
-        else {
-
-        $string = '<p class="users-who-like" id="users-who-like-';
-        $string .= $id;
-        $string .= '"><small>';
-        $string .= bp_like_get_text( 'two_like_this' );
-        $string .= '</small></p>';
 
         $one = bp_core_get_userlink( $users_who_like[0] );
         $two = bp_core_get_userlink( $users_who_like[1] );
 
-        printf( $string , $one , $two );
-      }
+        $string = '<p class="users-who-like" id="users-who-like-';
+        $string .= $id;
+        $string .= '"><small>';
+        $string .= '%s and %s like this.</small></p>'; // TODO translate
 
-    } elseif ( count( $users_who_like ) > 2 ) {
+        printf( $string , $one, $two );
 
-      if ( in_array( get_current_user_id(), $users_who_like ) ) {
+    } elseif ( count( $users_who_like ) == 3 ) {
 
-        if ( count( $users_who_like ) == 3 ) {
-
-          $key = array_search( get_current_user_id(), $users_who_like, true );
-
-          // removing current user from $users_who_like
-          array_splice( $users_who_like, $key, 1 );
-
-          $others = count ($users_who_like);
-          $one = bp_core_get_userlink( $users_who_like[$others -1] );
-          $two = bp_core_get_userlink( $users_who_like[$others - 2] );
-
-          $string = '<p class="users-who-like" id="users-who-like-';
-          $string .= $id;
-          $string .= '"><small>You, %s and %s like this.</small></p>';
-
-          printf( $string , $one , $two );
-        } else {
-
-          $others = count ($users_who_like);
-
-          // output last two people to like (2 at end of array)
           $one = bp_core_get_userlink( $users_who_like[$others - 1] );
           $two = bp_core_get_userlink( $users_who_like[$others - 2] );
-
-          // $users_who_like will always be greater than 2 in here
-          if ( $users_who_like == 3 ) {
-              $others = $others - 1;
-          } else {
-              $others = $others - 2;
-          }
+          $three = bp_core_get_userlink( $users_who_like[$others - 3] );
 
           $string = '<p class="users-who-like" id="users-who-like-';
           $string .= $id;
-          $string .= '"><small>%s, %s and %d ' . _n( 'other', 'others', $others ) . ' like this.</small></p>';
+          $string .= '"><small>%s, %s and %s like this.</small></p>';
 
-          printf( $string , $one , $two , $others );
+          printf( $string , $one , $two, $three );
 
+        } elseif (  count( $users_who_like ) > 3 ) {
+
+          $others = count ($users_who_like);
+
+          // output last two people to like (3 at end of array)
+          $one = bp_core_get_userlink( $users_who_like[$others - 1] );
+          $two = bp_core_get_userlink( $users_who_like[$others - 2] );
+          $three = bp_core_get_userlink( $users_who_like[$others - 3] );
+
+          $others = $others - 3;
+
+          $string = '<p class="users-who-like" id="users-who-like-';
+          $string .= $id;
+          $string .= '"><small>%s, %s, %s and %d ' . _n( 'other', 'others', $others ) . ' like this.</small></p>';
+
+          printf( $string , $one , $two , $three, $others );
         }
-
-      } else {
-                $others = count ($users_who_like);
-
-                // output last two people to like (2 at end of array)
-                $one = bp_core_get_userlink( $users_who_like[$others - 1] );
-                $two = bp_core_get_userlink( $users_who_like[$others - 2] );
-
-                // $users_who_like will always be greater than 2 in here
-                if ( $users_who_like == 3 ) {
-                    $others = $others - 1;
-                } else {
-                    $others = $others - 2;
-                }
-
-                $string = '<p class="users-who-like" id="users-who-like-';
-                $string .= $id;
-                $string .= '"><small>%s, %s and %d ' . _n( 'other', 'others', $others ) . ' like this.</small></p>';
-
-                printf( $string , $one , $two , $others );
-
-      }
+  }
 
     }
-}
 
 /**
  *
