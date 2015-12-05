@@ -52,7 +52,7 @@ function bp_like_add_user_like( $item_id = '' , $type = '' ) {
     if ( ! isset( $user_id ) ) {
         $user_id = get_current_user_id();
     }
-    if ( ! $item_id || !is_user_logged_in() ) {
+    if ( ! $item_id || ! is_user_logged_in() ) {
         return false;
     }
 
@@ -300,30 +300,16 @@ function bp_like_remove_user_like( $item_id = '' , $type = '' ) {
  * Description: Returns a defined number of likers, beginning with more recent.
  *
  */
-function bp_like_get_some_likes( $type = '', $location = '' ) {
+function bp_like_get_some_likes( $id ='' , $type = '' ) {
 
-// need to figure out if this is being displayed on blog post or
-// about blog post on activity stream
-if ( $location == 'single' ) {
-
-}
   if ( $type == 'blog_post' ) {
-    if ( is_single() ) {
-      $bp_like_id = get_the_ID();
-      $users_who_like = array_keys( (array)(get_post_meta( $bp_like_id , 'liked_count' , true )) );
+    if ( is_single() ) { // todo is this needed?
+      $users_who_like = array_keys( (array)(get_post_meta( $id , 'liked_count' , true )) );
     } else {
-      $bp_like_id = bp_get_activity_id();
-      $users_who_like = array_keys((array)(bp_activity_get_meta( $bp_like_id , 'liked_count' , true )));
+      $users_who_like = array_keys((array)(bp_activity_get_meta( $id , 'liked_count' , true )));
     }
-
-
-} elseif ( $type == 'activity_update' ) {
-    $bp_like_id = bp_get_activity_id();
-    $users_who_like = array_keys((array)(bp_activity_get_meta( $bp_like_id , 'liked_count' , true )));
-
-  } else {
-    $bp_like_id = bp_get_activity_id();
-    $users_who_like = array_keys((array)(bp_activity_get_meta( $bp_like_id , 'liked_count' , true )));
+  } elseif ( $type == 'activity_update' ) {
+    $users_who_like = array_keys((array) (bp_activity_get_meta( $id , 'liked_count' , true )));
   }
 
     if ( count( $users_who_like ) == 0 ) {
@@ -334,7 +320,7 @@ if ( $location == 'single' ) {
 
       if ( get_current_user_id() == $users_who_like[0] ) {
         $string = '<p class="users-who-like" id="users-who-like-';
-        $string .= $bp_like_id;
+        $string .= $id;
         $string .= '"><small>';
         $string .= bp_like_get_text( 'get_likes_only_liker' );
         $string .= '</small></p>';
@@ -344,11 +330,10 @@ if ( $location == 'single' ) {
       } else {
 
         $string = '<p class="users-who-like" id="users-who-like-';
-        $string .= $bp_like_id;
+        $string .= $id;
         $string .= '"><small>';
         $string .= bp_like_get_text( 'one_likes_this' );
         $string .= '</small></p>';
-        //$string .= '"><small>%s likes this.</small></p>';
 
         $one = bp_core_get_userlink( $users_who_like[0] );
 
@@ -357,8 +342,36 @@ if ( $location == 'single' ) {
     } elseif ( count( $users_who_like ) == 2 ) {
         // If two people like the current item.
 
+        if ( get_current_user_id() == $users_who_like[0] ) {
+
+          $string = '<p class="users-who-like" id="users-who-like-';
+          $string .= $id;
+          $string .= '"><small>';
+          $string .= bp_like_get_text( 'you_and_username_like_this' );
+          $string .= '</small></p>';
+          //$string .= '"><small>%s likes this.</small></p>';
+
+          $one = bp_core_get_userlink( $users_who_like[1] );
+
+          printf( $string , $one );
+
+        } elseif ( get_current_user_id() == $users_who_like[1] ) {
+
+          $string = '<p class="users-who-like" id="users-who-like-';
+          $string .= $id;
+          $string .= '"><small>';
+          $string .= bp_like_get_text( 'you_and_username_like_this' );
+          $string .= '</small></p>';
+          //$string .= '"><small>%s likes this.</small></p>';
+
+          $one = bp_core_get_userlink( $users_who_like[0] );
+
+          printf( $string , $one );
+        }
+        else {
+
         $string = '<p class="users-who-like" id="users-who-like-';
-        $string .= $bp_like_id;
+        $string .= $id;
         $string .= '"><small>';
         $string .= bp_like_get_text( 'two_like_this' );
         $string .= '</small></p>';
@@ -367,27 +380,73 @@ if ( $location == 'single' ) {
         $two = bp_core_get_userlink( $users_who_like[1] );
 
         printf( $string , $one , $two );
+      }
 
-    } elseif ( count ($users_who_like) > 2 ) {
+    } elseif ( count( $users_who_like ) > 2 ) {
 
-        $others = count ($users_who_like);
+      if ( in_array( get_current_user_id(), $users_who_like ) ) {
 
-        // output last two people to like (2 at end of array)
-        $one = bp_core_get_userlink( $users_who_like[$others - 1] );
-        $two = bp_core_get_userlink( $users_who_like[$others - 2] );
+        if ( count( $users_who_like ) == 3 ) {
 
-        // $users_who_like will always be greater than 2 in here
-        if ( $users_who_like == 3 ) {
-            $others = $others - 1;
+          $key = array_search( get_current_user_id(), $users_who_like, true );
+
+          // removing current user from $users_who_like
+          array_splice( $users_who_like, $key, 1 );
+
+          $others = count ($users_who_like);
+          $one = bp_core_get_userlink( $users_who_like[$others -1] );
+          $two = bp_core_get_userlink( $users_who_like[$others - 2] );
+
+          $string = '<p class="users-who-like" id="users-who-like-';
+          $string .= $id;
+          $string .= '"><small>You, %s and %s like this.</small></p>';
+
+          printf( $string , $one , $two );
         } else {
-            $others = $others - 2;
+
+          $others = count ($users_who_like);
+
+          // output last two people to like (2 at end of array)
+          $one = bp_core_get_userlink( $users_who_like[$others - 1] );
+          $two = bp_core_get_userlink( $users_who_like[$others - 2] );
+
+          // $users_who_like will always be greater than 2 in here
+          if ( $users_who_like == 3 ) {
+              $others = $others - 1;
+          } else {
+              $others = $others - 2;
+          }
+
+          $string = '<p class="users-who-like" id="users-who-like-';
+          $string .= $id;
+          $string .= '"><small>%s, %s and %d ' . _n( 'other', 'others', $others ) . ' like this.</small></p>';
+
+          printf( $string , $one , $two , $others );
+
         }
 
-        $string = '<p class="users-who-like" id="users-who-like-';
-        $string .= $bp_like_id;
-        $string .= '"><small>%s, %s and %d ' . _n( 'other', 'others', $others ) . ' like this.</small></p>';
+      } else {
+                $others = count ($users_who_like);
 
-        printf( $string , $one , $two , $others );
+                // output last two people to like (2 at end of array)
+                $one = bp_core_get_userlink( $users_who_like[$others - 1] );
+                $two = bp_core_get_userlink( $users_who_like[$others - 2] );
+
+                // $users_who_like will always be greater than 2 in here
+                if ( $users_who_like == 3 ) {
+                    $others = $others - 1;
+                } else {
+                    $others = $others - 2;
+                }
+
+                $string = '<p class="users-who-like" id="users-who-like-';
+                $string .= $id;
+                $string .= '"><small>%s, %s and %d ' . _n( 'other', 'others', $others ) . ' like this.</small></p>';
+
+                printf( $string , $one , $two , $others );
+
+      }
+
     }
 }
 
@@ -397,15 +456,15 @@ if ( $location == 'single' ) {
  * TODO explain better
  *
  */
-function view_who_likes( $type = "" ) {
+function view_who_likes( $id ='',  $type = '' ) {
 
     do_action( 'bp_like_before_view_who_likes' );
 
-    do_action( 'view_who_likes', $type);
+    do_action( 'view_who_likes', $id, $type );
 
     do_action( 'bp_like_after_view_who_likes' );
 
 }
 
 // TODO comment why this is here
-add_action( 'view_who_likes' , 'bp_like_get_some_likes', 10, 1 );
+add_action( 'view_who_likes' , 'bp_like_get_some_likes', 10, 2 );

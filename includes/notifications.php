@@ -99,7 +99,7 @@ function bp_like_activity_update_notification( $activity_id, $receiver_user_id )
       //  printf( $string , $one , $two , $others );
     }
 
-    $likers_text =  __( '%s and %s like this.' , 'buddypress-like' ) ,
+    $likers_text =  __( '%s and %s like this.' , 'buddypress-like' );
 
   //  $poster_name = bp_core_get_user_displayname( $activity->user_id );
 

@@ -22,8 +22,6 @@ function bp_like_enqueue_scripts() {
                 'like_message'   => bp_like_get_text( 'like_this_item' ),
                 'unlike_message' => bp_like_get_text( 'unlike_this_item' ),
                 'you_like_this'  => bp_like_get_text( 'get_likes_only_liker' ),
-                'view_likes'     => bp_like_get_text( 'view_likes' ),
-                'hide_likes'     => bp_like_get_text( 'hide_likes' ),
                 'fav_remove'     => bp_like_get_settings( 'remove_fav_button' ) == 1 ? '1' : '0'
             )
         );

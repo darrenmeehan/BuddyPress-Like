@@ -78,6 +78,10 @@ function bp_like_install() {
             'default' => __( 'You and %count% other person like this.' , 'buddypress-like' ) ,
             'custom' => __( 'You and %count% other person like this.' , 'buddypress-like' )
         ) ,
+        'you_and_username_like_this' => array(
+            'default' => __( 'You and %s like this.' , 'buddypress-like' ) ,
+            'custom' => __( 'You and %s like this.' , 'buddypress-like' )
+        ) ,
         'get_likes_you_and_plural' => array(
             'default' => __( 'You and %count% other people like this' , 'buddypress-like' ) ,
             'custom' => __( 'You and %count% other people like this' , 'buddypress-like' )
@@ -189,7 +193,6 @@ function bp_like_install() {
         'text_strings' => $text_strings ,
         'name_or_avatar' => $name_or_avatar,
         'remove_fav_button' => $remove_fav_button
-
     );
 
     update_site_option( 'bp_like_db_version' , BP_LIKE_DB_VERSION );

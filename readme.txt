@@ -3,7 +3,7 @@ Contributors: darrenmeehan,hempsworth
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=ZAJLLEJDBHAWL
 Tags: buddypress, like, rate, thumbs, Post, button, vote
 Requires at least: 3.8
-Tested up to: 4.3
+Tested up to: 4.4
 Stable tag: 0.3
 
 Gives users the ability to 'like' content across your BuddyPress enabled site.
@@ -28,13 +28,17 @@ Gives users the ability to 'like' content across your BuddyPress enabled site.
 
 == Changelog ==
 = 0.3 =
+- Improved usage of text strings in move to help translation
+- Moved bp_like_remove_favourites() from scripts.php to settings.php
+- Implemented Like button is different templates
+- Changed Option: Post to activity stream default setting is now off
 - No longer posting update when someone likes a comment
 - Now enqeueing scripts through recommended wp_enqueue_scripts
 - Removed jQuery UI as themes should include this if needed
 - Add <span></span> around like count - similar to comment count in BuddyPress
 - Added <small></small> around display of who likes updates
 - Fixes applied to AJAX
-- Test with WordPress 4.3
+- Test with WordPress 4.4 and BuddyPress 2.4
 
 = 0.2.2 =
 - Fixed output for when three people like an activity
@@ -50,7 +54,7 @@ Gives users the ability to 'like' content across your BuddyPress enabled site.
 * implemented bp_get_activity_type() in button-functions.php
 * tidied up scripts.php. Thanks to vasikgreif (https://wordpress.org/support/profile/vasikgreif)
 
-= 0.2.0 = 
+= 0.2.0 =
 * Added jQuery UI again.
 
 = 0.1.9 =
@@ -69,7 +73,7 @@ Gives users the ability to 'like' content across your BuddyPress enabled site.
 * Fixed bug with jQuery not working after loading more statuses.
 
 = 0.1.5 =
-* Removed favorite/unfavorite button on activity items using jQuery. 
+* Removed favorite/unfavorite button on activity items using jQuery.
 * Added function: view_who_likes().
 * Added hook: view_who_likes, will be adding more.
 * Added function bp_like_get_num_likes() to return number of likes of an item.
@@ -131,9 +135,12 @@ Gives users the ability to 'like' content across your BuddyPress enabled site.
 
 == Upgrade Notice ==
 
-= jQuery UI removed as it should be utlised in theme
+= 0.3 =
+Bug fixes, text with WP 4.4 and BP 2.4 - See changelog.txt for more details.
 
-= 0.2.0 = 
+= jQuery UI removed as it should be utilised in theme
+
+= 0.2.0 =
 jQuery UI added back, which is required for some themes.
 
 = 0.1.9 =

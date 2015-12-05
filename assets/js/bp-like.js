@@ -3,14 +3,15 @@
 var jq = jQuery;
 
 var bp_like_ajax_request = null;                                // TODO implement this. Global variable to prevent multiple AJAX requests
-
-jq(document).ready(function() {
+var id, type;
+jq(document).ready(function bpLike() {
     "use strict";
-    jq('.like, .unlike').live('click', function() {             // TODO ensure all links only use .like or .unlike
+    jq('.like, .unlike').live('click', function() {
 
-        var id = jq(this).attr('id');                           // Used to get the id of the entity liked or unliked
+        id = jq(this).attr('id');                           // Used to get the id of the entity liked or unliked
 
-        var type = jq(this).attr('class')                       //
+      //  console.log('id: ' + id);
+        type = jq(this).attr('class')                           //
             .replace('bp-primary-action ','')                   // end space needed to avoid double space in var type
             .replace('button', 'activity_update')               // clearer variable naming
             .replace('acomment-reply', 'activity_comment')
@@ -24,7 +25,7 @@ jq(document).ready(function() {
             'type': type,
             'id': id
         },
-            function(data) {
+            function( data ) {
                 jq('#' + id).fadeOut(100, function() {
                     jq(this).html(data).removeClass('loading').fadeIn(100);
                 });
@@ -38,6 +39,7 @@ jq(document).ready(function() {
                         .addClass('unlike')
                         .attr('title', bplikeTerms.unlike_message)
                         .attr('id', id.replace("like", "unlike") );
+                        getLikes(id, type);
 
                 } else if (type == 'activity_update unlike') {
 
@@ -45,6 +47,7 @@ jq(document).ready(function() {
                         .addClass('like')
                         .attr('title', bplikeTerms.like_message)
                         .attr('id', id.replace("unlike", "like"));
+                        getLikes(id, type);
 
                 } else if (type == 'activity_comment like') {
 
@@ -80,13 +83,13 @@ jq(document).ready(function() {
                     console.log('id: ' + id );
                 }
 
-                // Nobody else liked this, so remove the 'View Likes'
+                // Nobody else liked this, so remove who likes the item
                 if (data == 'Like') {
                     id = id.replace("unlike-activity-", "");
                     jq('#users-who-like-' + id ).remove();
                 }
 
-                // Show the 'View Likes' if user is first to like
+                // Show who likes the item if user is first to like
                 if (data == 'Unlike <span>1</span>') {
                     id = id.replace("like-activity-", "");
                     jq('li#activity-' + id + ' .activity-meta')
@@ -97,4 +100,27 @@ jq(document).ready(function() {
 
         return false;
     });
+
+
+    // this function is to get likes of a post
+    function getLikes(id, type) {
+      id = id
+          .replace('like-activity-', '')
+          .replace('unlike-activity-', '')
+          .replace('un', '');
+      jq('#users-who-like-' + id).addClass('loading');
+      jq.post(ajaxurl, {
+          action: 'bplike_get_likes',
+          'type': type,
+          'id': id
+      }, function( response ) {
+        response = response.replace('<p class="users-who-like" id="users-who-like-' + id + '">', '')
+          .replace('</p>', '');
+        jq('#users-who-like-' + id).html(response);
+        jq('#users-who-like-' + id).removeClass('loading');
+
+      })
+    };
+
+
 });

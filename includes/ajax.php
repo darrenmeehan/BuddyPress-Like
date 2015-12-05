@@ -29,10 +29,6 @@ function bp_like_process_ajax() {
         bp_like_remove_user_like( $id , 'activity_comment' );
     }
 
-    if ( $_POST['type'] == 'button view-likes' ) {
-        bp_like_get_some_likes( $id , 'activity' );
-    }
-
     if ( $_POST['type'] == 'blog_post like' ) {
         bp_like_add_user_like( $id , 'blog_post' );
     }
@@ -41,12 +37,23 @@ function bp_like_process_ajax() {
         bp_like_remove_user_like( $id , 'blog_post' );
     }
 
-    if ( $_POST['type'] == 'acomment-reply bp-primary-action view-likes' ) {
-        bp_like_get_some_likes( $id , 'activity' );
-    }
-
     die();
 
 }
 
 add_action( 'wp_ajax_activity_like' , 'bp_like_process_ajax' );
+
+/**
+ * bp_like_ajax_get_likes()
+ *
+ */
+function bp_like_ajax_get_likes() {
+
+  // ensuring $id only contains an integer
+  $id = preg_replace( "/\D/" , "" , $_POST['id'] );
+
+  bp_like_get_some_likes( $id , 'activity_update' );
+
+  die();
+}
+add_action( 'wp_ajax_bplike_get_likes', 'bp_like_ajax_get_likes', 10, 1);
