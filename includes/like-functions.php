@@ -9,7 +9,7 @@ defined( 'ABSPATH' ) || exit;
  * Checks to see whether the user has liked a given item.
  *
  */
-function bp_like_is_liked( $item_id = '' , $type = '' , $user_id = '' ) {
+function bp_like_is_liked( $item_id, $type, $user_id) {
 
     if ( ! $type || ! $item_id ) {
         return false;
@@ -21,7 +21,7 @@ function bp_like_is_liked( $item_id = '' , $type = '' , $user_id = '' ) {
         }
     }
 
-    if ( $type == 'activity' ) {
+    if ( $type == 'activity_update' || $type == 'activity_comment' ) {
 
         $user_likes = get_user_meta( $user_id , 'bp_liked_activities' , true );
 
@@ -45,7 +45,7 @@ function bp_like_is_liked( $item_id = '' , $type = '' , $user_id = '' ) {
  * Registers that the user likes a given item.
  *
  */
-function bp_like_add_user_like( $item_id = '' , $type = '' ) {
+function bp_like_add_user_like( $item_id, $type ) {
 
     $liked_count = 0;
 
@@ -300,7 +300,7 @@ function bp_like_remove_user_like( $item_id = '' , $type = '' ) {
  * Description: Returns a defined number of likers, beginning with more recent.
  *
  */
-function bp_like_get_some_likes( $id ='' , $type = '' ) {
+function bp_like_get_some_likes( $id, $type ) {
 
   if ( $type == 'blog_post' ) {
     if ( is_single() ) { // todo is this needed?
@@ -453,7 +453,7 @@ function bp_like_get_some_likes( $id ='' , $type = '' ) {
  * TODO explain better
  *
  */
-function view_who_likes( $id ='',  $type = '' ) {
+function view_who_likes( $id,  $type ) {
 
     do_action( 'bp_like_before_view_who_likes' );
 

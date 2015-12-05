@@ -28,7 +28,7 @@ function bplike_blog_post_button( $content ) {
 
         ob_start();
 
-        if ( ! bp_like_is_liked( get_the_ID() , 'blog_post' ) ) {
+        if ( ! bp_like_is_liked( get_the_ID(), 'blog_post', get_current_user_id() ) ) {
             ?>
             <a href="#" class="blogpost like" id="like-blogpost-<?php echo get_the_ID(); ?>" title="<?php echo bp_like_get_text( 'like_this_item' ); ?>">
                 <?php

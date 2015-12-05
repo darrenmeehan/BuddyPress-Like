@@ -25,7 +25,7 @@ function bplike_activity_comment_button() {
             $liked_count = count( $users_who_like );
         }
 
-        if ( ! bp_like_is_liked( bp_get_activity_comment_id() , 'activity' ) ) {
+        if ( ! bp_like_is_liked( bp_get_activity_comment_id(), 'activity_comment', get_current_user_id() ) ) {
             ?>
             <a href="#" class="acomment-reply bp-primary-action like" id="like-activity-<?php echo bp_get_activity_comment_id(); ?>" title="<?php echo bp_like_get_text( 'like_this_item' ); ?>"><?php
                echo bp_like_get_text( 'like' );
