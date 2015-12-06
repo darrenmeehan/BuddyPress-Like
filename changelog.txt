@@ -4,7 +4,7 @@ Changes
 // Any changes placed here should be reflected in commit messages
 
 Branch: development
-- 
+- If update is liked in a group, now posting to group as opposed to sitewide activity stream
 - Improved usage of text strings in move to help translation
 - Added functionality for liking blog posts
 - Moved bp_like_remove_favourites() from scripts.php to settings.php

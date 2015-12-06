@@ -69,8 +69,14 @@ function bp_like_add_user_like( $item_id, $type ) {
         bp_activity_update_meta( $item_id , 'liked_count' , $users_who_like );
 
         $liked_count = count( $users_who_like );
+        $group_id = 0;
 
-        bp_like_post_to_stream( $item_id , $user_id );
+        // check if this item is in a group or not, assign group id if so
+        if ( bp_is_active( 'groups' ) && bp_is_group() ) {
+          $group_id = bp_get_current_group_id();
+        }
+
+        bp_like_post_to_stream( $item_id , $user_id, $group_id );
 
     } elseif ($type == 'activity_comment') {
 
@@ -197,25 +203,53 @@ function bp_like_remove_user_like( $item_id = '' , $type = '' ) {
 
         $liked_count = count( $users_who_like );
 
+        if ( bp_is_group() ) {
+
+          $bp = buddypress();
+          $update_id = bp_activity_get_activity_id(
+                array(
+                  'user_id'     => $user_id,
+                  'component'   => $bp->groups->id,
+                  'type'        => 'activity_liked',
+                  'item_id'             => bp_get_current_group_id(),
+                  'secondary_item_id' => $item_id ,
+                )
+        );
+
+        $result = bp_activity_delete(
+                array(
+                   'id' => $update_id,
+                   'user_id' => $user_id,
+                   'secondary_item_id' => $item_id,
+                   'type' => 'activity_liked' , // need to check if this is correct
+                   'component'         => $bp->groups->id,
+                   'item_id'           => bp_get_current_group_id()
+                )
+        );
+      //  error_log('update_id: ' . $update_id);
+      //  error_log('item_id: ' . $item_id);
+      //  error_log('result: ' . $result);
+      //  error_log(bp_get_current_group_id());
+
+      } else {
         /* Remove the update on the users profile from when they liked the activity. */
         $update_id = bp_activity_get_activity_id(
                 array(
                     'item_id' => $item_id ,
-                    'component' => 'bp-like' ,
+                    'component' => 'bp-like',
                     'type' => 'activity_liked' ,
                     'user_id' => $user_id
                 )
-        );
+            );
 
-        bp_activity_delete(
-                array(
-                    'id' => $update_id ,
-                    'item_id' => $item_id ,
-                    'component' => 'bp-like' ,
-                    'type' => 'activity_liked' ,
-                    'user_id' => $user_id
-                )
-        );
+            bp_activity_delete(
+                    array(
+                       'id' => $update_id ,
+                       'user_id' => $user_id
+                    )
+            );
+      }
+
     } elseif ( $type == 'activity_comment' ) {
 
         /* Remove this from the users liked activities. */
@@ -311,6 +345,8 @@ function bp_like_get_some_likes( $id, $type ) {
   } elseif ( $type == 'activity_update' ) {
     $users_who_like = array_keys((array) (bp_activity_get_meta( $id , 'liked_count' , true )));
   }
+
+  // print_r(bp_activity_get_types());
 
   // if the current users likes the item
   if ( in_array( get_current_user_id(), $users_who_like ) ) {

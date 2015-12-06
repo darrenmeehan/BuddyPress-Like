@@ -1,5 +1,5 @@
 === BuddyPress Like ===
-Contributors: darrenmeehan,hempsworth
+Contributors: darrenmeehan
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=ZAJLLEJDBHAWL
 Tags: buddypress, like, rate, thumbs, Post, button, vote
 Requires at least: 3.8
@@ -28,6 +28,7 @@ Gives users the ability to 'like' content across your BuddyPress enabled site.
 
 == Changelog ==
 = 0.3 =
+- Improved privacy when liking in groups
 - Improved usage of text strings in move to help translation
 - Moved bp_like_remove_favourites() from scripts.php to settings.php
 - Implemented Like button is different templates
@@ -136,9 +137,7 @@ Gives users the ability to 'like' content across your BuddyPress enabled site.
 == Upgrade Notice ==
 
 = 0.3 =
-Bug fixes, text with WP 4.4 and BP 2.4 - See changelog.txt for more details.
-
-= jQuery UI removed as it should be utilised in theme
+Bug fixes, tested with WP 4.4 and BP 2.4 - See changelog.txt for more details.
 
 = 0.2.0 =
 jQuery UI added back, which is required for some themes.
