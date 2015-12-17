@@ -15,6 +15,7 @@ function bp_like_add_admin_page_menu() {
             'options-general.php' , 'BuddyPress Like' , 'BuddyPress Like' , 'manage_options' , 'bp-like-settings' , 'bp_like_admin_page'
     );
 }
+
 add_action( 'admin_menu' , 'bp_like_add_admin_page_menu' );
 
 /**
@@ -26,11 +27,12 @@ add_action( 'admin_menu' , 'bp_like_add_admin_page_menu' );
 function bp_like_admin_page_verify_nonce() {
     if ( isset( $_POST['_wpnonce'] ) && isset( $_POST['bp_like_updated'] ) ) {
         $nonce = $_REQUEST['_wpnonce'];
-        if ( ! wp_verify_nonce( $nonce , 'bp-like-admin' ) ) {
+        if ( !wp_verify_nonce( $nonce , 'bp-like-admin' ) ) {
             wp_die( __( 'You do not have permission to do that.' ) );
         }
     }
 }
+
 add_action( 'init' , 'bp_like_admin_page_verify_nonce' );
 
 /**
@@ -57,16 +59,16 @@ function bp_like_admin_page() {
 
         /* Now actually save the data to the options table */
         update_site_option(
-            'bp_like_settings' , array(
+                'bp_like_settings' , array(
             'likers_visibility' => $_POST['bp_like_admin_likers_visibility'] ,
             'post_to_activity_stream' => $_POST['bp_like_admin_post_to_activity_stream'] ,
             'show_excerpt' => $_POST['bp_like_admin_show_excerpt'] ,
             'excerpt_length' => $_POST['bp_like_admin_excerpt_length'] ,
             'text_strings' => $strings_to_save ,
             'translate_nag' => bp_like_get_settings( 'translate_nag' ) ,
-            'name_or_avatar' => $_POST['name_or_avatar'] ,
+            'name_or_avatar' => $_POST['name_or_avatar'],
             'remove_fav_button' => $_POST['bp_like_remove_fav_button']
-            )
+                )
         );
 
         /* Let the user know everything's cool */
@@ -92,7 +94,7 @@ function bp_like_admin_page() {
     </script>
 
     <div class="wrap">
-        <h1><?php echo esc_html( $title ); ?></h1>
+        <h2><?php echo esc_html( $title ); ?></h2>
         <form action="" method="post">
             <input type="hidden" name="bp_like_updated" value="updated">
 
@@ -118,8 +120,8 @@ function bp_like_admin_page() {
                         </fieldset>
                     </td>
                 </tr>
-
-
+                
+                
                 <tr valign="top">
                     <th scope="row"><?php _e( 'Remove Favorite Button' , 'buddypress-like' ); ?></th>
                     <td>
@@ -136,30 +138,30 @@ function bp_like_admin_page() {
                         </fieldset>
                     </td>
                 </tr>
-            </table>
+
+            </table> 
 
             <div id="bplike-about" style="float:right; background:#fff;max-width:300px;padding:20px;margin-bottom:30px;">
-                <h3>About</h3>
+                <h3 class="hndle"><span>About BuddyPress Like</span></h3>
                 <p><strong>Version: <?php echo BP_LIKE_VERSION; ?></strong></p>
                 <div class="inside">
 
-                    <p>Gives users the ability to 'like' content across your BuddyPress enabled site.</p>
+                    Gives users the ability to 'like' content across your BuddyPress enabled site.
 
                     <p>Available for free on <a href="http://wordpress.org/plugins/buddypress-like/">WordPress.org</a>.</p>
 
-                    <h4>Want to help?</h4>
+                    <strong>Want to help?</strong>
                     <ul>
-                        <li><a href="https://wordpress.org/support/view/plugin-reviews/buddypress-like?filter=5">Give 5 stars on WordPress.org</a></li>
+                        <li><a href="http://wordpress.org/support/view/plugin-reviews/buddypress-like">Give 5 stars on WordPress.org</a></li>
                         <li>Development takes place publicly on <a href="https://github.com/Darrenmeehan/BuddyPress-Like">Github</a>. Is there any issues or bugs you have?</li>
                         <li><a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=ZAJLLEJDBHAWL"><strong>Donate</strong></a></li>
                     </ul>
 
-                    <h4>Need help?</h4>
+                    <strong>Need help?</strong>
                     <ul><li>Ask on the <a href="http://wordpress.org/support/plugin/buddypress-like">WordPress.org forum</a></li></ul>
 
-                </div>
+                </div>          
             </div>
-
 
             <table class="form-table">
                 <tr valign="top">
@@ -170,13 +172,15 @@ function bp_like_admin_page() {
                                 <span><?php _e( 'Custom Messages' , 'buddypress-like' ); ?></span>
                             </legend>
                             <label for="bp_like_admin_post_activity_updates">
-    <?php _e( "Change what messages are shown to users. For example, they can 'love' or 'dig' items instead of liking them." , "buddypress-like" ); ?>
+    <?php _e( "Change what messages are shown to users. For example, they can 'love' or 'dig' items instead of liking them." , "bp-like" ); ?>
                             </label>
                         </fieldset>
                     </td>
-                </tr>
+                </tr>   
             </table>
             <table class="widefat fixed" cellspacing="0">
+
+
                 <thead>
                     <tr>
                         <th scope="col" id="default" class="column-name" style="width: 43%;"><?php _e( 'Default' , 'buddypress-like' ); ?></th>
