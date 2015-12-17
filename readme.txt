@@ -1,28 +1,25 @@
-﻿=== BuddyPress Like ===
-Contributors: darrenmeehan,hempsworth
+=== BuddyPress Like ===
+Contributors: darrenmeehan
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=ZAJLLEJDBHAWL
-Tags: buddypress, like, rate, thumbs, Post, button, vote
+Tags: buddypress, like, rate, thumbs, Post, button, vote, comments
 Requires at least: 3.8
-Tested up to: 3.9
-Stable tag: 0.1.7
+Tested up to: 4.4
+Stable tag: 0.3
 
-Gives users the ability to 'like' content across your BuddyPress enabled site. Note BuddyPress Like is currently in Beta.
+Gives users the ability to 'like' content across your BuddyPress enabled site.
 
 == Description ==
 
-Gives users the ability to 'like' content across your BuddyPress enabled site. Note BuddyPress Like is currently in Beta.
-While development will be based on Github, for now many updates will be uploaded to WordPress.org for ease of access for the people who want the most up to date version.
-
-Requires <a href="http://wordpress.org/plugins/buddypress/">BuddyPress</a>
+Gives users the ability to 'like' content across your BuddyPress enabled site.
 
 == Installation ==
 
 = Automatic Installation =
-
-1. From inside your WordPress administration panel, visit 'Plugins -> Add New'
-2. Search for `BuddyPress Like` and find this plugin in the results
-3. Click 'Install'
-4. Once installed, activate via the 'Plugins -> Installed' page
+1. Ensure BuddyPress is enabled
+2. From inside your WordPress administration panel, visit 'Plugins -> Add New'
+3. Search for `BuddyPress Like` and find this plugin in the results
+4. Click 'Install'
+5. Once installed, activate via the 'Plugins -> Installed' page
 
 = Manual Installation =
 
@@ -30,6 +27,48 @@ Requires <a href="http://wordpress.org/plugins/buddypress/">BuddyPress</a>
 2. Activate the plugin through the 'Plugins' menu in WordPress
 
 == Changelog ==
+
+= 0.4 =
+-
+
+= 0.3 =
+- Improved privacy when liking in groups
+- Improved usage of text strings in move to help translation
+- Moved bp_like_remove_favourites() from scripts.php to settings.php
+- Implemented Like button is different templates
+- Changed Option: Post to activity stream default setting is now off
+- No longer posting update when someone likes a comment
+- Now enqeueing scripts through recommended wp_enqueue_scripts
+- Removed jQuery UI as themes should include this if needed
+- Add <span></span> around like count - similar to comment count in BuddyPress
+- Added <small></small> around display of who likes updates
+- Fixes applied to AJAX
+- Tested with WordPress 4.4 and BuddyPress 2.4
+
+= 0.2.2 =
+- Fixed output for when three people like an activity
+- removed inline comment at top of bplike.js
+- added term variables to array bplikeTerms. Thanks to vasikgreif (https://wordpress.org/support/profile/vasikgreif)
+
+= 0.2.1 =
+* Added changelog.txt
+* Added LICENCE.txt
+* Added check for BuddyPress 1.5 to bplike_init() in  bp-like-loader.php
+* moved admin.php to /admin folder
+* renamed bp-like.dev.js to bp-like.js
+* implemented bp_get_activity_type() in button-functions.php
+* tidied up scripts.php. Thanks to vasikgreif (https://wordpress.org/support/profile/vasikgreif)
+
+= 0.2.0 =
+* Added jQuery UI again.
+
+= 0.1.9 =
+* Renamed bp-like.dev.js to bp-like.js
+* Fixed parameters for wp_register_script(). Thanks to https://profiles.wordpress.org/ryanhellyer
+* Fixed PHP notice when a comment is liked. Thanks to https://profiles.wordpress.org/jasonthoele
+
+= 0.1.8 =
+* Various fixes, thanks to BronsonQuick (https://github.com/BronsonQuick)
 
 = 0.1.7 =
 * No longer posts to activity feed when user likes post in a group.
@@ -39,7 +78,7 @@ Requires <a href="http://wordpress.org/plugins/buddypress/">BuddyPress</a>
 * Fixed bug with jQuery not working after loading more statuses.
 
 = 0.1.5 =
-* Removed favorite/unfavorite button on activity items using jQuery. 
+* Removed favorite/unfavorite button on activity items using jQuery.
 * Added function: view_who_likes().
 * Added hook: view_who_likes, will be adding more.
 * Added function bp_like_get_num_likes() to return number of likes of an item.
@@ -100,6 +139,18 @@ Requires <a href="http://wordpress.org/plugins/buddypress/">BuddyPress</a>
 * Initial release.
 
 == Upgrade Notice ==
+
+= 0.3 =
+Bug fixes, tested with WP 4.4 and BP 2.4 - See changelog.txt for more details.
+
+= 0.2.0 =
+jQuery UI added back, which is required for some themes.
+
+= 0.1.9 =
+Some small fixes.
+
+= 0.1.8 =
+jQuery bug is now fixed, tested with latest WordPress and BuddyPress.
 
 = 0.1.7 =
 No longer posts statuses when something is liked in a group. Also includes some JQuery fixes.

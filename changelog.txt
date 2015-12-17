@@ -1,0 +1,19 @@
+Changes
+
+// This file is for development purposes only
+// Any changes placed here should be reflected in commit messages
+
+Branch: development
+- If update is liked in a group, now posting to group as opposed to sitewide activity stream
+- Improved usage of text strings in move to help translation
+- Added functionality for liking blog posts
+- Moved bp_like_remove_favourites() from scripts.php to settings.php
+- Implemented Like button is different templates
+- Changed Option: Post to activity stream default setting is now off
+- Added changelog.txt
+- Added LICENCE.txt
+- Added check for BuddyPress 1.5 to bplike_init() in  bp-like-loader.php
+- moved admin.php to /admin folder
+- renamed bp-like.dev.js to bp-like.js
+- implemented bp_get_activity_type() in button-functions.php
+- tidied up scripts.php. Thanks to vasikgreif (https://wordpress.org/support/profile/vasikgreif)
