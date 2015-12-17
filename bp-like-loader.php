@@ -13,7 +13,7 @@
   health and enjoying life.
  */
 // Exit if accessed directly
-if ( !defined( 'ABSPATH' ) ) {
+if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
@@ -21,7 +21,7 @@ if ( !defined( 'ABSPATH' ) ) {
 function bplike_init() {
   // Because we will be using BP_Component, we require BuddyPress 1.5 or greater.
   if ( version_compare( BP_VERSION, '1.5', '>' ) ) {
-    require_once 'includes/bplike.php';
+    require_once( 'includes/bplike.php' );
   }
 }
 
