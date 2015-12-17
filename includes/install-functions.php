@@ -1,8 +1,12 @@
 <?php
 // Exit if accessed directly
+<<<<<<< HEAD
 if ( !defined( 'ABSPATH' ) ) {
     exit;
 }
+=======
+defined( 'ABSPATH' ) || exit;
+>>>>>>> refs/remotes/origin/development
 
 /**
  * bp_like_install()
@@ -36,9 +40,15 @@ function bp_like_install() {
             'default' => __( 'Hide likes' , 'buddypress-like' ) ,
             'custom' => __( 'Hide likes' , 'buddypress-like' )
         ) ,
+<<<<<<< HEAD
         'show_activity_likes' => array(
             'default' => __( 'Activity Likes' , 'buddypress-like' ) ,
             'custom' => __( 'Activity Likes' , 'buddypress-like' )
+=======
+        'update_likes' => array(
+            'default' => __( 'Update Likes' , 'buddypress-like' ) ,
+            'custom' => __( 'Update Likes' , 'buddypress-like' )
+>>>>>>> refs/remotes/origin/development
         ) ,
         'show_blogpost_likes' => array(
             'default' => __( 'Blog Post Likes' , 'buddypress-like' ) ,
@@ -49,6 +59,7 @@ function bp_like_install() {
             'custom' => __( 'Sorry, you must be logged in to like that.' , 'buddypress-like' )
         ) ,
         'record_activity_likes_own' => array(
+<<<<<<< HEAD
             'default' => __( '%user% liked their own <a href="%permalink%">activity</a>' , 'buddypress-like' ) ,
             'custom' => __( '%user% liked their own <a href="%permalink%">activity</a>' , 'buddypress-like' )
         ) ,
@@ -59,6 +70,18 @@ function bp_like_install() {
         'record_activity_likes_users' => array(
             'default' => __( '%user% liked %author%\'s <a href="%permalink%">activity</a>' , 'buddypress-like' ) ,
             'custom' => __( '%user% liked %author%\'s <a href="%permalink%">activity</a>' , 'buddypress-like' )
+=======
+            'default' => __( '%user% liked their own <a href="%permalink%">update</a>' , 'buddypress-like' ) ,
+            'custom' => __( '%user% liked their own <a href="%permalink%">update</a>' , 'buddypress-like' )
+        ) ,
+        'record_activity_likes_an' => array(
+            'default' => __( '%user% liked an <a href="%permalink%">update</a>' , 'buddypress-like' ) ,
+            'custom' => __( '%user% liked an <a href="%permalink%">update</a>' , 'buddypress-like' )
+        ) ,
+        'record_activity_likes_users' => array(
+            'default' => __( '%user% liked %author%\'s <a href="%permalink%">update</a>' , 'buddypress-like' ) ,
+            'custom' => __( '%user% liked %author%\'s <a href="%permalink%">update</a>' , 'buddypress-like' )
+>>>>>>> refs/remotes/origin/development
         ) ,
         'record_activity_likes_own_blogpost' => array(
             'default' => __( '%user% liked their own blog post, <a href="%permalink%">%title%</a>' , 'buddypress-like' ) ,
@@ -72,6 +95,7 @@ function bp_like_install() {
             'default' => __( '%user% liked %author%\'s blog post, <a href="%permalink%">%title%</a>' , 'buddypress-like' ) ,
             'custom' => __( '%user% liked %author%\'s blog post, <a href="%permalink%">%title%</a>' , 'buddypress-like' )
         ) ,
+<<<<<<< HEAD
         'get_likes_no_likes' => array(
             'default' => __( 'Nobody likes this yet.' , 'buddypress-like' ) ,
             'custom' => __( 'Nobody likes this yet.' , 'buddypress-like' )
@@ -79,17 +103,32 @@ function bp_like_install() {
         'get_likes_only_liker' => array(
             'default' => __( 'You are the only person who likes this so far.' , 'buddypress-like' ) ,
             'custom' => __( 'You are the only person who likes this so far.' , 'buddypress-like' )
+=======
+        'get_likes_only_liker' => array(
+            'default' => __( 'You like this.' , 'buddypress-like' ) ,
+            'custom' => __( 'You like this.' , 'buddypress-like' )
+>>>>>>> refs/remotes/origin/development
         ) ,
         'get_likes_you_and_singular' => array(
             'default' => __( 'You and %count% other person like this.' , 'buddypress-like' ) ,
             'custom' => __( 'You and %count% other person like this.' , 'buddypress-like' )
         ) ,
+<<<<<<< HEAD
+=======
+        'you_and_username_like_this' => array(
+            'default' => __( 'You and %s like this.' , 'buddypress-like' ) ,
+            'custom' => __( 'You and %s like this.' , 'buddypress-like' )
+        ) ,
+>>>>>>> refs/remotes/origin/development
         'get_likes_you_and_plural' => array(
             'default' => __( 'You and %count% other people like this' , 'buddypress-like' ) ,
             'custom' => __( 'You and %count% other people like this' , 'buddypress-like' )
         ) ,
+<<<<<<< HEAD
         
         //TODO: wont need this, as displaying "Darren likes this"
+=======
+>>>>>>> refs/remotes/origin/development
         'get_likes_count_people_singular' => array(
             'default' => __( '%count% person likes this.' , 'buddypress-like' ) ,
             'custom' => __( '%count% person likes this.' , 'buddypress-like' )
@@ -106,6 +145,7 @@ function bp_like_install() {
             'default' => __( 'and %count% other people like this.' , 'buddypress-like' ) ,
             'custom' => __( 'and %count% other people like this.' , 'buddypress-like' )
         ) ,
+<<<<<<< HEAD
         'get_likes_likes_this' => array(
             'default' => __( 'liked this.' , 'buddypress-like' ) ,
             'custom' => __( 'liked this.' , 'buddypress-like' )
@@ -113,6 +153,15 @@ function bp_like_install() {
         'get_likes_like_this' => array(
             'default' => __( 'like this.' , 'buddypress-like' ) ,
             'custom' => __( 'like this.' , 'buddypress-like' )
+=======
+        'two_like_this' => array(
+            'default' => __( '%s and %s like this.' , 'buddypress-like' ) ,
+            'custom'  => __( '%s and %s like this.' , 'buddypress-like' )
+        ) ,
+        'one_likes_this' => array(
+            'default' => __( '%s likes this.' , 'buddypress-like' ) ,
+            'custom' => __( '%s likes this.' , 'buddypress-like' )
+>>>>>>> refs/remotes/origin/development
         ) ,
         'get_likes_no_friends_you_and_singular' => array(
             'default' => __( 'None of your friends like this yet, but you and %count% other person does.' , 'buddypress-like' ) ,
@@ -137,7 +186,11 @@ function bp_like_install() {
     if ( $current_settings['post_to_activity_stream'] ) {
         $post_to_activity_stream = $current_settings['post_to_activity_stream'];
     } else {
+<<<<<<< HEAD
         $post_to_activity_stream = 1;
+=======
+        $post_to_activity_stream = 0;
+>>>>>>> refs/remotes/origin/development
     }
 
     if ( $current_settings['show_excerpt'] ) {
@@ -171,7 +224,10 @@ function bp_like_install() {
 
     if ( $current_settings['text_strings'] ) {
 
+<<<<<<< HEAD
         // TODO not sure if this is used anywhere... test
+=======
+>>>>>>> refs/remotes/origin/development
         $current_text_strings = $current_settings['text_strings'];
 
         /* Go through each string and update the default to the current default, keep the custom settings */
@@ -198,7 +254,10 @@ function bp_like_install() {
         'text_strings' => $text_strings ,
         'name_or_avatar' => $name_or_avatar,
         'remove_fav_button' => $remove_fav_button
+<<<<<<< HEAD
 
+=======
+>>>>>>> refs/remotes/origin/development
     );
 
     update_site_option( 'bp_like_db_version' , BP_LIKE_DB_VERSION );
@@ -218,11 +277,19 @@ function bp_like_install() {
 function bp_like_check_installed() {
     global $wpdb;
 
+<<<<<<< HEAD
     if ( !is_super_admin() ) {
         return false;
     }
 
     if ( !get_site_option( 'bp_like_settings' ) || get_site_option( 'bp-like-db-version' ) ) {
+=======
+    if ( ! is_super_admin() ) {
+        return false;
+    }
+
+    if ( ! get_site_option( 'bp_like_settings' ) || get_site_option( 'bp-like-db-version' ) ) {
+>>>>>>> refs/remotes/origin/development
         bp_like_install();
     }
 
@@ -240,7 +307,11 @@ add_action( 'admin_menu' , 'bp_like_check_installed' );
 
 function bp_like_updated_notice() {
 
+<<<<<<< HEAD
     if ( !is_super_admin() ) {
+=======
+    if ( ! is_super_admin() ) {
+>>>>>>> refs/remotes/origin/development
         return false;
     } else {
         echo '<div id="message" class="updated fade"><p style="line-height: 150%">';
@@ -251,7 +322,11 @@ function bp_like_updated_notice() {
 
 
 /*
+<<<<<<< HEAD
  * The notice we show when the plugin is installed. 
+=======
+ * The notice we show when the plugin is installed.
+>>>>>>> refs/remotes/origin/development
  */
 
 function bp_like_install_buddypress_notice() {
