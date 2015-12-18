@@ -10,7 +10,6 @@ jq(document).ready(function bpLike() {
 
         id = jq(this).attr('id');                           // Used to get the id of the entity liked or unliked
 
-      //  console.log('id: ' + id);
         type = jq(this).attr('class')                           //
             .replace('bp-primary-action ','')                   // end space needed to avoid double space in var type
             .replace('button', 'activity_update')               // clearer variable naming
@@ -21,7 +20,7 @@ jq(document).ready(function bpLike() {
         jq(this).addClass('loading');
 
         jq.post(ajaxurl, {
-            action: 'activity_like',                            // TODO this could be named clearer
+            action: 'activity_like',
             'type': type,
             'id': id
         },
@@ -137,6 +136,4 @@ jq(document).ready(function bpLike() {
 
       })
     };
-
-
 });
