@@ -52,7 +52,15 @@ function bp_like_ajax_get_likes() {
   // ensuring $id only contains an integer
   $id = preg_replace( "/\D/" , "" , $_POST['id'] );
 
-  bp_like_get_some_likes( $id , 'activity_update' );
+  if ( $_POST['type'] == 'activity_update' ) {
+
+    bp_like_get_some_likes( $id , 'activity_update' );
+
+  } elseif ( $_POST['type'] == 'blog_post' ) {
+
+    bp_like_get_some_likes( $id , 'blog_post' );
+
+  }
 
   die();
 }

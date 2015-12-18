@@ -178,7 +178,8 @@ function bp_like_remove_user_like( $item_id = '' , $type = '' ) {
     }
 
     if ( 0 == $user_id ) {
-
+      // todo replace this with an internal wordpress string.
+      // maybe use wp_die() here?
         __('Sorry, you must be logged in to like that.', 'buddypress-like');
         return false;
     }
@@ -322,7 +323,6 @@ function bp_like_remove_user_like( $item_id = '' , $type = '' ) {
     }
 
     echo bp_like_get_text( 'like' );
-
     if ( $liked_count ) {
         echo ' <span>' . $liked_count . '</span>';
     }
@@ -337,20 +337,23 @@ function bp_like_remove_user_like( $item_id = '' , $type = '' ) {
 function bp_like_get_some_likes( $id, $type ) {
 
   if ( $type == 'blog_post' ) {
-    if ( is_single() ) { // todo is this needed?
-      $users_who_like = array_keys( (array)(get_post_meta( $id , 'liked_count' , true )) );
-    } else {
-      $users_who_like = array_keys((array)(bp_activity_get_meta( $id , 'liked_count' , true )));
-    }
+      $users_who_like = array_keys( (array) get_post_meta( $id, 'liked_count', true ) );
+      //todo look into if and why this returns 1 even if no one liked it.. maybe add check if is liked?
+      // why is this true? If its singular should it not onyl return one person?
+      // If I'm confused looking a this now maybe this should be similifed into its own documented function
+      // or just documented..
   } elseif ( $type == 'activity_update' ) {
-    $users_who_like = array_keys((array) (bp_activity_get_meta( $id , 'liked_count' , true )));
+    $users_who_like = array_keys( (array) bp_activity_get_meta( $id , 'liked_count' , true ) );
   }
+//  error_log('$id: ' . $id);
+//  error_log('$type: ' . $type);
+//  error_log('$users_who_like: ' . print_r( $users_who_like ) );
+  //error_log('post meta:' . print_r(get_post_meta( $id , 'liked_count' , false )) );
 
   // print_r(bp_activity_get_types());
 
   // if the current users likes the item
   if ( in_array( get_current_user_id(), $users_who_like ) ) {
-
     if ( count( $users_who_like ) == 0 ) {
       // if noone likes this, do nothing as nothing gets outputted
 

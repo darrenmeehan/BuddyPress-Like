@@ -19,11 +19,9 @@ function bplike_blog_post_button( $content ) {
 
     if ( is_user_logged_in() ) {
 
-        if ( get_post_meta( get_the_ID() , 'liked_count' , true ) ) {
-            $users_who_like = array_keys( get_post_meta( get_the_ID() , 'liked_count' , true ) );
+        if ( get_post_meta( get_the_ID(), 'liked_count', true ) ) {
+            $users_who_like = array_keys( get_post_meta( get_the_ID(), 'liked_count', true ) );
             $liked_count = count( $users_who_like );
-          //  print_r($users_who_like);
-
         }
 
         ob_start();
@@ -51,7 +49,7 @@ function bplike_blog_post_button( $content ) {
         }
 
         if ( isset ( $users_who_like ) ) {
-            view_who_likes('blog_post'); // may need to add params here
+            view_who_likes( get_the_ID(), 'blog_post');
         }
 
 		$content .= ob_get_clean();
