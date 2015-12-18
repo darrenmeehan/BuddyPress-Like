@@ -87,7 +87,7 @@ jq(document).ready(function bpLike() {
                 }
 
                 // Nobody else liked this, so remove who likes the item
-                if ( data == 'Like' ) {
+                if ( data == 'Like <span></span>' ) {
                     id = id.replace("unlike-activity-", "");
                     jq('#users-who-like-' + id ).remove();
                 }

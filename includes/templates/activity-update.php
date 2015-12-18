@@ -30,18 +30,14 @@ function bplike_activity_update_button() {
             <a href="#" class="button bp-primary-action like" id="like-activity-<?php echo bp_get_activity_id(); ?>" title="<?php echo bp_like_get_text( 'like_this_item' ); ?>">
                 <?php
                     echo bp_like_get_text( 'like' );
-                    if ( $liked_count ) {
-                        echo ' <span>' . $liked_count . '</span>';
-                    }
+                    echo ' <span>' . ($liked_count?$liked_count:'') . '</span>';
                 ?>
             </a>
         <?php } else { ?>
             <a href="#" class="button bp-primary-action unlike" id="unlike-activity-<?php echo bp_get_activity_id(); ?>" title="<?php echo bp_like_get_text( 'unlike_this_item' ); ?>">
                 <?php
                     echo bp_like_get_text( 'unlike' );
-                    if ( $liked_count ) {
-                        echo '<span>' . $liked_count . '</span>';
-                    }
+                    echo ' <span>' . ($liked_count?$liked_count:'') . '</span>';
                 ?>
             </a>
             <?php
