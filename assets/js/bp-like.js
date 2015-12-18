@@ -85,12 +85,17 @@ jq(document).ready(function bpLike() {
                 }
 
                 // Nobody else liked this, so remove who likes the item
-                if ( data == 'Like <span></span>' ) {
+                if ( data == 'Like <span>0</span>' ) {
                     jq('#users-who-like-' + getItemId(id) ).remove();
                 }
 
+                type = type
+                .replace( 'unlike', '' )
+                .replace( 'like', '' )
+                .trim();
                 // Show who likes the item if user is first to like
-                if (data == 'Unlike <span>1</span>') {
+                if ( data == 'Unlike <span>1</span>' && type != 'activity_comment' ) {
+                  console.log('type: ' + type);
                     jq('<p class="users-who-like" id="users-who-like-' + getItemId(id) + '"><small>' + bplikeTerms.you_like_this +'</small></p>').insertAfter('#' + id.replace("like", "unlike"));
                 }
 
@@ -107,7 +112,7 @@ jq(document).ready(function bpLike() {
           .replace('unlike-blogpost-', '')
           .replace('un', '');
     }
-    
+
     // this function is to get likes of a post
     function getLikes( id, type ) {
       id = getItemId(id);

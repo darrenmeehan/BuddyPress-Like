@@ -154,7 +154,7 @@ function bp_like_add_user_like( $item_id, $type ) {
         }
     }
     echo bp_like_get_text( 'unlike' );
-    echo ' <span>' . ($liked_count?$liked_count:'') . '</span>';
+    echo ' <span>' . ($liked_count?$liked_count:'0') . '</span>';
 }
 
 /**
@@ -322,7 +322,7 @@ function bp_like_remove_user_like( $item_id = '' , $type = '' ) {
     }
 
     echo bp_like_get_text( 'like' );
-    echo ' <span>' . ($liked_count?$liked_count:'') . '</span>';
+    echo ' <span>' . ($liked_count?$liked_count:'0') . '</span>';
 }
 
 /*

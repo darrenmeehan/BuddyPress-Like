@@ -57,7 +57,6 @@ function bp_like_post_to_stream( $item_id , $user_id, $group_id ) {
 
         /* Grab the content and make it into an excerpt of 140 chars if we're allowed */
         if ( bp_like_get_settings( 'show_excerpt' ) == 1 ) {
-        error_log('testing');
             $content = $activity['activities'][0]->content;
             if ( strlen( $content ) > bp_like_get_settings( 'excerpt_length' ) ) {
                 $content = substr( $content , 0 , bp_like_get_settings( 'excerpt_length' ) );

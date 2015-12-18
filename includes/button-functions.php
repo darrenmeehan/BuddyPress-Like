@@ -35,7 +35,7 @@ function bp_like_button( $type = '' ) {
 
         // TODO change this to hook
         bplike_blog_button();
-       //bp_get_activity_type();
+        
     }
 }
 
