@@ -178,7 +178,8 @@ function bp_like_remove_user_like( $item_id = '' , $type = '' ) {
     }
 
     if ( 0 == $user_id ) {
-
+      // todo replace this with an internal wordpress string.
+      // maybe use wp_die() here?
         __('Sorry, you must be logged in to like that.', 'buddypress-like');
         return false;
     }

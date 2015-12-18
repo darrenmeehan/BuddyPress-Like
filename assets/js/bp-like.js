@@ -64,18 +64,21 @@ jq(document).ready(function bpLike() {
                         .attr('id', id.replace("unlike", "like") );
 
                 }  else if (type == 'blog_post like') {
-
+                  console.log('Testing: A blog post has been liked');
                     jq('#' + id).removeClass('like')
                         .addClass('unlike')
                         .attr('title', bplikeTerms.unlike_message)      // may want different (smaller) message for comments
                         .attr('id', id.replace("like", "unlike") );
+                        getLikes(id, type);
 
                 } else if (type == 'blog_post unlike') {
+                  console.log('Testing: A blog post has been unliked');
 
                     jq('#' + id).removeClass('unlike')
                         .addClass('like')
                         .attr('title', bplikeTerms.like_message)
                         .attr('id', id.replace("unlike", "like") );
+                        getLikes(id, type);
 
                 } else {
                     console.log('Opps. Something went wrong');
@@ -84,7 +87,7 @@ jq(document).ready(function bpLike() {
                 }
 
                 // Nobody else liked this, so remove who likes the item
-                if (data == 'Like') {
+                if ( data == 'Like' ) {
                     id = id.replace("unlike-activity-", "");
                     jq('#users-who-like-' + id ).remove();
                 }
@@ -106,19 +109,33 @@ jq(document).ready(function bpLike() {
 
 
     // this function is to get likes of a post
-    function getLikes(id, type) {
+    function getLikes( id, type ) {
+      console.log('Now getting likes');
       id = id
           .replace('like-activity-', '')
           .replace('unlike-activity-', '')
-          .replace('un', '');
+          .replace('un', '')
+          .trim();
+          console.log('id: ' + id);
+          console.log('type: ' + type);
+        type = type
+              .replace('like', '')
+              .replace('unlike' , '')
+              .replace('un', '')
+              .trim();
+              console.log('type: ' + type);
       jq('#users-who-like-' + id).addClass('loading');
       jq.post(ajaxurl, {
           action: 'bplike_get_likes',
           'type': type,
           'id': id
       }, function( response ) {
-        response = response.replace('<p class="users-who-like" id="users-who-like-' + id + '">', '')
+        console.log('response: ' + response);
+        response = response
+          .replace('<p class="users-who-like" id="users-who-like-' + id + '">', '')
           .replace('</p>', '');
+          console.log('response: ' + response);
+
         jq('#users-who-like-' + id).html(response);
         jq('#users-who-like-' + id).removeClass('loading');
 

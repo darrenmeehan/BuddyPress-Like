@@ -7,7 +7,7 @@ if ( ! defined( 'BP_LIKE_VERSION' ) ) {
 }
 
 if ( ! defined( 'BP_LIKE_DB_VERSION' ) ) {
-    define( 'BP_LIKE_DB_VERSION', '43' );
+    define( 'BP_LIKE_DB_VERSION', '44' );
 }
 
 if ( ! defined( 'BPLIKE_PATH' ) ) {
@@ -46,4 +46,3 @@ require_once( BPLIKE_PATH . 'includes/ajax.php' );
 require_once( BPLIKE_PATH . 'includes/like-functions.php' );
 require_once( BPLIKE_PATH . 'includes/scripts.php' );
 require_once( BPLIKE_PATH . 'includes/settings.php' );
-//require_once BPLIKE_PATH . 'includes/blogpost.php';
