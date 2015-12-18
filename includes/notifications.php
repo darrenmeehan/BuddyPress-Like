@@ -84,7 +84,6 @@ function bp_like_activity_update_notification( $activity_id, $receiver_user_id )
         $liker_one = bp_core_get_user_displayname( $users_who_like[$others - 1] );
         $liker_two = bp_core_get_user_displayname( $users_who_like[$others - 2] );
 
-        // TODO comment this better
         // $users_who_like will always be greater than 2 in here
         if ( $users_who_like == 3 ) {
           // if 3 users like an update we remove 1 as we output 2 user names

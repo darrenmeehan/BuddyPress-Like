@@ -367,7 +367,9 @@ function bp_like_get_some_likes( $id, $type ) {
 
         $string = '<p class="users-who-like" id="users-who-like-';
         $string .= $id;
-        $string .= '"><small>You and %s like this.</small></p>'; // TODO translate
+        $string .= '"><small>';
+        $string .= bp_like_get_text( 'you_and_username_like_this' );
+        $string .= '</small></p>';
 
         printf( $string , $one );
 
@@ -384,7 +386,9 @@ function bp_like_get_some_likes( $id, $type ) {
 
           $string = '<p class="users-who-like" id="users-who-like-';
           $string .= $id;
-          $string .= '"><small>You, %s and %s like this.</small></p>';
+          $string .= '"><small>';
+          $string .= bp_like_get_text( 'you_and_two_usernames_like_this' );
+          $string .= '</small></p>';
 
           printf( $string , $one , $two );
 
@@ -435,7 +439,8 @@ function bp_like_get_some_likes( $id, $type ) {
         $string = '<p class="users-who-like" id="users-who-like-';
         $string .= $id;
         $string .= '"><small>';
-        $string .= '%s and %s like this.</small></p>'; // TODO translate
+        $string .= bp_like_get_text( 'two_like_this' );
+        $string .= '</small></p>';
 
         printf( $string , $one, $two );
 
@@ -447,7 +452,9 @@ function bp_like_get_some_likes( $id, $type ) {
 
           $string = '<p class="users-who-like" id="users-who-like-';
           $string .= $id;
-          $string .= '"><small>%s, %s and %s like this.</small></p>';
+          $string .= '"><small>';
+          $string .= bp_like_get_text( 'three_like_this' );
+          $string .= '</small></p>';
 
           printf( $string , $one , $two, $three );
 
@@ -476,7 +483,6 @@ function bp_like_get_some_likes( $id, $type ) {
 /**
  *
  * view_who_likes() hook
- * TODO explain better
  *
  */
 function view_who_likes( $id,  $type ) {
@@ -489,5 +495,4 @@ function view_who_likes( $id,  $type ) {
 
 }
 
-// TODO comment why this is here
 add_action( 'view_who_likes' , 'bp_like_get_some_likes', 10, 2 );
