@@ -93,7 +93,10 @@ jq(document).ready(function bpLike() {
                 if (data == 'Unlike <span>1</span>') {
                     id = id.replace("like-activity-", "");
                     jq('li#activity-' + id + ' .activity-meta')
-                        .append('<p class="users-who-like" id="users-who-like-' + id + '"><small>' + bplikeTerms.you_like_this +'</small></p>')
+                        .append('<p class="users-who-like" id="users-who-like-' + id + '"><small>' + bplikeTerms.you_like_this +'</small></p>');
+                    jq('.entry-content')
+                      .append('<p class="users-who-like" id="users-who-like-' + id + '"><small>' + bplikeTerms.you_like_this +'</small></p>')
+
                 }
 
             });

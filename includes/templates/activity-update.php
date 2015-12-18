@@ -18,8 +18,8 @@ function bplike_activity_update_button() {
 
     $liked_count = 0;
 
-    if ( is_user_logged_in() && bp_get_activity_type() !== 'activity_liked' ) {
-
+    if ( is_user_logged_in() ) {
+      if ( bp_get_activity_type() !== 'activity_liked' && bp_get_activity_type() != 'blogpost_liked' ) {
         if ( bp_activity_get_meta( bp_get_activity_id(), 'liked_count' , true ) ) {
             $users_who_like = array_keys( bp_activity_get_meta( bp_get_activity_id(), 'liked_count' , true ) );
             $liked_count = count( $users_who_like );
@@ -48,8 +48,9 @@ function bplike_activity_update_button() {
         }
 
         // Checking if there are users who like item.
-        if ( isset ($users_who_like) ) {
-            view_who_likes( bp_get_activity_id(), 'activity_update');
+        if ( isset ( $users_who_like ) ) {
+            view_who_likes( bp_get_activity_id(), 'activity_update' );
         }
+      }
     }
 }
