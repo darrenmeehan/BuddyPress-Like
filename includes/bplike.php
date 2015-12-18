@@ -7,7 +7,7 @@ if ( ! defined( 'BP_LIKE_VERSION' ) ) {
 }
 
 if ( ! defined( 'BP_LIKE_DB_VERSION' ) ) {
-    define( 'BP_LIKE_DB_VERSION', '44' );
+    define( 'BP_LIKE_DB_VERSION', '48' );
 }
 
 if ( ! defined( 'BPLIKE_PATH' ) ) {
