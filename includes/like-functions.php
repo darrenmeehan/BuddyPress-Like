@@ -230,8 +230,8 @@ function bp_like_remove_user_like( $item_id = '' , $type = '' ) {
       //  error_log(bp_get_current_group_id());
 
       } else {
-        /* Remove the update on the users profile from when they liked the activity. */
-        $update_id = bp_activity_get_activity_id(
+            /* Remove the update on the users profile from when they liked the activity. */
+            $update_id = bp_activity_get_activity_id(
                 array(
                     'item_id' => $item_id ,
                     'component' => 'bp-like',
@@ -240,12 +240,14 @@ function bp_like_remove_user_like( $item_id = '' , $type = '' ) {
                 )
             );
 
-            bp_activity_delete(
-                    array(
-                       'id' => $update_id ,
-                       'user_id' => $user_id
-                    )
-            );
+            if ($update_id) {
+                bp_activity_delete(
+                        array(
+                           'id' => $update_id ,
+                           'user_id' => $user_id
+                        )
+                );
+            }
       }
 
     } elseif ( $type == 'activity_comment' ) {
