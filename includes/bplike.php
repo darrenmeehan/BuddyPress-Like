@@ -7,7 +7,7 @@ if ( ! defined( 'BP_LIKE_VERSION' ) ) {
 }
 
 if ( ! defined( 'BP_LIKE_DB_VERSION' ) ) {
-    define( 'BP_LIKE_DB_VERSION', '48' );
+    define( 'BP_LIKE_DB_VERSION', '49' );
 }
 
 if ( ! defined( 'BPLIKE_PATH' ) ) {
@@ -38,11 +38,14 @@ if ( is_admin() ) {
 require_once( BPLIKE_PATH . 'includes/button-functions.php' );
 require_once( BPLIKE_PATH . 'includes/templates/activity-update.php' );
 require_once( BPLIKE_PATH . 'includes/templates/activity-comment.php' );
-require_once( BPLIKE_PATH . 'includes/templates/blog-post.php' );
-require_once( BPLIKE_PATH . 'includes/templates/blog-comment.php' );
 require_once( BPLIKE_PATH . 'includes/install-functions.php' );
 require_once( BPLIKE_PATH . 'includes/activity-functions.php' );
 require_once( BPLIKE_PATH . 'includes/ajax.php' );
 require_once( BPLIKE_PATH . 'includes/like-functions.php' );
 require_once( BPLIKE_PATH . 'includes/scripts.php' );
 require_once( BPLIKE_PATH . 'includes/settings.php' );
+
+if ( bp_like_get_settings( 'enable_blog_post_support' ) == 1 ) {
+  require_once( BPLIKE_PATH . 'includes/templates/blog-post.php' );
+  require_once( BPLIKE_PATH . 'includes/templates/blog-comment.php' );
+}

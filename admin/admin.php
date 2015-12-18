@@ -58,14 +58,15 @@ function bp_like_admin_page() {
         /* Now actually save the data to the options table */
         update_site_option(
             'bp_like_settings' , array(
-            'likers_visibility' => $_POST['bp_like_admin_likers_visibility'] ,
-            'post_to_activity_stream' => $_POST['bp_like_admin_post_to_activity_stream'] ,
-            'show_excerpt' => $_POST['bp_like_admin_show_excerpt'] ,
-            'excerpt_length' => $_POST['bp_like_admin_excerpt_length'] ,
-            'text_strings' => $strings_to_save ,
-            'translate_nag' => bp_like_get_settings( 'translate_nag' ) ,
-            'name_or_avatar' => $_POST['name_or_avatar'] ,
-            'remove_fav_button' => $_POST['bp_like_remove_fav_button']
+            'likers_visibility'        => $_POST['bp_like_admin_likers_visibility'],
+            'post_to_activity_stream'  => $_POST['bp_like_admin_post_to_activity_stream'],
+            'show_excerpt'             => $_POST['bp_like_admin_show_excerpt'],
+            'excerpt_length'           => $_POST['bp_like_admin_excerpt_length'],
+            'text_strings'             => $strings_to_save,
+            'translate_nag'            => bp_like_get_settings( 'translate_nag' ),
+            'name_or_avatar'           => $_POST['name_or_avatar'],
+            'remove_fav_button'        => $_POST['bp_like_remove_fav_button'],
+            'enable_blog_post_support' => $_POST['enable_blog_post_support']
             )
         );
 
@@ -118,8 +119,6 @@ function bp_like_admin_page() {
                         </fieldset>
                     </td>
                 </tr>
-
-
                 <tr valign="top">
                     <th scope="row"><?php _e( 'Remove Favorite Button' , 'buddypress-like' ); ?></th>
                     <td>
@@ -132,6 +131,21 @@ function bp_like_admin_page() {
                                 <?php _e( "Remove the BuddyPress favorite button from activity." , 'buddypress-like' ); ?>
                             </label>
                             <p class="description"><?php echo __( " Currently only uses jQuery to remove the buttons." , "buddypress-like" ); ?></p>
+                            <br />
+                        </fieldset>
+                    </td>
+                </tr>
+                <tr valign="top">
+                    <th scope="row"><?php _e( 'Blog Post Support' , 'buddypress-like' ); ?></th>
+                    <td>
+                        <fieldset>
+                            <legend class="screen-reader-text">
+                                <span><?php _e( 'Enable Blog Post Support' , 'buddypress-like' ); ?></span>
+                            </legend>
+                            <input type="checkbox" id="enable_blog_post_support" name="enable_blog_post_support" value="1" <?php if ( bp_like_get_settings( 'enable_blog_post_support' ) == 1 ) { echo ' checked="checked" '; } ?>>
+                            <label for="enable_blog_post_support">
+                                <?php _e( "Display the like button at the bottom of your blog posts." , 'buddypress-like' ); ?>
+                            </label>
                             <br />
                         </fieldset>
                     </td>

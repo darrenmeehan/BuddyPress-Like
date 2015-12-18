@@ -11,7 +11,10 @@ defined( 'ABSPATH' ) || exit;
  */
 function bp_like_activity_filter() {
     echo '<option value="activity_liked">' . bp_like_get_text('update_likes') . '</option>';
-    echo '<option value="blogpost_liked">' . bp_like_get_text('show_blogpost_likes') . '</option>';
+
+    if ( bp_like_get_settings( 'enable_blog_post_support' ) == 1 ) {
+      echo '<option value="blogpost_liked">' . bp_like_get_text('show_blogpost_likes') . '</option>';
+    }
 }
 
 add_action( 'bp_activity_filter_options' , 'bp_like_activity_filter' );
