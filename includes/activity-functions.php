@@ -43,8 +43,6 @@ function bp_like_post_to_stream( $item_id , $user_id, $group_id ) {
             $action = bp_like_get_text( 'record_activity_likes_own' );
 
         } elseif ( $user_id == 0 ) {
-          // TODO why would this be needed?
-          // we should be able to get user_id
             $action = bp_like_get_text( 'record_activity_likes_an' );
         } else {
             $action = bp_like_get_text( 'record_activity_likes_users' );
