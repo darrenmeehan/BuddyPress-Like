@@ -154,10 +154,7 @@ function bp_like_add_user_like( $item_id, $type ) {
         }
     }
     echo bp_like_get_text( 'unlike' );
-
-    if ( $liked_count ) {
-        echo ' <span>' . $liked_count . '</span>';
-    }
+    echo ' <span>' . ($liked_count?$liked_count:'') . '</span>';
 }
 
 /**
@@ -233,8 +230,8 @@ function bp_like_remove_user_like( $item_id = '' , $type = '' ) {
       //  error_log(bp_get_current_group_id());
 
       } else {
-        /* Remove the update on the users profile from when they liked the activity. */
-        $update_id = bp_activity_get_activity_id(
+            /* Remove the update on the users profile from when they liked the activity. */
+            $update_id = bp_activity_get_activity_id(
                 array(
                     'item_id' => $item_id ,
                     'component' => 'bp-like',
@@ -243,12 +240,14 @@ function bp_like_remove_user_like( $item_id = '' , $type = '' ) {
                 )
             );
 
-            bp_activity_delete(
-                    array(
-                       'id' => $update_id ,
-                       'user_id' => $user_id
-                    )
-            );
+            if ($update_id) {
+                bp_activity_delete(
+                        array(
+                           'id' => $update_id ,
+                           'user_id' => $user_id
+                        )
+                );
+            }
       }
 
     } elseif ( $type == 'activity_comment' ) {
@@ -323,9 +322,7 @@ function bp_like_remove_user_like( $item_id = '' , $type = '' ) {
     }
 
     echo bp_like_get_text( 'like' );
-    if ( $liked_count ) {
-        echo ' <span>' . $liked_count . '</span>';
-    }
+    echo ' <span>' . ($liked_count?$liked_count:'') . '</span>';
 }
 
 /*
@@ -337,20 +334,10 @@ function bp_like_remove_user_like( $item_id = '' , $type = '' ) {
 function bp_like_get_some_likes( $id, $type ) {
 
   if ( $type == 'blog_post' ) {
-      $users_who_like = array_keys( (array) get_post_meta( $id, 'liked_count', true ) );
-      //todo look into if and why this returns 1 even if no one liked it.. maybe add check if is liked?
-      // why is this true? If its singular should it not onyl return one person?
-      // If I'm confused looking a this now maybe this should be similifed into its own documented function
-      // or just documented..
+    $users_who_like = array_keys( (array) get_post_meta( $id, 'liked_count', true ) );
   } elseif ( $type == 'activity_update' ) {
     $users_who_like = array_keys( (array) bp_activity_get_meta( $id , 'liked_count' , true ) );
   }
-//  error_log('$id: ' . $id);
-//  error_log('$type: ' . $type);
-//  error_log('$users_who_like: ' . print_r( $users_who_like ) );
-  //error_log('post meta:' . print_r(get_post_meta( $id , 'liked_count' , false )) );
-
-  // print_r(bp_activity_get_types());
 
   // if the current users likes the item
   if ( in_array( get_current_user_id(), $users_who_like ) ) {

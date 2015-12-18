@@ -64,7 +64,6 @@ jq(document).ready(function bpLike() {
                         .attr('id', id.replace("unlike", "like") );
 
                 }  else if (type == 'blog_post like') {
-                  console.log('Testing: A blog post has been liked');
                     jq('#' + id).removeClass('like')
                         .addClass('unlike')
                         .attr('title', bplikeTerms.unlike_message)      // may want different (smaller) message for comments
@@ -72,7 +71,6 @@ jq(document).ready(function bpLike() {
                         getLikes(id, type);
 
                 } else if (type == 'blog_post unlike') {
-                  console.log('Testing: A blog post has been unliked');
 
                     jq('#' + id).removeClass('unlike')
                         .addClass('like')
@@ -87,19 +85,13 @@ jq(document).ready(function bpLike() {
                 }
 
                 // Nobody else liked this, so remove who likes the item
-                if ( data == 'Like' ) {
-                    id = id.replace("unlike-activity-", "");
-                    jq('#users-who-like-' + id ).remove();
+                if ( data == 'Like <span></span>' ) {
+                    jq('#users-who-like-' + getItemId(id) ).remove();
                 }
 
                 // Show who likes the item if user is first to like
                 if (data == 'Unlike <span>1</span>') {
-                    id = id.replace("like-activity-", "");
-                    jq('li#activity-' + id + ' .activity-meta')
-                        .append('<p class="users-who-like" id="users-who-like-' + id + '"><small>' + bplikeTerms.you_like_this +'</small></p>');
-                    jq('.entry-content')
-                      .append('<p class="users-who-like" id="users-who-like-' + id + '"><small>' + bplikeTerms.you_like_this +'</small></p>')
-
+                    jq('<p class="users-who-like" id="users-who-like-' + getItemId(id) + '"><small>' + bplikeTerms.you_like_this +'</small></p>').insertAfter('#' + id.replace("like", "unlike"));
                 }
 
             });
@@ -107,34 +99,33 @@ jq(document).ready(function bpLike() {
         return false;
     });
 
-
-    // this function is to get likes of a post
-    function getLikes( id, type ) {
-      console.log('Now getting likes');
-      id = id
+    function getItemId(id) {
+        return id
           .replace('like-activity-', '')
           .replace('unlike-activity-', '')
-          .replace('un', '')
-          .trim();
-          console.log('id: ' + id);
-          console.log('type: ' + type);
-        type = type
-              .replace('like', '')
-              .replace('unlike' , '')
-              .replace('un', '')
-              .trim();
-              console.log('type: ' + type);
+          .replace('like-blogpost-', '')
+          .replace('unlike-blogpost-', '')
+          .replace('un', '');
+    }
+    
+    // this function is to get likes of a post
+    function getLikes( id, type ) {
+      id = getItemId(id);
+      type = type
+           .replace('like', '')
+           .replace('unlike' , '')
+           .replace('un', '')
+           .trim();
+
       jq('#users-who-like-' + id).addClass('loading');
       jq.post(ajaxurl, {
           action: 'bplike_get_likes',
           'type': type,
           'id': id
       }, function( response ) {
-        console.log('response: ' + response);
         response = response
           .replace('<p class="users-who-like" id="users-who-like-' + id + '">', '')
           .replace('</p>', '');
-          console.log('response: ' + response);
 
         jq('#users-who-like-' + id).html(response);
         jq('#users-who-like-' + id).removeClass('loading');
