@@ -157,6 +157,12 @@ function bp_like_install() {
         $remove_fav_button = '0';
     }
 
+    if ( $current_settings['bp_like_post_types']) {
+        $bp_like_post_types = $current_settings['bp_like_post_types'];
+    } else {
+        $bp_like_post_types = array('post', 'page');
+    }
+
     if ( $current_settings['text_strings'] ) {
 
         $current_text_strings = $current_settings['text_strings'];
@@ -184,7 +190,8 @@ function bp_like_install() {
         'excerpt_length' => $excerpt_length ,
         'text_strings' => $text_strings ,
         'name_or_avatar' => $name_or_avatar,
-        'remove_fav_button' => $remove_fav_button
+        'remove_fav_button' => $remove_fav_button,
+        'bp_like_post_types' => $bp_like_post_types
     );
 
     update_site_option( 'bp_like_db_version' , BP_LIKE_DB_VERSION );

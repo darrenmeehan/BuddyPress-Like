@@ -65,7 +65,8 @@ function bp_like_admin_page() {
             'text_strings' => $strings_to_save ,
             'translate_nag' => bp_like_get_settings( 'translate_nag' ) ,
             'name_or_avatar' => $_POST['name_or_avatar'] ,
-            'remove_fav_button' => $_POST['bp_like_remove_fav_button']
+            'remove_fav_button' => $_POST['bp_like_remove_fav_button'],
+            'bp_like_post_types' => $_POST['bp_like_post_types']
             )
         );
 
@@ -133,6 +134,25 @@ function bp_like_admin_page() {
                             </label>
                             <p class="description"><?php echo __( " Currently only uses jQuery to remove the buttons." , "buddypress-like" ); ?></p>
                             <br />
+                        </fieldset>
+                    </td>
+                </tr>
+
+                <tr valign="top">
+                    <th scope="row"><?php _e( 'Post types' , 'buddypress-like' ); ?></th>
+                    <td>
+                        <fieldset>
+                            <legend class="screen-reader-text">
+                                <span><?php _e( 'Post types to show like button' , 'buddypress-like' ); ?></span>
+                            </legend>
+                            <p class="description"><?php _e( "Choose Post types on which to show the like button:" , "buddypress-like" ); ?></p>
+                            <?php $post_types = get_post_types(array( 'public' => true ));
+
+                            foreach ( $post_types as $post_type ) { ?>
+                                <input type="checkbox" name="bp_like_post_types[]"
+                                       value="<?php echo $post_type ?>"
+                                       <?php checked(true, in_array($post_type, bp_like_get_settings('bp_like_post_types'))) ?>>&nbsp; <?php echo $post_type ?><br>
+                            <?php } ?>
                         </fieldset>
                     </td>
                 </tr>

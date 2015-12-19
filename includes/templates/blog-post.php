@@ -14,8 +14,12 @@
  *
  */
 function bplike_blog_post_button( $content ) {
+    global $post;
 
-  $liked_count = 0;
+    if (!in_array($post->post_type, bp_like_get_settings('bp_like_post_types')))
+        return;
+
+    $liked_count = 0;
 
     if ( is_user_logged_in() ) {
 
