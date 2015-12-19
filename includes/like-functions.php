@@ -78,6 +78,8 @@ function bp_like_add_user_like( $item_id, $type ) {
 
         bp_like_post_to_stream( $item_id , $user_id, $group_id );
 
+        do_action('bp_like_activity_update_add_like', $user_id, $item_id);
+
     } elseif ($type == 'activity_comment') {
 
         /* Add to the  users liked activities. */
@@ -92,6 +94,7 @@ function bp_like_add_user_like( $item_id, $type ) {
 
         $liked_count = count( $users_who_like );
 
+        do_action('bp_like_activity_comment_add_like', $user_id, $item_id);
         // not publishing to activity stream for comments
 
     } elseif ( $type == 'blog_post' ) {
@@ -152,6 +155,8 @@ function bp_like_add_user_like( $item_id, $type ) {
                     )
             );
         }
+
+        do_action('bp_like_blog_post_add_like', $user_id, $item_id);
     }
     echo bp_like_get_text( 'unlike' );
     echo ' <span>' . ($liked_count?$liked_count:'') . '</span>';
