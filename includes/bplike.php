@@ -7,7 +7,7 @@ if ( ! defined( 'BP_LIKE_VERSION' ) ) {
 }
 
 if ( ! defined( 'BP_LIKE_DB_VERSION' ) ) {
-    define( 'BP_LIKE_DB_VERSION', '49' );
+    define( 'BP_LIKE_DB_VERSION', '51' );
 }
 
 if ( ! defined( 'BPLIKE_PATH' ) ) {
@@ -48,4 +48,8 @@ require_once( BPLIKE_PATH . 'includes/settings.php' );
 if ( bp_like_get_settings( 'enable_blog_post_support' ) == 1 ) {
   require_once( BPLIKE_PATH . 'includes/templates/blog-post.php' );
   require_once( BPLIKE_PATH . 'includes/templates/blog-comment.php' );
+}
+
+if ( bp_is_active( 'notifications' ) && bp_like_get_settings( 'enable_notifications' ) == 1 ) {
+  require_once( BPLIKE_PATH . 'includes/notifications.php' );
 }

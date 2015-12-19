@@ -130,6 +130,12 @@ function bp_like_install() {
 
     $current_settings = get_site_option( 'bp_like_settings' );
 
+    if ( $current_settings['enable_notifications'] ) {
+      $enable_notifications = $current_settings['enable_notifications'];
+    } else {
+      $enable_notifications = 1;
+    }
+
     if ( $current_settings['enable_blog_post_support'] ) {
       $enable_blog_post_support = $current_settings['enable_blog_post_support'];
     } else {
@@ -197,7 +203,8 @@ function bp_like_install() {
         'text_strings'             => $text_strings,
         'name_or_avatar'           => $name_or_avatar,
         'remove_fav_button'        => $remove_fav_button,
-        'enable_blog_post_support' => $enable_blog_post_support
+        'enable_blog_post_support' => $enable_blog_post_support,
+        'enable_notifications'     => $enable_notifications
     );
 
     update_site_option( 'bp_like_db_version', BP_LIKE_DB_VERSION );

@@ -1,8 +1,6 @@
 /* jshint undef: false, unused:false */
 // AJAX Functions
 var jq = jQuery;
-
-var bp_like_ajax_request = null;                                // TODO implement this. Global variable to prevent multiple AJAX requests
 var id, type;
 jq(document).ready(function bpLike() {
     "use strict";

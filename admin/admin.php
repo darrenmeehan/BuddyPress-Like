@@ -150,6 +150,28 @@ function bp_like_admin_page() {
                         </fieldset>
                     </td>
                 </tr>
+                <tr valign="top">
+                    <th scope="row"><?php _e( 'Notifications' , 'buddypress-like' ); ?></th>
+                    <td>
+                        <fieldset>
+                            <legend class="screen-reader-text">
+                                <span><?php _e( 'Enable Notifications', 'buddypress-like' ); ?></span>
+                            </legend>
+                            <input type="checkbox" id="enable_notifications" name="enable_notifications" value="1" <?php if ( bp_like_get_settings( 'enable_notifications' ) == 1 ) { echo ' checked="checked" '; } ?>>
+                            <label for="enable_notifications">
+                                <?php _e( "Enable notifications.", 'buddypress-like' ); ?>
+                            </label>
+                            <br />
+                        </fieldset>
+                    </td>
+                </tr>
+                <tr valign="top">
+                  <th scope="row">
+                    <p class="submit">
+                      <input class="button-primary" type="submit" name="bp-like-admin-submit" id="bp-like-admin-submit" value="<?php _e( 'Save Changes' , 'wordpress' ); ?>"/>
+                    </p>
+                  </th>
+                </tr>
             </table>
 
             <div id="bplike-about" style="float:right; background:#fff;max-width:300px;padding:20px;margin-bottom:30px;">
@@ -173,7 +195,6 @@ function bp_like_admin_page() {
 
                 </div>
             </div>
-
 
             <table class="form-table">
                 <tr valign="top">
@@ -213,7 +234,7 @@ function bp_like_admin_page() {
             </table>
 
             <p class="submit">
-                <input class="button-primary" type="submit" name="bp-like-admin-submit" id="bp-like-admin-submit" value="<?php _e( 'Save Changes' , 'wordpress' ); ?>"/>
+                <input class="button-primary" type="submit" name="bp-like-admin-submit-bottom" id="bp-like-admin-submit-bottom" value="<?php _e( 'Save Changes' , 'wordpress' ); ?>"/>
             </p>
     <?php wp_nonce_field( 'bp-like-admin' ) ?>
         </form>

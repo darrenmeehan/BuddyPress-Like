@@ -1,10 +1,12 @@
 === BuddyPress Like ===
 Contributors: darrenmeehan
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=ZAJLLEJDBHAWL
-Tags: buddypress, like, rate, thumbs, Post, button, vote
+Tags: buddypress, like, rate, thumbs, post, button, vote
 Requires at least: 3.8
 Tested up to: 4.4
 Stable tag: 0.3
+License: GPLv2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Gives users the ability to 'like' content across your BuddyPress enabled site.
 
@@ -25,6 +27,10 @@ Gives users the ability to 'like' content across your BuddyPress enabled site.
 
 1. Upload `buddypress-like` to the `/wp-content/plugins/` directory
 2. Activate the plugin through the 'Plugins' menu in WordPress
+
+== Screenshots ==
+1.
+2.
 
 == Changelog ==
 = 0.3 =

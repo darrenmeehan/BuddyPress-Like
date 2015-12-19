@@ -92,7 +92,20 @@ function bp_like_add_user_like( $item_id, $type ) {
 
         $liked_count = count( $users_who_like );
 
-        // not publishing to activity stream for comments
+        // setup for notifications
+
+        // Get the parent activity.
+        $activity  = new BP_Activity_Activity( $item_id );
+        $params = array(
+          'user_id'     => $user_id,
+          'activity_id' => $item_id,
+          'type'        => $type,
+          'content'     => $activity->content
+        );
+        $activity_id = $params['activity_id'];
+
+        // send off notification
+        do_action( 'bp_like_new_comment_like', $item_id, $params, $activity );
 
     } elseif ( $type == 'blog_post' ) {
 
