@@ -29,8 +29,8 @@ Gives users the ability to 'like' content across your BuddyPress enabled site.
 2. Activate the plugin through the 'Plugins' menu in WordPress
 
 == Screenshots ==
-1.
-2.
+1. Screenshot of what the like button looks like by default on activity
+2. Screenshot of settings available in admin settings
 
 == Changelog ==
 = 0.3 =
