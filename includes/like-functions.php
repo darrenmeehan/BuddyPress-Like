@@ -110,6 +110,8 @@ function bp_like_add_user_like( $item_id, $type ) {
         update_post_meta( $item_id , 'liked_count' , $users_who_like );
 
         $liked_count = count( $users_who_like );
+        /* save total like count, so posts can be ordered by likes */
+        update_post_meta( $item_id , 'bp_liked_count_total' , $liked_count );
 
         if ( bp_like_get_settings( 'post_to_activity_stream' ) == 1 ) {
             $post = get_post( $item_id );
@@ -296,14 +298,17 @@ function bp_like_remove_user_like( $item_id = '' , $type = '' ) {
         $users_who_like = get_post_meta( $item_id , 'liked_count' , true );
         unset( $users_who_like[$user_id] );
 
+        $liked_count = count( $users_who_like );
+
         /* If nobody likes the blog post, delete the meta for it to save space, otherwise, update the meta */
-        if ( empty( $users_who_like ) ) {
+        if ( !$liked_count ) {
             delete_post_meta( $item_id , 'liked_count' );
+            delete_post_meta( $item_id , 'bp_liked_count_total' );
         } else {
             update_post_meta( $item_id , 'liked_count' , $users_who_like );
+            /* save total like count, so posts can be ordered by likes */
+            update_post_meta( $item_id , 'bp_liked_count_total', $liked_count );
         }
-
-        $liked_count = count( $users_who_like );
 
         /* Remove the update on the users profile from when they liked the activity. */
         $update_id = bp_activity_get_activity_id(
