@@ -4,7 +4,7 @@
  *
  * This function is used to display the BuddyPress Like button on comments in the activity stream
  *
- * @package BuddyPress Like
+ * @package BuddyPressLike
  *
  */
 

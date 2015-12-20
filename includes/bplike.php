@@ -44,6 +44,11 @@ require_once( BPLIKE_PATH . 'includes/ajax.php' );
 require_once( BPLIKE_PATH . 'includes/like-functions.php' );
 require_once( BPLIKE_PATH . 'includes/scripts.php' );
 require_once( BPLIKE_PATH . 'includes/settings.php' );
+require_once( BPLIKE_PATH . 'includes/class-bplike-likes.php' );
+require_once( BPLIKE_PATH . 'includes/screens.php' );
+require_once( BPLIKE_PATH . 'includes/template.php' );
+require_once( BPLIKE_PATH . 'includes/bplike-likes-functions.php' );
+
 
 if ( bp_like_get_settings( 'enable_blog_post_support' ) == 1 ) {
   require_once( BPLIKE_PATH . 'includes/templates/blog-post.php' );
@@ -51,5 +56,5 @@ if ( bp_like_get_settings( 'enable_blog_post_support' ) == 1 ) {
 }
 
 if ( bp_is_active( 'notifications' ) && bp_like_get_settings( 'enable_notifications' ) == 1 ) {
-  require_once( BPLIKE_PATH . 'includes/notifications.php' );
+//  require_once( BPLIKE_PATH . 'includes/notifications.php' );
 }

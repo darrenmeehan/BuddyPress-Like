@@ -1,5 +1,6 @@
 <?php
 
+// utilize BP_Button instead of current setup
 // Exit if accessed directly
 defined( 'ABSPATH' ) || exit;
 

@@ -2,8 +2,8 @@
 Contributors: darrenmeehan
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=ZAJLLEJDBHAWL
 Tags: buddypress, like, rate, thumbs, post, button, vote
-Requires at least: 3.8
-Tested up to: 4.4
+Requires at least: WordPress 3.8, BuddyPress 1.5
+Tested up to: WordPress 4.4, BuddyPress 2.4
 Stable tag: 0.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -17,11 +17,10 @@ Gives users the ability to 'like' content across your BuddyPress enabled site.
 == Installation ==
 
 = Automatic Installation =
-1. Ensure BuddyPress is enabled
+1. Ensure BuddyPress is installed and activated
 2. From inside your WordPress administration panel, visit 'Plugins -> Add New'
-3. Search for `BuddyPress Like` and find this plugin in the results
-4. Click 'Install'
-5. Once installed, activate via the 'Plugins -> Installed' page
+3. Search for `BuddyPress Like` and find this plugin in the results and press 'Install'
+4. Press 'Activate Plugin'
 
 = Manual Installation =
 
@@ -33,6 +32,12 @@ Gives users the ability to 'like' content across your BuddyPress enabled site.
 2. Screenshot of settings available in admin settings
 
 == Changelog ==
+= 0.4 =
+- Now supports liking blog posts
+- Also includes support for notifications
+- Added screenshots
+
+
 = 0.3 =
 - Improved privacy when liking in groups
 - Improved usage of text strings in move to help translation
