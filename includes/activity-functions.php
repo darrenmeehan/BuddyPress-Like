@@ -11,7 +11,10 @@ defined( 'ABSPATH' ) || exit;
  */
 function bp_like_activity_filter() {
     echo '<option value="activity_liked">' . bp_like_get_text('update_likes') . '</option>';
-    echo '<option value="blogpost_liked">' . bp_like_get_text('show_blogpost_likes') . '</option>';
+
+    if ( bp_like_get_settings( 'enable_blog_post_support' ) == 1 ) {
+      echo '<option value="blogpost_liked">' . bp_like_get_text('show_blogpost_likes') . '</option>';
+    }
 }
 
 add_action( 'bp_activity_filter_options' , 'bp_like_activity_filter' );
@@ -43,8 +46,6 @@ function bp_like_post_to_stream( $item_id , $user_id, $group_id ) {
             $action = bp_like_get_text( 'record_activity_likes_own' );
 
         } elseif ( $user_id == 0 ) {
-          // TODO why would this be needed?
-          // we should be able to get user_id
             $action = bp_like_get_text( 'record_activity_likes_an' );
         } else {
             $action = bp_like_get_text( 'record_activity_likes_users' );
@@ -57,7 +58,6 @@ function bp_like_post_to_stream( $item_id , $user_id, $group_id ) {
 
         /* Grab the content and make it into an excerpt of 140 chars if we're allowed */
         if ( bp_like_get_settings( 'show_excerpt' ) == 1 ) {
-        error_log('testing');
             $content = $activity['activities'][0]->content;
             if ( strlen( $content ) > bp_like_get_settings( 'excerpt_length' ) ) {
                 $content = substr( $content , 0 , bp_like_get_settings( 'excerpt_length' ) );

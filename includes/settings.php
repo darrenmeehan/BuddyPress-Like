@@ -28,6 +28,7 @@ function bp_like_remove_favourites() {
         add_filter( 'bp_activity_can_favorite', '__return_false', 1 );
         add_filter( 'bp_get_total_favorite_count_for_user', '__return_false', 1 );
         bp_core_remove_nav_item('favorites');
+        bp_core_remove_subnav_item( 'activity', 'favorites');
 
         function bp_like_admin_bar_render_remove_favorites() {
             global $wp_admin_bar;

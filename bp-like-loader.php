@@ -22,7 +22,9 @@ function bplike_init() {
   // Because we will be using BP_Component, we require BuddyPress 1.5 or greater.
   if ( version_compare( BP_VERSION, '1.5', '>' ) ) {
     require_once( 'includes/bplike.php' );
+    require_once( BPLIKE_PATH . 'includes/bplike-likes-loader.php' );
+
   }
 }
 
-add_action( 'bp_include' , 'bplike_init' );
+add_action( 'bp_loaded' , 'bplike_init', 2 );

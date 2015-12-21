@@ -1,8 +1,6 @@
 /* jshint undef: false, unused:false */
 // AJAX Functions
 var jq = jQuery;
-
-var bp_like_ajax_request = null;                                // TODO implement this. Global variable to prevent multiple AJAX requests
 var id, type;
 jq(document).ready(function bpLike() {
     "use strict";
@@ -10,7 +8,6 @@ jq(document).ready(function bpLike() {
 
         id = jq(this).attr('id');                           // Used to get the id of the entity liked or unliked
 
-      //  console.log('id: ' + id);
         type = jq(this).attr('class')                           //
             .replace('bp-primary-action ','')                   // end space needed to avoid double space in var type
             .replace('button', 'activity_update')               // clearer variable naming
@@ -28,7 +25,7 @@ jq(document).ready(function bpLike() {
         jq(this).addClass('loading');
 
         jq.post(ajaxurl, {
-            action: 'activity_like',                            // TODO this could be named clearer
+            action: 'activity_like',
             'type': type,
             'method': method,
             'id': id
@@ -59,10 +56,14 @@ jq(document).ready(function bpLike() {
                     getLikes(id, type);
 
                 // Nobody else liked this, so clear who likes the item
-                if ( data == 'Like <span></span>' ) {
+                if ( data == 'Like <span>0</span>' ) {
                     jq('#users-who-like-' + getItemId(id) ).empty();
                 }
 
+                type = type
+                .replace( 'unlike', '' )
+                .replace( 'like', '' )
+                .trim();
                 // Show who likes the item if user is first to like
                 if (data == 'Unlike <span>1</span>') {
                     jq('#users-who-like-' + getItemId(id)).html('<small>' + bplikeTerms.you_like_this +'</small>');
@@ -107,6 +108,4 @@ jq(document).ready(function bpLike() {
 
       })
     };
-
-
 });

@@ -36,14 +36,14 @@ function bplike_blog_post_button( $content ) {
             <a href="#" class="blogpost like" id="like-blogpost-<?php echo get_the_ID(); ?>" title="<?php echo bp_like_get_text( 'like_this_item' ); ?>">
                 <?php
                     echo bp_like_get_text( 'like' );
-                    echo ' <span>' . ($liked_count?$liked_count:'') . '</span>';
+                    echo ' <span>' . ( $liked_count ? $liked_count : '0' ) . '</span>';
                 ?>
             </a>
         <?php } else { ?>
             <a href="#" class="blogpost unlike" id="unlike-blogpost-<?php echo get_the_ID(); ?>" title="<?php echo bp_like_get_text( 'unlike_this_item' ); ?>">
                 <?php
                     echo bp_like_get_text( 'unlike' );
-                    echo ' <span>' . ($liked_count?$liked_count:'') . '</span>';
+                    echo ' <span>' . ( $liked_count ? $liked_count : '0' ) . '</span>';
                 ?>
             </a>
             <?php

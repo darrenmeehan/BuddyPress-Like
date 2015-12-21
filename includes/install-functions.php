@@ -74,6 +74,10 @@ function bp_like_install() {
             'default' => __( 'You and %s like this.' , 'buddypress-like' ) ,
             'custom' => __( 'You and %s like this.' , 'buddypress-like' )
         ) ,
+        'you_and_two_usernames_like_this' => array(
+            'default' => __( 'You, %s and %s like this.' , 'buddypress-like' ) ,
+            'custom' => __( 'You, %s and %s like this.' , 'buddypress-like' )
+        ) ,
         'get_likes_you_and_plural' => array(
             'default' => __( 'You and %count% other people like this' , 'buddypress-like' ) ,
             'custom' => __( 'You and %count% other people like this' , 'buddypress-like' )
@@ -93,6 +97,10 @@ function bp_like_install() {
         'get_likes_and_people_plural' => array(
             'default' => __( 'and %count% other people like this.' , 'buddypress-like' ) ,
             'custom' => __( 'and %count% other people like this.' , 'buddypress-like' )
+        ) ,
+        'three_like_this' => array(
+            'default' => __( '%s, %s and %s like this.' , 'buddypress-like' ) ,
+            'custom'  => __( '%s, %s and %s like this.' , 'buddypress-like' )
         ) ,
         'two_like_this' => array(
             'default' => __( '%s and %s like this.' , 'buddypress-like' ) ,
@@ -121,6 +129,18 @@ function bp_like_install() {
     );
 
     $current_settings = get_site_option( 'bp_like_settings' );
+
+    if ( $current_settings['enable_notifications'] ) {
+      $enable_notifications = $current_settings['enable_notifications'];
+    } else {
+      $enable_notifications = 1;
+    }
+
+    if ( $current_settings['enable_blog_post_support'] ) {
+      $enable_blog_post_support = $current_settings['enable_blog_post_support'];
+    } else {
+      $enable_blog_post_support = 0;
+    }
 
     if ( $current_settings['post_to_activity_stream'] ) {
         $post_to_activity_stream = $current_settings['post_to_activity_stream'];
@@ -165,8 +185,6 @@ function bp_like_install() {
 
     if ( $current_settings['text_strings'] ) {
 
-        $current_text_strings = $current_settings['text_strings'];
-
         /* Go through each string and update the default to the current default, keep the custom settings */
         foreach ( $default_text_strings as $string_name => $string_contents ) {
 
@@ -184,20 +202,21 @@ function bp_like_install() {
     }
 
     $settings = array(
-        'likers_visibility' => $likers_visibility ,
-        'post_to_activity_stream' => $post_to_activity_stream ,
-        'show_excerpt' => $show_excerpt ,
-        'excerpt_length' => $excerpt_length ,
-        'text_strings' => $text_strings ,
-        'name_or_avatar' => $name_or_avatar,
-        'remove_fav_button' => $remove_fav_button,
-        'bp_like_post_types' => $bp_like_post_types
+        'likers_visibility'        => $likers_visibility,
+        'post_to_activity_stream'  => $post_to_activity_stream,
+        'show_excerpt'             => $show_excerpt,
+        'excerpt_length'           => $excerpt_length,
+        'text_strings'             => $text_strings,
+        'name_or_avatar'           => $name_or_avatar,
+        'remove_fav_button'        => $remove_fav_button,
+        'bp_like_post_types'       => $bp_like_post_types,
+        'enable_notifications'     => $enable_notifications
     );
 
-    update_site_option( 'bp_like_db_version' , BP_LIKE_DB_VERSION );
-    update_site_option( 'bp_like_settings' , $settings );
+    update_site_option( 'bp_like_db_version', BP_LIKE_DB_VERSION );
+    update_site_option( 'bp_like_settings', $settings );
 
-    add_action( 'admin_notices' , 'bp_like_updated_notice' );
+    add_action( 'admin_notices', 'bp_like_updated_notice' );
 }
 
 /**
@@ -224,13 +243,11 @@ function bp_like_check_installed() {
     }
 }
 
-add_action( 'admin_menu' , 'bp_like_check_installed' );
-
+add_action( 'admin_menu', 'bp_like_check_installed' );
 
 /*
  * The notice we show if the plugin is updated.
  */
-
 function bp_like_updated_notice() {
 
     if ( ! is_super_admin() ) {

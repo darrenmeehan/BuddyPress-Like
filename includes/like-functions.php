@@ -59,14 +59,14 @@ function bp_like_add_user_like( $item_id, $type ) {
     if ( $type == 'activity_update' ) {
 
         /* Add to the  users liked activities. */
-        $user_likes = get_user_meta( $user_id , 'bp_liked_activities' , true );
+        $user_likes = get_user_meta( $user_id, 'bp_liked_activities', true );
         $user_likes[$item_id] = 'activity_liked';
-        update_user_meta( $user_id , 'bp_liked_activities' , $user_likes );
+        update_user_meta( $user_id, 'bp_liked_activities', $user_likes );
 
         /* Add to the total likes for this activity. */
-        $users_who_like = bp_activity_get_meta( $item_id , 'liked_count' , true );
+        $users_who_like = bp_activity_get_meta( $item_id, 'liked_count', true );
         $users_who_like[$user_id] = 'user_likes';
-        bp_activity_update_meta( $item_id , 'liked_count' , $users_who_like );
+        bp_activity_update_meta( $item_id, 'liked_count', $users_who_like );
 
         $liked_count = count( $users_who_like );
         $group_id = 0;
@@ -76,38 +76,51 @@ function bp_like_add_user_like( $item_id, $type ) {
           $group_id = bp_get_current_group_id();
         }
 
-        bp_like_post_to_stream( $item_id , $user_id, $group_id );
+        bp_like_post_to_stream( $item_id, $user_id, $group_id );
 
         do_action('bp_like_activity_update_add_like', $user_id, $item_id);
-
-    } elseif ($type == 'activity_comment') {
+    } elseif ( $type == 'activity_comment' ) {
 
         /* Add to the  users liked activities. */
-        $user_likes = get_user_meta( $user_id , 'bp_liked_activities' , true );
+        $user_likes = get_user_meta( $user_id, 'bp_liked_activities', true );
         $user_likes[$item_id] = 'activity_liked';
-        update_user_meta( $user_id , 'bp_liked_activities' , $user_likes );
+        update_user_meta( $user_id, 'bp_liked_activities', $user_likes );
 
         /* Add to the total likes for this activity. */
-        $users_who_like = bp_activity_get_meta( $item_id , 'liked_count' , true );
+        $users_who_like = bp_activity_get_meta( $item_id, 'liked_count', true );
         $users_who_like[$user_id] = 'user_likes';
-        bp_activity_update_meta( $item_id , 'liked_count' , $users_who_like );
+        bp_activity_update_meta( $item_id, 'liked_count', $users_who_like );
 
         $liked_count = count( $users_who_like );
 
         do_action('bp_like_activity_comment_add_like', $user_id, $item_id);
-        // not publishing to activity stream for comments
+
+        // setup for notifications
+
+        // Get the parent activity.
+        $activity  = new BP_Activity_Activity( $item_id );
+        $params = array(
+          'user_id'     => $user_id,
+          'activity_id' => $item_id,
+          'type'        => $type,
+          'content'     => $activity->content
+        );
+        $activity_id = $params['activity_id'];
+
+        // send off notification
+        do_action( 'bp_like_new_comment_like', $item_id, $params, $activity );
 
     } elseif ( $type == 'blog_post' ) {
 
         /* Add to the users liked blog posts. */
-        $user_likes = get_user_meta( $user_id , 'bp_liked_blogposts' , true );
+        $user_likes = get_user_meta( $user_id, 'bp_liked_blogposts', true );
         $user_likes[$item_id] = 'blogpost_liked';
-        update_user_meta( $user_id , 'bp_liked_blogposts' , $user_likes );
+        update_user_meta( $user_id, 'bp_liked_blogposts', $user_likes );
 
         /* Add to the total likes for this blog post. */
-        $users_who_like = get_post_meta( $item_id , 'liked_count' , true );
+        $users_who_like = get_post_meta( $item_id, 'liked_count', true );
         $users_who_like[$user_id] = 'user_likes';
-        update_post_meta( $item_id , 'liked_count' , $users_who_like );
+        update_post_meta( $item_id, 'liked_count', $users_who_like );
 
         $liked_count = count( $users_who_like );
         /* save total like count, so posts can be ordered by likes */
@@ -131,28 +144,28 @@ function bp_like_add_user_like( $item_id, $type ) {
             }
 
             /* Filter out the placeholders */
-            $action = str_replace( '%user%' , $liker , $action );
-            $action = str_replace( '%permalink%' , $permalink , $action );
-            $action = str_replace( '%title%' , $title , $action );
-            $action = str_replace( '%author%' , $author , $action );
+            $action = str_replace( '%user%', $liker, $action );
+            $action = str_replace( '%permalink%', $permalink, $action );
+            $action = str_replace( '%title%', $title, $action );
+            $action = str_replace( '%author%', $author, $action );
 
             /* Grab the content and make it into an excerpt of 140 chars if we're allowed */
             if ( bp_like_get_settings( 'show_excerpt' ) == 1 ) {
                 $content = $post->post_content;
                 if ( strlen( $content ) > bp_like_get_settings( 'excerpt_length' ) ) {
-                    $content = substr( $content , 0 , bp_like_get_settings( 'excerpt_length' ) );
+                    $content = substr( $content, 0, bp_like_get_settings( 'excerpt_length' ) );
                     $content = $content . '...';
                 }
             };
 
             bp_activity_add(
                     array(
-                        'action' => $action ,
-                        'content' => $content ,
-                        'component' => 'bp-like' ,
-                        'type' => 'blogpost_liked' ,
-                        'user_id' => $user_id ,
-                        'item_id' => $item_id ,
+                        'action' => $action,
+                        'content' => $content,
+                        'component' => 'bp-like',
+                        'type' => 'blogpost_liked',
+                        'user_id' => $user_id,
+                        'item_id' => $item_id,
                         'primary_link' => $permalink
                     )
             );
@@ -175,7 +188,7 @@ function bp_like_add_user_like( $item_id, $type ) {
     }
 
     echo bp_like_get_text( 'unlike' );
-    echo ' <span>' . ($liked_count?$liked_count:'') . '</span>';
+    echo ' <span>' . ( $liked_count ? $liked_count : '0' ) . '</span>';
 }
 
 /**
@@ -205,112 +218,102 @@ function bp_like_remove_user_like( $item_id = '' , $type = '' ) {
     if ( $type == 'activity_update' ) {
 
         /* Remove this from the users liked activities. */
-        $user_likes = get_user_meta( $user_id , 'bp_liked_activities' , true );
+        $user_likes = get_user_meta( $user_id, 'bp_liked_activities', true );
         unset( $user_likes[$item_id] );
-        update_user_meta( $user_id , 'bp_liked_activities' , $user_likes );
+        update_user_meta( $user_id, 'bp_liked_activities', $user_likes );
 
         /* Update the total number of users who have liked this activity. */
-        $users_who_like = bp_activity_get_meta( $item_id , 'liked_count' , true );
+        $users_who_like = bp_activity_get_meta( $item_id, 'liked_count', true );
         unset( $users_who_like[$user_id] );
 
         /* If nobody likes the activity, delete the meta for it to save space, otherwise, update the meta */
         if ( empty( $users_who_like ) ) {
-            bp_activity_delete_meta( $item_id , 'liked_count' );
+            bp_activity_delete_meta( $item_id, 'liked_count' );
         } else {
-            bp_activity_update_meta( $item_id , 'liked_count' , $users_who_like );
+            bp_activity_update_meta( $item_id, 'liked_count', $users_who_like );
         }
 
         $liked_count = count( $users_who_like );
 
         if ( bp_is_group() ) {
 
-          $bp = buddypress();
-          $update_id = bp_activity_get_activity_id(
+            $bp = buddypress();
+            $update_id = bp_activity_get_activity_id(
                 array(
-                  'user_id'     => $user_id,
-                  'component'   => $bp->groups->id,
-                  'type'        => 'activity_liked',
-                  'item_id'             => bp_get_current_group_id(),
-                  'secondary_item_id' => $item_id ,
+                  'user_id'           => $user_id,
+                  'component'         => $bp->groups->id,
+                  'type'              => 'activity_liked',
+                  'item_id'           => bp_get_current_group_id(),
+                  'secondary_item_id' => $item_id,
                 )
-        );
+            );
 
-        $result = bp_activity_delete(
-                array(
-                   'id' => $update_id,
-                   'user_id' => $user_id,
-                   'secondary_item_id' => $item_id,
-                   'type' => 'activity_liked' , // need to check if this is correct
-                   'component'         => $bp->groups->id,
-                   'item_id'           => bp_get_current_group_id()
-                )
-        );
-      //  error_log('update_id: ' . $update_id);
-      //  error_log('item_id: ' . $item_id);
-      //  error_log('result: ' . $result);
-      //  error_log(bp_get_current_group_id());
+            if ( $update_id ) {
+                bp_activity_delete(
+                    array(
+                       'id'                => $update_id,
+                       'user_id'           => $user_id,
+                       'secondary_item_id' => $item_id,
+                       'type'              => 'activity_liked',
+                       'component'         => $bp->groups->id,
+                       'item_id'           => bp_get_current_group_id()
+                    )
+                );
+            }
 
-      } else {
+        } else {
             /* Remove the update on the users profile from when they liked the activity. */
             $update_id = bp_activity_get_activity_id(
                 array(
-                    'item_id' => $item_id ,
+                    'item_id' => $item_id,
                     'component' => 'bp-like',
-                    'type' => 'activity_liked' ,
+                    'type' => 'activity_liked',
                     'user_id' => $user_id
                 )
             );
 
-            if ($update_id) {
+            if ( $update_id ) {
                 bp_activity_delete(
                         array(
-                           'id' => $update_id ,
+                           'id' => $update_id,
                            'user_id' => $user_id
                         )
                 );
             }
-      }
+        }
 
     } elseif ( $type == 'activity_comment' ) {
 
         /* Remove this from the users liked activities. */
-        $user_likes = get_user_meta( $user_id , 'bp_liked_activities' , true );
-        unset( $user_likes[$item_id] );
-        update_user_meta( $user_id , 'bp_liked_activities' , $user_likes );
+        $user_likes = get_user_meta( $user_id, 'bp_liked_activities', true );
+        unset( $user_likes[ $item_id ] );
+        update_user_meta( $user_id, 'bp_liked_activities', $user_likes );
 
         /* Update the total number of users who have liked this activity. */
-        $users_who_like = bp_activity_get_meta( $item_id , 'liked_count' , true );
-        unset( $users_who_like[$user_id] );
+        $users_who_like = bp_activity_get_meta( $item_id, 'liked_count', true );
+        unset( $users_who_like[ $user_id ] );
 
         /* If nobody likes the activity, delete the meta for it to save space, otherwise, update the meta */
         if ( empty( $users_who_like ) ) {
-            bp_activity_delete_meta( $item_id , 'liked_count' );
+            bp_activity_delete_meta( $item_id, 'liked_count' );
         } else {
-            bp_activity_update_meta( $item_id , 'liked_count' , $users_who_like );
+            bp_activity_update_meta( $item_id, 'liked_count', $users_who_like );
         }
 
         $liked_count = count( $users_who_like );
 
-        /* Remove the update on the users profile from when they liked the activity. */
-        $update_id = bp_activity_get_activity_id(
-                array(
-                    'item_id' => $item_id ,
-                    'component' => 'bp-like' ,
-                    'type' => 'activity_liked' ,
-                    'user_id' => $user_id
-                )
-        );
+
 
     } elseif ( $type == 'blog_post' ) {
 
         /* Remove this from the users liked activities. */
-        $user_likes = get_user_meta( $user_id , 'bp_liked_blogposts' , true );
-        unset( $user_likes[$item_id] );
-        update_user_meta( $user_id , 'bp_liked_blogposts' , $user_likes );
+        $user_likes = get_user_meta( $user_id, 'bp_liked_blogposts', true );
+        unset( $user_likes[ $item_id ] );
+        update_user_meta( $user_id, 'bp_liked_blogposts', $user_likes );
 
         /* Update the total number of users who have liked this blog post. */
-        $users_who_like = get_post_meta( $item_id , 'liked_count' , true );
-        unset( $users_who_like[$user_id] );
+        $users_who_like = get_post_meta( $item_id, 'liked_count', true );
+        unset( $users_who_like[ $user_id ] );
 
         $liked_count = count( $users_who_like );
 
@@ -327,22 +330,24 @@ function bp_like_remove_user_like( $item_id = '' , $type = '' ) {
         /* Remove the update on the users profile from when they liked the activity. */
         $update_id = bp_activity_get_activity_id(
                 array(
-                    'item_id' => $item_id ,
-                    'component' => 'bp-like' ,
-                    'type' => 'blogpost_liked' ,
+                    'item_id' => $item_id,
+                    'component' => 'bp-like',
+                    'type' => 'blogpost_liked',
                     'user_id' => $user_id
                 )
         );
 
-        bp_activity_delete(
+        if ( $update_id ) {
+            bp_activity_delete(
                 array(
-                    'id' => $update_id ,
-                    'item_id' => $item_id ,
-                    'component' => 'bp-like' ,
-                    'type' => 'blogpost_liked' ,
+                    'id' => $update_id,
+                    'item_id' => $item_id,
+                    'component' => 'bp-like',
+                    'type' => 'blogpost_liked',
                     'user_id' => $user_id
                 )
-        );
+            );
+        }
     } elseif ( $type == 'blog_post_comment' ) {
 
         /* Remove this from the users liked activities. */
@@ -364,7 +369,7 @@ function bp_like_remove_user_like( $item_id = '' , $type = '' ) {
     }
 
     echo bp_like_get_text( 'like' );
-    echo ' <span>' . ($liked_count?$liked_count:'') . '</span>';
+    echo ' <span>' . ( $liked_count ? $liked_count : '0' ) . '</span>';
 }
 
 /*
@@ -412,7 +417,9 @@ function bp_like_get_some_likes( $id, $type, $start, $end) {
 
             $one = bp_core_get_userlink( $users_who_like[0] );
 
-            $string .= '<small>You and %s like this.</small>'; // TODO translate
+            $string .= '<small>';
+            $string .= bp_like_get_text( 'you_and_username_like_this' );
+            $string .= '</small>';
 
             $string = sprintf( $string , $one );
 
@@ -427,16 +434,18 @@ function bp_like_get_some_likes( $id, $type, $start, $end) {
               $one = bp_core_get_userlink( $users_who_like[$others - 1] );
               $two = bp_core_get_userlink( $users_who_like[$others - 2] );
 
-              $string .= '<small>You, %s and %s like this.</small>';
+              $string .= '<small>';
+              $string .= bp_like_get_text( 'you_and_two_usernames_like_this' );
+              $string .= '</small>';
 
               $string = sprintf( $string , $one , $two );
 
         } elseif (  count( $users_who_like ) > 3 ) {
 
-          $key = array_search( get_current_user_id(), $users_who_like, true );
+              $key = array_search( get_current_user_id(), $users_who_like, true );
 
-          // removing current user from $users_who_like
-          array_splice( $users_who_like, $key, 1 );
+              // removing current user from $users_who_like
+              array_splice( $users_who_like, $key, 1 );
 
               $others = count ($users_who_like);
 
@@ -449,7 +458,6 @@ function bp_like_get_some_likes( $id, $type, $start, $end) {
               $string .= '<small>You, %s, %s and %d ' . _n( 'other', 'others', $others ) . ' like this.</small>';
 
               $string = sprintf( $string , $one , $two , $others );
-
         }
     } else {
 
@@ -472,7 +480,8 @@ function bp_like_get_some_likes( $id, $type, $start, $end) {
             $two = bp_core_get_userlink( $users_who_like[1] );
 
             $string .= '<small>';
-            $string .= '%s and %s like this.</small>'; // TODO translate
+            $string .= bp_like_get_text( 'two_like_this' );
+            $string .= '</small>';
 
             $string = sprintf( $string , $one, $two );
 
@@ -482,16 +491,18 @@ function bp_like_get_some_likes( $id, $type, $start, $end) {
               $two = bp_core_get_userlink( $users_who_like[1] );
               $three = bp_core_get_userlink( $users_who_like[2] );
 
-              $string .= '"><small>%s, %s and %s like this.</small>';
+              $string .= '<small>';
+              $string .= bp_like_get_text( 'three_like_this' );
+              $string .= '</small>';
 
               $string = sprintf( $string , $one , $two, $three );
 
-            } elseif (  count( $users_who_like ) > 3 ) {
+        } elseif (  count( $users_who_like ) > 3 ) {
 
               $others = count ($users_who_like);
 
               // output last two people to like (3 at end of array)
-              $one = bp_core_get_userlink( $users_who_like[$others - 1] );
+              $one = bp_core_get_userlink( $users_who_like[ $others - 1] );
               $two = bp_core_get_userlink( $users_who_like[$others - 2] );
               $three = bp_core_get_userlink( $users_who_like[$others - 3] );
 
@@ -510,7 +521,6 @@ function bp_like_get_some_likes( $id, $type, $start, $end) {
 /**
  *
  * view_who_likes() hook
- * TODO explain better
  *
  */
 function view_who_likes( $id,  $type, $start = '<p', $end = '</p>') {

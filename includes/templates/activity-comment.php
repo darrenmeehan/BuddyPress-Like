@@ -4,7 +4,7 @@
  *
  * This function is used to display the BuddyPress Like button on comments in the activity stream
  *
- * @package BuddyPress Like
+ * @package BuddyPressLike
  *
  */
 
@@ -20,8 +20,8 @@ function bplike_activity_comment_button() {
 
     if ( is_user_logged_in() ) {
 
-        if ( bp_activity_get_meta( bp_get_activity_comment_id() , 'liked_count' , true ) ) {
-            $users_who_like = array_keys( bp_activity_get_meta( bp_get_activity_comment_id() , 'liked_count' , true ) );
+        if ( bp_activity_get_meta( bp_get_activity_comment_id(), 'liked_count', true ) ) {
+            $users_who_like = array_keys( bp_activity_get_meta( bp_get_activity_comment_id(), 'liked_count', true ) );
             $liked_count = count( $users_who_like );
         }
 
@@ -29,16 +29,12 @@ function bplike_activity_comment_button() {
             ?>
             <a href="#" class="acomment-reply bp-primary-action like" id="like-activity-<?php echo bp_get_activity_comment_id(); ?>" title="<?php echo bp_like_get_text( 'like_this_item' ); ?>"><?php
                echo bp_like_get_text( 'like' );
-                if ( $liked_count ) {
-                    echo ' <span><small>' . $liked_count . '</small></span>';
-                }
+               echo ' <span><small>' . ( $liked_count ? $liked_count : '0' ) . '</small></span>';
                 ?></a>
         <?php } else { ?>
             <a href="#" class="acomment-reply bp-primary-action unlike" id="unlike-activity-<?php echo bp_get_activity_comment_id(); ?>" title="<?php echo bp_like_get_text( 'unlike_this_item' ); ?>"><?php
                 echo bp_like_get_text( 'unlike' );
-                if ( $liked_count ) {
-                    echo ' <span><small>' . $liked_count . '</small></span>';
-                }
+                echo ' <span><small>' . ( $liked_count ? $liked_count : '0' ) . '</small></span>';
                 ?></a>
             <?php
         }
