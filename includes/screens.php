@@ -47,7 +47,7 @@ function bplike_likes_screen_index() {
 		 */
 	//	bp_core_load_template( apply_filters( 'bplike_likes_screen_index', 'activity/index' ) );
 
-  echo 'this is bplike_likes_screen_index() here, fill in with details after';
+  //echo 'this is bplike_likes_screen_index() here, fill in with details after';
 	}
 }
 add_action( 'bp_screens', 'bplike_likes_screen_index' );
@@ -63,10 +63,10 @@ function bplike_screen_my_likes() {
 	 *
 	 * @since 0.4
 	 */
-	do_action( 'friends_screen_my_friends' );
+	do_action( 'likes_screen_my_likes' );
 
 	/**
-	 * 
+	 *
 	 *
 	 * @since 0.4
 	 */
@@ -116,7 +116,7 @@ function bplike_likes_screen_updates() {
 	 *
 	 */
 //	bp_core_load_template( apply_filters( 'bp_activity_template_mention_activity', 'members/single/home' ) );
-  echo ' bplike_likes_screen_updates() just display update likes here';
+//  echo ' bplike_likes_screen_updates() just display update likes here';
 }
 
 
@@ -149,4 +149,43 @@ function bplike_likes_screen_comments() {
 	 */
 //	bp_core_load_template( apply_filters( 'bp_activity_template_mention_activity', 'members/single/home' ) );
   echo ' bplike_likes_screen_comments() just display update likes here';
+}
+
+
+
+
+/**
+ * Load the 'Likes' activity page.
+ *
+ * @since 0.4
+ *
+ * @uses bp_update_is_item_admin()
+ * @uses bp_current_user_can()
+ * @uses do_action() To call the 'bplike_activity_screen_likes' hook.
+ * @uses bp_core_load_template()
+ * @uses apply_filters() To call the 'bplike_activity_template_like_activity' hook.
+ */
+function bplike_activity_screen_likes() {
+
+	/**
+	 * Fires right before the activity loops starts.
+	 * @since 0.4
+	 */
+	 add_filter( 'bp_ajax_querystring', 'bplike_filter_activity_likes_only', 999 );
+
+	/**
+	 * Fires right before the loading of the "Likes" screen template file.
+	 *
+	 * @since 0.4
+	 */
+	do_action( 'bplike_activity_screen_likes' );
+
+	/**
+	 * Filters the template to load for the "Likes" screen.
+	 *
+	 * @since 0.4
+	 *
+	 * @param string $template Path to the activity template to load.
+	 */
+	bp_core_load_template( apply_filters( 'bplike_activity_template_like_activity', 'members/single/plugins' ) );
 }

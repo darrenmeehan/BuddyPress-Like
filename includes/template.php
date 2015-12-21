@@ -99,4 +99,19 @@ function bplike_is_likes_component() {
 		 <li id="activity-likes"><a href="<?php echo bp_loggedin_user_domain() . bp_get_activity_slug() . '/' . bplike_get_likes_slug(); ?>" title="<?php esc_attr_e( "Activity items I've liked.", 'buddypress-like' ); ?>"><?php printf( __( 'My Likes %s', 'buddypress-like' ), '<span>' . bplike_total_likes_for_user( bp_loggedin_user_id() ) . '</span>' ); ?></a></li>
 	 <?php endif;
 }
-add_action( 'bp_before_activity_type_tab_groups', 'bplike_add_my_likes_to_activity_tab');
+add_action( 'bp_before_activity_type_tab_mentions', 'bplike_add_my_likes_to_activity_tab');
+
+/**
+ * Changes $query for activty stream to only use  .
+ *
+ * @since 0.4
+ * @var $query
+ *
+ * @return bool True if the current page is part of the Activity component.
+ */
+function bplike_filter_activity_likes_only( $query ) {
+	if ( empty( $query ) && empty( $_POST ) ) {
+		$query = 'action=activity_liked, blogpost_liked';
+	}
+	return $query;
+}
