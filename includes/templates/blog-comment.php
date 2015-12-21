@@ -44,7 +44,6 @@ function bplike_blog_post_comment_button( $content ) {
         view_who_likes( get_comment_ID(), 'blog_post_comment', '<span', '</span>');
 
 		$content .= ob_get_clean();
-        error_log(get_comment_ID());
 	}
 	return $content;
 }
