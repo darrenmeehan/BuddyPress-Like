@@ -49,9 +49,7 @@ function bplike_blog_post_button( $content ) {
             <?php
         }
 
-        if ( isset ( $users_who_like ) ) {
-            view_who_likes( get_the_ID(), 'blog_post');
-        }
+        view_who_likes( get_the_ID(), 'blog_post');
 
 		$content .= ob_get_clean();
 	}

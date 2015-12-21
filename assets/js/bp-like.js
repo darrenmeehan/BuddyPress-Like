@@ -17,12 +17,20 @@ jq(document).ready(function bpLike() {
             .replace('acomment-reply', 'activity_comment')
             .replace('blogpost', 'blog_post')
             .trim();
+        type = type.split(' ');
+
+        if (type.length < 2)
+            return;
+
+        var method = type[1];
+        type = type[0];
 
         jq(this).addClass('loading');
 
         jq.post(ajaxurl, {
             action: 'activity_like',                            // TODO this could be named clearer
             'type': type,
+            'method': method,
             'id': id
         },
             function( data ) {
@@ -33,65 +41,31 @@ jq(document).ready(function bpLike() {
                 // may only need one if and else if
                 // if (like) {} else if (unlike) {} else {oops()}
                 // leave for now as may need something for messages
-                if (type == 'activity_update like') {
+                if (method == 'like') {
 
                     jq('#' + id).removeClass('like')
                         .addClass('unlike')
                         .attr('title', bplikeTerms.unlike_message)
                         .attr('id', id.replace("like", "unlike") );
-                        getLikes(id, type);
-
-                } else if (type == 'activity_update unlike') {
+                } else if (method == 'unlike') {
 
                     jq('#' + id).removeClass('unlike')
                         .addClass('like')
                         .attr('title', bplikeTerms.like_message)
                         .attr('id', id.replace("unlike", "like"));
-                        getLikes(id, type);
-
-                } else if (type == 'activity_comment like') {
-
-                    jq('#' + id).removeClass('like')
-                        .addClass('unlike')
-                        .attr('title', bplikeTerms.unlike_message)      // may want different (smaller) message for comments
-                        .attr('id', id.replace("like", "unlike") );
-
-                } else if (type == 'activity_comment unlike') {
-
-                    jq('#' + id).removeClass('unlike')
-                        .addClass('like')
-                        .attr('title', bplikeTerms.like_message)
-                        .attr('id', id.replace("unlike", "like") );
-
-                }  else if (type == 'blog_post like') {
-                    jq('#' + id).removeClass('like')
-                        .addClass('unlike')
-                        .attr('title', bplikeTerms.unlike_message)      // may want different (smaller) message for comments
-                        .attr('id', id.replace("like", "unlike") );
-                        getLikes(id, type);
-
-                } else if (type == 'blog_post unlike') {
-
-                    jq('#' + id).removeClass('unlike')
-                        .addClass('like')
-                        .attr('title', bplikeTerms.like_message)
-                        .attr('id', id.replace("unlike", "like") );
-                        getLikes(id, type);
-
-                } else {
-                    console.log('Opps. Something went wrong');
-                    console.log('type: ' + type );
-                    console.log('id: ' + id );
                 }
 
-                // Nobody else liked this, so remove who likes the item
+                if (type != 'activity_comment')
+                    getLikes(id, type);
+
+                // Nobody else liked this, so clear who likes the item
                 if ( data == 'Like <span></span>' ) {
-                    jq('#users-who-like-' + getItemId(id) ).remove();
+                    jq('#users-who-like-' + getItemId(id) ).empty();
                 }
 
                 // Show who likes the item if user is first to like
                 if (data == 'Unlike <span>1</span>') {
-                    jq('<p class="users-who-like" id="users-who-like-' + getItemId(id) + '"><small>' + bplikeTerms.you_like_this +'</small></p>').insertAfter('#' + id.replace("like", "unlike"));
+                    jq('#users-who-like-' + getItemId(id)).html('<small>' + bplikeTerms.you_like_this +'</small>');
                 }
 
             });
@@ -101,13 +75,14 @@ jq(document).ready(function bpLike() {
 
     function getItemId(id) {
         return id
-          .replace('like-activity-', '')
-          .replace('unlike-activity-', '')
-          .replace('like-blogpost-', '')
-          .replace('unlike-blogpost-', '')
+          .replace('like-', '')
+          .replace('unlike-', '')
+          .replace('activity-', '')
+          .replace('blogpost-', '')
+          .replace('comment-', '')
           .replace('un', '');
     }
-    
+
     // this function is to get likes of a post
     function getLikes( id, type ) {
       id = getItemId(id);

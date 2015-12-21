@@ -13,34 +13,15 @@ function bp_like_process_ajax() {
     // ensuring $id only contains an integer
     $id = preg_replace( "/\D/" , "" , $_POST['id'] );
 
-    if ( $_POST['type'] == 'activity_update like' ) {
-        bp_like_add_user_like( $id , 'activity_update' );
-    }
 
-    if ( $_POST['type'] == 'activity_update unlike' ) {
-        bp_like_remove_user_like( $id , 'activity_update' );
-    }
-
-    if ( $_POST['type'] == 'activity_comment like' ) {
-        bp_like_add_user_like( $id , 'activity_comment' );
-    }
-
-    if ( $_POST['type'] == 'activity_comment unlike' ) {
-        bp_like_remove_user_like( $id , 'activity_comment' );
-    }
-
-    if ( $_POST['type'] == 'blog_post like' ) {
-        bp_like_add_user_like( $id , 'blog_post' );
-    }
-
-    if ( $_POST['type'] == 'blog_post unlike' ) {
-        bp_like_remove_user_like( $id , 'blog_post' );
-    }
+    if ($_POST['method'] == 'like')
+        bp_like_add_user_like( $id , $_POST['type'] );
+    else if ($_POST['method'] == 'unlike')
+        bp_like_remove_user_like( $id , $_POST['type'] );
 
     die();
 
 }
-
 add_action( 'wp_ajax_activity_like' , 'bp_like_process_ajax' );
 
 /**
@@ -54,11 +35,15 @@ function bp_like_ajax_get_likes() {
 
   if ( $_POST['type'] == 'activity_update' ) {
 
-    bp_like_get_some_likes( $id , 'activity_update' );
+    view_who_likes( $id , 'activity_update' );
 
   } elseif ( $_POST['type'] == 'blog_post' ) {
 
-    bp_like_get_some_likes( $id , 'blog_post' );
+    view_who_likes( $id , 'blog_post' );
+
+  } elseif ( $_POST['type'] == 'blog_post_comment' ) {
+
+    view_who_likes( $id , 'blog_post_comment',  '<span', '</span>' );
 
   }
 
