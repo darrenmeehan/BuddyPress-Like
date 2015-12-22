@@ -12,6 +12,17 @@
  * Testing as a possible rewrite with the addition of Likes component
  */
 
+ /**
+  * Check whether the $bp global lists a likes directory page.
+  *
+  * @since 0.4
+  *
+  * @return bool True if likes directory page is found, otherwise false.
+  */
+ function bplike_has_directory() {
+ 	return (bool) ! empty( buddypress()->pages->likes->id );
+ }
+
 
 /**
  * Get a users liked items.
