@@ -44,9 +44,7 @@ function bplike_activity_update_button() {
         }
 
         // Checking if there are users who like item.
-        if ( isset ( $users_who_like ) ) {
-            view_who_likes( bp_get_activity_id(), 'activity_update' );
-        }
+        view_who_likes( bp_get_activity_id(), 'activity_update' );
       }
     }
 }

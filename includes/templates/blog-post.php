@@ -14,8 +14,13 @@
  *
  */
 function bplike_blog_post_button( $content ) {
+    global $post;
 
-  $liked_count = 0;
+    if (!bp_like_get_settings('bp_like_post_types') ||
+        !in_array($post->post_type, bp_like_get_settings('bp_like_post_types')))
+        return $content;
+
+    $liked_count = 0;
 
     if ( is_user_logged_in() ) {
 
@@ -44,9 +49,7 @@ function bplike_blog_post_button( $content ) {
             <?php
         }
 
-        if ( isset ( $users_who_like ) ) {
-            view_who_likes( get_the_ID(), 'blog_post');
-        }
+        view_who_likes( get_the_ID(), 'blog_post');
 
 		$content .= ob_get_clean();
 	}

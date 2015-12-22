@@ -66,7 +66,8 @@ function bp_like_admin_page() {
             'translate_nag'            => bp_like_get_settings( 'translate_nag' ),
             'name_or_avatar'           => $_POST['name_or_avatar'],
             'remove_fav_button'        => $_POST['bp_like_remove_fav_button'],
-            'enable_blog_post_support' => $_POST['enable_blog_post_support']
+            'enable_blog_post_support' => $_POST['enable_blog_post_support'],
+            'bp_like_post_types' => $_POST['bp_like_post_types']
             )
         );
 
@@ -135,21 +136,40 @@ function bp_like_admin_page() {
                         </fieldset>
                     </td>
                 </tr>
+                 <tr valign="top">
+                     <th scope="row"><?php _e( 'Blog Post Support' , 'buddypress-like' ); ?></th>
+                     <td>
+                         <fieldset>
+                             <legend class="screen-reader-text">
+                                 <span><?php _e( 'Enable Blog Post Support' , 'buddypress-like' ); ?></span>
+                             </legend>
+                             <input type="checkbox" id="enable_blog_post_support" name="enable_blog_post_support" value="1" <?php if ( bp_like_get_settings( 'enable_blog_post_support' ) == 1 ) { echo ' checked="checked" '; } ?>>
+                             <label for="enable_blog_post_support">
+                                 <?php _e( "Display the like button at the bottom of your blog posts." , 'buddypress-like' ); ?>
+                             </label>
+                             <br />
+                         </fieldset>
+                     </td>
+                </tr>
                 <tr valign="top">
-                    <th scope="row"><?php _e( 'Blog Post Support' , 'buddypress-like' ); ?></th>
+                    <th scope="row"><?php _e( 'Post types' , 'buddypress-like' ); ?></th>
                     <td>
                         <fieldset>
                             <legend class="screen-reader-text">
-                                <span><?php _e( 'Enable Blog Post Support' , 'buddypress-like' ); ?></span>
+                                <span><?php _e( 'Post types to show like button' , 'buddypress-like' ); ?></span>
                             </legend>
-                            <input type="checkbox" id="enable_blog_post_support" name="enable_blog_post_support" value="1" <?php if ( bp_like_get_settings( 'enable_blog_post_support' ) == 1 ) { echo ' checked="checked" '; } ?>>
-                            <label for="enable_blog_post_support">
-                                <?php _e( "Display the like button at the bottom of your blog posts." , 'buddypress-like' ); ?>
-                            </label>
-                            <br />
+                            <p class="description"><?php _e( "Choose Post types on which to show the like button:" , "buddypress-like" ); ?></p>
+                            <?php $post_types = get_post_types(array( 'public' => true ));
+
+                            foreach ( $post_types as $post_type ) { ?>
+                                <input type="checkbox" name="bp_like_post_types[]"
+                                       value="<?php echo $post_type ?>"
+                                       <?php checked(true, in_array($post_type, bp_like_get_settings('bp_like_post_types'))) ?>>&nbsp; <?php echo $post_type ?><br>
+                            <?php } ?>
                         </fieldset>
                     </td>
                 </tr>
+
                 <tr valign="top">
                     <th scope="row"><?php _e( 'Notifications' , 'buddypress-like' ); ?></th>
                     <td>

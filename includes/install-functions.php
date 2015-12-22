@@ -177,6 +177,12 @@ function bp_like_install() {
         $remove_fav_button = '0';
     }
 
+    if ( $current_settings['bp_like_post_types']) {
+        $bp_like_post_types = $current_settings['bp_like_post_types'];
+    } else {
+        $bp_like_post_types = array('post', 'page');
+    }
+
     if ( $current_settings['text_strings'] ) {
 
         /* Go through each string and update the default to the current default, keep the custom settings */
@@ -203,7 +209,7 @@ function bp_like_install() {
         'text_strings'             => $text_strings,
         'name_or_avatar'           => $name_or_avatar,
         'remove_fav_button'        => $remove_fav_button,
-        'enable_blog_post_support' => $enable_blog_post_support,
+        'bp_like_post_types'       => $bp_like_post_types,
         'enable_notifications'     => $enable_notifications
     );
 
