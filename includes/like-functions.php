@@ -189,6 +189,9 @@ function bp_like_add_user_like( $item_id, $type ) {
 
     echo bp_like_get_text( 'unlike' );
     echo ' <span>' . ( $liked_count ? $liked_count : '0' ) . '</span>';
+
+    // Add hook on new like
+    do_action('bp_like_added', $item_id, $user_id);
 }
 
 /**
