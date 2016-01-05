@@ -16,7 +16,7 @@
 function bplike_blog_post_button( $content ) {
     global $post;
 
-    if (!is_singular() || !bp_like_get_settings('bp_like_post_types') ||
+    if (!is_singular($post->post_type) || !bp_like_get_settings('bp_like_post_types') ||
         !in_array($post->post_type, bp_like_get_settings('bp_like_post_types')))
         return $content;
 
