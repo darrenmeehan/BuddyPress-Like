@@ -299,10 +299,9 @@ function bp_like_get_some_likes( $id, $type, $start, $end) {
         } elseif ( count( $users_who_like ) == 2 ) {
 
             // find where the current_user is in the array $users_who_like
-            $key = array_search( get_current_user_id(), $users_who_like, true );
+            $key = array_search( get_current_user_id(), $users_who_like );
 
             // removing current user from $users_who_like
-            // TODO is key the same as offset?
             array_splice( $users_who_like, $key, 1 );
 
             $one = bp_core_get_userlink( $users_who_like[0] );
