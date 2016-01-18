@@ -2,10 +2,10 @@
 /**
  * BuddyPress Like Component
  *
- * The likes component is for users to like other updates, comments or blog posts.
+ * The likes component is for users to like updates, comments or posts.
  *
  * @package BuddyPressLike
-*
+ *
  */
 
 // Exit if accessed directly.
@@ -34,7 +34,7 @@ class BPLIKE_Likes_Component extends BP_Component {
   }
 
   /**
-   * Include bp-like files.
+   * Include bplike files.
    *
    * @see BP_Component::includes() for description of parameters.
    *
@@ -61,12 +61,9 @@ class BPLIKE_Likes_Component extends BP_Component {
 
 
   	/**
-  	 * Set up bp-friends global settings.
+  	 * Set up bplike global settings.
   	 *
-  	 * The BP_FRIENDS_SLUG constant is deprecated, and only used here for
-  	 * backwards compatibility.
-  	 *
-  	 * @since 1.5.0
+  	 * @since 0.4
   	 *
   	 * @see BP_Component::setup_globals() for description of parameters.
   	 *
@@ -89,14 +86,14 @@ class BPLIKE_Likes_Component extends BP_Component {
   		// All globals for the like component.
   		// Note that global_tables is included in this array.
   		$args = array(
-  			'slug'                  => BPLIKE_LIKES_SLUG,
-        'root_slug'             => isset( $bp->pages->likes->slug ) ? $bp->pages->likes->slug : BPLIKE_LIKES_SLUG,
-  			'has_directory'         => false,
-        'directory_title'       => _x( 'Likes', 'component directory title', 'buddypress-like' ),
-  			'notification_callback' => 'bplike_likes_format_notifications',
-  			'global_tables'         => $global_tables,
-      //  'meta_tables'           => $meta_tables,
-  		);
+              'slug'                  => BPLIKE_LIKES_SLUG,
+              'root_slug'             => isset( $bp->pages->likes->slug ) ? $bp->pages->likes->slug : BPLIKE_LIKES_SLUG,
+              'has_directory'         => false,
+              'directory_title'       => _x( 'Likes', 'component directory title', 'buddypress-like' ),
+              'notification_callback' => 'bplike_likes_format_notifications',
+              'global_tables'         => $global_tables, // todo currently not used, either start using or curl_multi_remove_handle
+              //  'meta_tables'           => $meta_tables,
+       );
 
   		parent::setup_globals( $args );
   	}
@@ -109,9 +106,8 @@ class BPLIKE_Likes_Component extends BP_Component {
      * @see BP_Component::setup_nav() for a description of arguments.
      * @uses bp_is_active()
      * @uses is_user_logged_in()
-     * @uses bp_get_friends_slug()
-     * @uses bp_get_groups_slug()
      * @uses bplike_get_likes_slug()
+     * @uses bplike_total_likes_for_user()
      *
      * @param array $main_nav Optional. See BP_Component::setup_nav() for description.
      * @param array $sub_nav  Optional. See BP_Component::setup_nav() for description.
@@ -135,29 +131,29 @@ class BPLIKE_Likes_Component extends BP_Component {
       $slug          = bplike_get_likes_slug();
       $likes_link = trailingslashit( $user_domain . $slug );
 
-      // Add 'Activity' to the main navigation.
+      $activity_slug = bp_get_activity_slug();
+      $activity_link = trailingslashit( $user_domain . $activity_slug );
+
+      // Only grab count if we're on a user page
+  		if ( bp_is_user() ) {
+  			$count    = bplike_total_likes_for_user();
+  			$class    = ( 0 === $count ) ? 'no-count' : 'count';
+  			$nav_name = sprintf( _x( 'Likes <span class="%s">%s</span>', 'Likes screen nav with counter', 'buddypress-like' ), esc_attr( $class ), bp_core_number_format( $count ) );
+  		} else {
+  			$nav_name = _x( 'Likes', 'Likes screen nav without counter', 'buddypress-like' );
+  		}
+
+      // Add 'Likes' to the main navigation.
       $main_nav = array(
-        'name'                => _x( 'Likes', 'Main likes screen nav', 'buddypress-like' ),
+        'name'                => $nav_name,
         'slug'                => $slug,
         'position'            => 10,
-        'screen_function'     => 'bplike_screen_my_likes',
+        'screen_function'     => 'bplike_screen_likes',
         'default_subnav_slug' => 'just-me',
         'item_css_id'         => $this->id
       );
 
-      $activity_slug = bp_get_activity_slug();
-      $activity_link = trailingslashit( $user_domain . $activity_slug );
-
       // Add the subnav items to the activity nav item if we are using a theme that supports this.
-      $sub_nav[] = array(
-        'name'            => _x( 'Updates', 'Updates like screen sub nav', 'buddypress-like' ),
-        'slug'            => 'just-me',
-        'parent_url'      => $likes_link,
-        'parent_slug'     => $slug,
-        'screen_function' => 'bplike_likes_screen_updates',
-        'position'        => 10,
-      );
-
       $sub_nav[] = array(
         'name'            => _x( 'Likes', 'Profile activity screen sub nav', 'buddypress-like' ),
         'slug'            => 'likes',
@@ -168,15 +164,16 @@ class BPLIKE_Likes_Component extends BP_Component {
         'item_css_id'     => 'activity-likes'
       );
 
-        $sub_nav[] = array(
-          'name'            => _x( 'Comments', 'Comments like screen sub nav', 'buddypress-like' ),
-          'slug'            => 'comments',
-          'parent_url'      => $likes_link,
-          'parent_slug'     => $slug,
-          'screen_function' => 'bplike_likes_screen_comments',
-          'position'        => 20,
-          'item_css_id'     => 'activity-mentions'
-        );
+      $sub_nav[] = array(
+        'name'            => _x( 'Stats', 'Likes screen sub nav', 'buddypress-like' ),
+        'slug'            => 'just-me',
+        'parent_url'      => $likes_link,
+        'parent_slug'     => $slug,
+        'screen_function' => 'bplike_screen_likes',
+        'position'        => 10,
+         'item_css_id'    => 'your-likes'
+      );
+
         // todo add one for blog posts etc, what makes sense
       parent::setup_nav( $main_nav, $sub_nav );
     }
@@ -199,14 +196,22 @@ class BPLIKE_Likes_Component extends BP_Component {
 
         // Setup the logged in user variables.
         $likes_link = trailingslashit( bp_loggedin_user_domain() . bplike_get_likes_slug() );
-        $title = _x( 'Likes', 'Toolbar Likes logged in user', 'buddypress-like' );
+        $title = _x( 'Likes', 'My Account Likes sub nav', 'buddypress-like' );
 
         // Add the "My Account" sub menus.
         $wp_admin_nav[] = array(
-          'parent' => buddypress()->my_account_menu_id, // @todo look into this
+          'parent' => buddypress()->my_account_menu_id,
           'id'     => 'my-account-' . $this->id,
           'title'  => $title,
           'href'   => $likes_link
+        );
+
+         // Statistics
+        $wp_admin_nav[] = array(
+            'parent' => 'my-account-' . $this->id,
+            'id'     => 'my-account-' . $this->id . '-stats',
+            'title'  => _x( 'Statistics', 'My Account Likes sub nav', 'buddypress-like' ),
+            'href'   => $likes_link
         );
       }
 
@@ -222,6 +227,8 @@ class BPLIKE_Likes_Component extends BP_Component {
   	 * @uses bplike_is_likes_component()
   	 * @uses bp_is_my_profile()
   	 * @uses bp_core_fetch_avatar()
+     * @uses bp_get_displayed_user_fullname()
+     * @uses bp_displayed_user_id()
   	 */
   	public function setup_title() {
 
