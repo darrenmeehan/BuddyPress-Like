@@ -99,6 +99,9 @@ function bp_like_add_user_like( $item_id, $type ) {
 
     } elseif ( $type == 'blog_post' ) {
 
+        /* save total like count, so posts can be ordered by likes */
+        update_post_meta( $item_id , 'bp_liked_count_total' , $liked_count );
+
         if ( bp_like_get_settings( 'post_to_activity_stream' ) == 1 ) {
             $post = get_post( $item_id );
             $author_id = $post->post_author;
@@ -236,6 +239,9 @@ function bp_like_remove_user_like( $item_id = '' , $type = '' ) {
         /* Do nothing special for now */
 
     } elseif ( $type == 'blog_post' ) {
+
+        /* update total like count, so posts can be ordered by likes */
+        update_post_meta( $item_id , 'bp_liked_count_total' , $liked_count );
 
         /* Remove the update on the users profile from when they liked the activity. */
         $update_id = bp_activity_get_activity_id(
