@@ -91,7 +91,7 @@ class BPLIKE_Likes_Component extends BP_Component {
   		$args = array(
   			'slug'                  => BPLIKE_LIKES_SLUG,
         'root_slug'             => isset( $bp->pages->likes->slug ) ? $bp->pages->likes->slug : BPLIKE_LIKES_SLUG,
-  			'has_directory'         => true,
+  			'has_directory'         => false,
         'directory_title'       => _x( 'Likes', 'component directory title', 'buddypress-like' ),
   			'notification_callback' => 'bplike_likes_format_notifications',
   			'global_tables'         => $global_tables,
