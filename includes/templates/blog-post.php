@@ -28,15 +28,14 @@ function bplike_blog_post_button( $content ) {
 
         ob_start();
 
-        if ( ! bp_like_is_liked( get_the_ID(), 'blog_post', get_current_user_id() ) ) {
-            ?>
+        if ( ! bp_like_is_liked( get_the_ID(), 'blog_post', get_current_user_id() ) ) { ?>
             <a href="#" class="blogpost like" id="like-blogpost-<?php echo get_the_ID(); ?>" title="<?php echo bp_like_get_text( 'like_this_item' ); ?>">
 				<?php echo bp_like_get_text( 'like' ); ?>
         <?php } else { ?>
             <a href="#" class="blogpost unlike" id="unlike-blogpost-<?php echo get_the_ID(); ?>" title="<?php echo bp_like_get_text( 'unlike_this_item' ); ?>">
                 <?php echo bp_like_get_text( 'unlike' ); ?>
         <?php } ?>
-				<span><?php echo ( $liked_count ? $liked_count : '0' ) ?></span>
+				<span><?php echo ( $liked_count ? $liked_count : '' ) ?></span>
          	</a>
         <?php
 
