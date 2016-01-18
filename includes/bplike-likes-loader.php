@@ -191,6 +191,7 @@ class BPLIKE_Likes_Component extends BP_Component {
      */
     public function setup_admin_bar( $wp_admin_nav = array() ) {
 
+      return;
       // Menus for logged in user.
       if ( is_user_logged_in() ) {
 
