@@ -283,11 +283,6 @@ function bp_like_get_some_likes( $id, $type, $start, $end) {
 
 	$users_who_like = BPLIKE_LIKES::get_likers($id, $type);
 
-   /* if ($users_who_like)
-        $users_who_like = array_keys( (array) $users_who_like);
-    else
-        $users_who_like = array();*/
-
     $string = $start . ' class="users-who-like" id="users-who-like-' . $id . '">';
 
     // if the current users likes the item
