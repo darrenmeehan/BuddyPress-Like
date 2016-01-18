@@ -162,9 +162,10 @@ function bp_like_admin_page() {
                             <?php $post_types = get_post_types(array( 'public' => true ));
 
                             foreach ( $post_types as $post_type ) { ?>
+                                <?php $object = get_post_type_object( $post_type ); ?>
                                 <input type="checkbox" name="bp_like_post_types[]"
                                        value="<?php echo $post_type ?>"
-                                       <?php checked(true, in_array($post_type, bp_like_get_settings('bp_like_post_types'))) ?>>&nbsp; <?php echo $post_type ?><br>
+                                       <?php checked(true, in_array($post_type, bp_like_get_settings('bp_like_post_types'))) ?>>&nbsp; <?php echo $object->labels->singular_name ?><br>
                             <?php } ?>
                         </fieldset>
                     </td>
