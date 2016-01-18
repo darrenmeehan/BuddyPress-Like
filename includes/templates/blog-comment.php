@@ -24,10 +24,7 @@ function bplike_blog_post_comment_button( $content ) {
 
     if ( is_user_logged_in() ) {
 
-        if ( get_comment_meta( get_comment_ID(), 'liked_count', true ) ) {
-            $users_who_like = array_keys( get_comment_meta( get_comment_ID(), 'liked_count', true ) );
-            $liked_count = count( $users_who_like );
-        }
+        $liked_count = count(  BPLIKE_LIKES::get_likers(get_comment_ID(), 'blog_post_comment') );
 
         ob_start();
 

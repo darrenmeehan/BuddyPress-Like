@@ -20,10 +20,7 @@ function bplike_activity_comment_button() {
 
     if ( is_user_logged_in() ) {
 
-        if ( bp_activity_get_meta( bp_get_activity_comment_id(), 'liked_count', true ) ) {
-            $users_who_like = array_keys( bp_activity_get_meta( bp_get_activity_comment_id(), 'liked_count', true ) );
-            $liked_count = count( $users_who_like );
-        }
+		$liked_count = count(  BPLIKE_LIKES::get_likers(bp_get_activity_comment_id(), 'activity_comment') );
 
         if ( ! bp_like_is_liked( bp_get_activity_comment_id(), 'activity_comment', get_current_user_id() ) ) {
             ?>

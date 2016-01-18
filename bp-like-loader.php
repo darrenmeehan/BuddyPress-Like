@@ -28,3 +28,29 @@ function bplike_init() {
 }
 
 add_action( 'bp_loaded' , 'bplike_init', 2 );
+
+/**
+ * Run the activation routine when BP-Like is activated.
+ *
+ * @uses dbDelta() Executes queries and performs selective upgrades on existing tables.
+ */
+function bp_like_activate() {
+	global $bp, $wpdb;
+
+	$charset_collate = !empty( $wpdb->charset ) ? "DEFAULT CHARACTER SET $wpdb->charset" : '';
+	if ( !$table_prefix = $bp->table_prefix )
+		$table_prefix = apply_filters( 'bp_core_get_table_prefix', $wpdb->base_prefix );
+
+	$sql[] = "CREATE TABLE IF NOT EXISTS {$table_prefix}bplike_likes (
+			id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+			liker_id bigint(20) NOT NULL,
+			item_id bigint(20) NOT NULL,
+			date_created datetime NOT NULL,
+			like_type varchar(20) NOT NULL,
+		        KEY likers (item_id, liker_id)
+		) {$charset_collate};";
+
+	require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+	dbDelta( $sql );
+}
+register_activation_hook( __FILE__, 'bp_like_activate' );
