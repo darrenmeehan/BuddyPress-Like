@@ -33,17 +33,13 @@ function bp_like_ajax_get_likes() {
   // ensuring $id only contains an integer
   $id = preg_replace( "/\D/" , "" , $_POST['id'] );
 
-  if ( $_POST['type'] == 'activity_update' ) {
-
-    view_who_likes( $id , 'activity_update' );
-
-  } elseif ( $_POST['type'] == 'blog_post' ) {
-
-    view_who_likes( $id , 'blog_post' );
-
-  } elseif ( $_POST['type'] == 'blog_post_comment' ) {
+  if ( $_POST['type'] == 'blog_post_comment' ) {
 
     view_who_likes( $id , 'blog_post_comment',  '<span', '</span>' );
+
+  } else {
+
+      view_who_likes( $id , $_POST['type'] );
 
   }
 
