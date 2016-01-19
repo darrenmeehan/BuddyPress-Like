@@ -22,23 +22,6 @@ function bp_like_is_liked( $item_id, $type, $user_id) {
     }
 
 	return BPLIKE_LIKES::item_is_liked($item_id, $type, $user_id);
-
-  /*  if ( $type == 'activity_update' || $type == 'activity_comment' ) {
-
-        $user_likes = get_user_meta( $user_id , 'bp_liked_activities' , true );
-
-    } elseif ( $type == 'blog_post' || $type == 'blog_post_comment' ) {
-
-      $user_likes =  get_user_meta( $user_id , 'bp_liked_blogposts' , true );
-    }
-
-    if ( ! isset( $user_likes ) || ! $user_likes ) {
-        return false;
-    } elseif ( ! array_key_exists( $item_id , $user_likes ) ) {
-        return false;
-    } else {
-        return true;
-    }*/
 }
 
 /**
