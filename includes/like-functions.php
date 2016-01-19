@@ -136,7 +136,8 @@ function bp_like_add_user_like( $item_id, $type ) {
     }
 
     echo bp_like_get_text( 'unlike' );
-    echo ' <span>' . ( $liked_count ? $liked_count : '0' ) . '</span>';
+    // liked_count should always be at least 1
+    echo ' <span>' . $liked_count . '</span>';
 }
 
 /**
