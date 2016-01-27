@@ -71,6 +71,23 @@ function bp_like_admin_page() {
             )
         );
 
+        // initialize post like count totals
+        if ($_POST['enable_blog_post_support'] == 1 && isset($_POST['bp_like_post_types'])) {
+            $posts = get_posts(array(
+                'post_type' 	 => $_POST['bp_like_post_types'],
+                'posts_per_page' => -1,
+                'meta_query'	 => array(
+                    array(
+                        'key'	   => 'bp_liked_count_total',
+                        'compare'  => 'NOT EXISTS'
+                    )
+                )
+            ));
+            foreach($posts as $post){
+                bp_like_init_like_count_total($post->ID, $post, false);
+            }
+        }
+
         /* Let the user know everything's cool */
         echo '<div class="updated"><p><strong>';
         _e( 'Settings saved.' , 'wordpress' );
