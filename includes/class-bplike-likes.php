@@ -29,14 +29,7 @@ class BPLIKE_LIKES {
 	 * @todo possibly change this to an array, so we dont have to create multiple objects for one item
 	 * @var int
 	 */
-	public $liker_user_id;
-
-	/**
-	 * User ID of the 'poster' - the user who created the item being liked.
-	 *
-	 * @var int
-	 */
-	public $poster_user_id;
+	public $liker_id;
 
 	/**
 	 * Date the like was created.
@@ -44,6 +37,20 @@ class BPLIKE_LIKES {
 	 * @var string
 	 */
 	public $date_created;
+
+	/**
+	 * Item ID of the item being liked.
+	 *
+	 * @var int
+	 */
+	public $item_id;
+
+	/**
+	 * Type of the item being liked.
+	 *
+	 * @var string
+	 */
+	public $like_type;
 
 
   /**
@@ -54,7 +61,7 @@ class BPLIKE_LIKES {
 	public function __construct( $id = null ) {
 
 		if ( !empty( $id ) ) {
-			$this->id                      = $id;
+			$this->id = $id;
 			$this->populate( $this->id );
 		}
 	}
@@ -69,9 +76,10 @@ class BPLIKE_LIKES {
 		$bp = buddypress();
 
 		if ( $like = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$bp->likes->table_name} WHERE id = %d", $this->id ) ) ) {
-			$this->liker_user_id  = (int) $like->liker_user_id;
-			$this->poster_user_id = (int) $like->poster_user_id;
-			$this->date_created   = $like->date_created;
+			$this->liker_id  	= (int) $like->liker_id;
+			$this->item_id 		= (int) $like->item_id;
+			$this->like_type 	= $like->like_type;
+			$this->date_created = $like->date_created;
 		}
 	}
 
@@ -86,9 +94,10 @@ class BPLIKE_LIKES {
 
     $bp = buddypress();
 
-    $this->liker_user_id  = apply_filters( 'likes_like_liker_user_id_before_save',  $this->liker_user_id,  $this->id );
-    $this->poster_user_id = apply_filters( 'likes_like_poster_user_id_before_save', $this->poster_user_id, $this->id );
-    $this->date_created   = apply_filters( 'likes_like_date_created_before_save',   $this->date_created,   $this->id );
+    $this->liker_id  	  = apply_filters( 'likes_like_liker_id_before_save',  		$this->liker_id,  	 $this->id );
+	$this->item_id		  = apply_filters( 'likes_like_item_id_before_save', 		$this->item_id, 	 $this->id );
+	$this->like_type 	  = apply_filters( 'likes_like_like_type_before_save',		$this->like_type, 	 $this->id );
+    $this->date_created   = apply_filters( 'likes_like_date_created_before_save',   $this->date_created, $this->id );
 
     /**
      * Fires before processing and saving the current like.
@@ -101,11 +110,11 @@ class BPLIKE_LIKES {
 
     // Update.
     if (! empty( $this->id ) ) {
-      $result = $wpdb->query( $wpdb->prepare( "UPDATE {$bp->likes->table_name} SET liker_user_id = %d, poster_user_id = %d, date_created = %s WHERE id = %d", $this->liker_user_id, $this->poster_user_id, $this->date_created, $this->id ) );
+      $result = $wpdb->query( $wpdb->prepare( "UPDATE {$bp->likes->table_name} SET liker_id = %d, item_id = %d, like_type = %s, date_created = %s WHERE id = %d", $this->liker_id, $this->item_id, $this->like_type, $this->date_created, $this->id ) );
 
     // Save.
     } else {
-      $result = $wpdb->query( $wpdb->prepare( "INSERT INTO {$bp->friends->table_name} ( liker_user_id, poster_user_id, date_created ) VALUES ( %d, %d, %s )", $this->liker_user_id, $this->poster_user_id, $this->date_created ) );
+      $result = $wpdb->query( $wpdb->prepare( "INSERT INTO {$bp->likes->table_name} ( liker_id, item_id, like_type, date_created ) VALUES ( %d, %d, %s, %s )", $this->liker_id, $this->item_id, $this->like_type, $this->date_created ) );
       $this->id = $wpdb->insert_id;
     }
 
@@ -158,6 +167,34 @@ class BPLIKE_LIKES {
 		return 0;
 	}
 
+	public static function get_user_like($item_id, $type, $user_id) {
+		global $wpdb, $bp;
 
+		if ( $row = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$bp->likes->table_name} WHERE item_id = %d AND liker_id = %d AND like_type = %s", $item_id, $user_id, $type ) ) ) {
 
+			$like = new BPLIKE_LIKES();
+			$like->id  			= (int) $row->id;
+			$like->liker_id  	= (int) $row->liker_id;
+			$like->item_id 		= (int) $row->item_id;
+			$like->like_type 	= $row->like_type;
+			$like->date_created = $row->date_created;
+			return $like;
+		}
+		return false;
+	}
+
+	public static function item_is_liked($item_id, $type, $user_id) {
+		global $wpdb, $bp;
+
+		if ( BPLIKE_LIKES::get_user_like($item_id, $type, $user_id) ) {
+			return true;
+		}
+		return false;
+	}
+
+	public static function get_likers($item_id, $type) {
+		global $wpdb, $bp;
+
+		return $wpdb->get_col( $wpdb->prepare( "SELECT liker_id FROM {$bp->likes->table_name} WHERE item_id = %d AND like_type = %s", $item_id, $type ) );
+	}
 }

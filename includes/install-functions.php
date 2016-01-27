@@ -269,3 +269,19 @@ function bp_like_install_buddypress_notice() {
     _e( '<strong>BuddyPress Like</strong></a> requires the BuddyPress plugin to work. Please <a href="http://buddypress.org">install BuddyPress</a> first, or <a href="plugins.php">deactivate BuddyPress Like</a>.' , 'buddypress-like' );
     echo '</p></div>';
 }
+
+function bp_like_init_like_count_total($post_id, $post, $update) {
+    if (!$update && in_array($post->post_type, bp_like_get_settings('bp_like_post_types'))) {
+        /* save total like count, so posts can be ordered by likes */
+        add_post_meta( $post_id , 'bp_liked_count_total' , count(  BPLIKE_LIKES::get_likers($post_id, 'blog_post') ) );
+    }
+}
+
+function bp_like_setup_post_insert_hooks() {
+	if ( bp_like_get_settings( 'enable_blog_post_support' ) == 1 &&
+	     bp_like_get_settings('bp_like_post_types') ) {
+		add_action('wp_insert_post', 'bp_like_init_like_count_total', 10, 3);
+	}
+}
+add_action( 'wp', 'bp_like_setup_post_insert_hooks');
+

@@ -21,22 +21,7 @@ function bp_like_is_liked( $item_id, $type, $user_id) {
         }
     }
 
-    if ( $type == 'activity_update' || $type == 'activity_comment' ) {
-
-        $user_likes = get_user_meta( $user_id , 'bp_liked_activities' , true );
-
-    } elseif ( $type == 'blog_post' || $type == 'blog_post_comment' ) {
-
-      $user_likes =  get_user_meta( $user_id , 'bp_liked_blogposts' , true );
-    }
-
-    if ( ! isset( $user_likes ) || ! $user_likes ) {
-        return false;
-    } elseif ( ! array_key_exists( $item_id , $user_likes ) ) {
-        return false;
-    } else {
-        return true;
-    }
+	return BPLIKE_LIKES::item_is_liked($item_id, $type, $user_id);
 }
 
 /**
@@ -56,19 +41,16 @@ function bp_like_add_user_like( $item_id, $type ) {
         return false;
     }
 
+	$like = new BPLIKE_LIKES();
+	$like->liker_id = $user_id;
+	$like->item_id = $item_id;
+	$like->like_type = $type;
+	$like->date_created = current_time( 'mysql' );
+	$like->save();
+
+	$liked_count = count(  BPLIKE_LIKES::get_likers($item_id, $type) );
+
     if ( $type == 'activity_update' ) {
-
-        /* Add to the  users liked activities. */
-        $user_likes = get_user_meta( $user_id, 'bp_liked_activities', true );
-        $user_likes[$item_id] = 'activity_liked';
-        update_user_meta( $user_id, 'bp_liked_activities', $user_likes );
-
-        /* Add to the total likes for this activity. */
-        $users_who_like = bp_activity_get_meta( $item_id, 'liked_count', true );
-        $users_who_like[$user_id] = 'user_likes';
-        bp_activity_update_meta( $item_id, 'liked_count', $users_who_like );
-
-        $liked_count = count( $users_who_like );
         $group_id = 0;
 
         // check if this item is in a group or not, assign group id if so
@@ -80,18 +62,6 @@ function bp_like_add_user_like( $item_id, $type ) {
 
         do_action('bp_like_activity_update_add_like', $user_id, $item_id);
     } elseif ( $type == 'activity_comment' ) {
-
-        /* Add to the  users liked activities. */
-        $user_likes = get_user_meta( $user_id, 'bp_liked_activities', true );
-        $user_likes[$item_id] = 'activity_liked';
-        update_user_meta( $user_id, 'bp_liked_activities', $user_likes );
-
-        /* Add to the total likes for this activity. */
-        $users_who_like = bp_activity_get_meta( $item_id, 'liked_count', true );
-        $users_who_like[$user_id] = 'user_likes';
-        bp_activity_update_meta( $item_id, 'liked_count', $users_who_like );
-
-        $liked_count = count( $users_who_like );
 
         do_action('bp_like_activity_comment_add_like', $user_id, $item_id);
 
@@ -112,17 +82,6 @@ function bp_like_add_user_like( $item_id, $type ) {
 
     } elseif ( $type == 'blog_post' ) {
 
-        /* Add to the users liked blog posts. */
-        $user_likes = get_user_meta( $user_id, 'bp_liked_blogposts', true );
-        $user_likes[$item_id] = 'blogpost_liked';
-        update_user_meta( $user_id, 'bp_liked_blogposts', $user_likes );
-
-        /* Add to the total likes for this blog post. */
-        $users_who_like = get_post_meta( $item_id, 'liked_count', true );
-        $users_who_like[$user_id] = 'user_likes';
-        update_post_meta( $item_id, 'liked_count', $users_who_like );
-
-        $liked_count = count( $users_who_like );
         /* save total like count, so posts can be ordered by likes */
         update_post_meta( $item_id , 'bp_liked_count_total' , $liked_count );
 
@@ -173,22 +132,12 @@ function bp_like_add_user_like( $item_id, $type ) {
 
         do_action('bp_like_blog_post_add_like', $user_id, $item_id);
     } elseif ( $type == 'blog_post_comment' ) {
-
-        /* Add to the users liked blog posts. */
-        $user_likes = get_user_meta( $user_id , 'bp_liked_blogposts' , true );
-        $user_likes[$item_id] = 'blogpost_liked';
-        update_user_meta( $user_id , 'bp_liked_blogposts' , $user_likes );
-
-        /* Add to the total likes for this blog post comment. */
-        $users_who_like = get_comment_meta( $item_id , 'liked_count' , true );
-        $users_who_like[$user_id] = 'user_likes';
-        update_comment_meta( $item_id , 'liked_count' , $users_who_like );
-
-        $liked_count = count( $users_who_like );
+		/* Do nothing special for now */
     }
 
     echo bp_like_get_text( 'unlike' );
-    echo ' <span>' . ( $liked_count ? $liked_count : '0' ) . '</span>';
+    // liked_count should always be at least 1
+    echo ' <span>' . $liked_count . '</span>';
 }
 
 /**
@@ -215,25 +164,12 @@ function bp_like_remove_user_like( $item_id = '' , $type = '' ) {
         return false;
     }
 
+	if ( $like = BPLIKE_LIKES::get_user_like($item_id, $type, $user_id) )
+		$like->delete();
+
+	$liked_count = count(  BPLIKE_LIKES::get_likers($item_id, $type) );
+
     if ( $type == 'activity_update' ) {
-
-        /* Remove this from the users liked activities. */
-        $user_likes = get_user_meta( $user_id, 'bp_liked_activities', true );
-        unset( $user_likes[$item_id] );
-        update_user_meta( $user_id, 'bp_liked_activities', $user_likes );
-
-        /* Update the total number of users who have liked this activity. */
-        $users_who_like = bp_activity_get_meta( $item_id, 'liked_count', true );
-        unset( $users_who_like[$user_id] );
-
-        /* If nobody likes the activity, delete the meta for it to save space, otherwise, update the meta */
-        if ( empty( $users_who_like ) ) {
-            bp_activity_delete_meta( $item_id, 'liked_count' );
-        } else {
-            bp_activity_update_meta( $item_id, 'liked_count', $users_who_like );
-        }
-
-        $liked_count = count( $users_who_like );
 
         if ( bp_is_group() ) {
 
@@ -284,48 +220,12 @@ function bp_like_remove_user_like( $item_id = '' , $type = '' ) {
 
     } elseif ( $type == 'activity_comment' ) {
 
-        /* Remove this from the users liked activities. */
-        $user_likes = get_user_meta( $user_id, 'bp_liked_activities', true );
-        unset( $user_likes[ $item_id ] );
-        update_user_meta( $user_id, 'bp_liked_activities', $user_likes );
-
-        /* Update the total number of users who have liked this activity. */
-        $users_who_like = bp_activity_get_meta( $item_id, 'liked_count', true );
-        unset( $users_who_like[ $user_id ] );
-
-        /* If nobody likes the activity, delete the meta for it to save space, otherwise, update the meta */
-        if ( empty( $users_who_like ) ) {
-            bp_activity_delete_meta( $item_id, 'liked_count' );
-        } else {
-            bp_activity_update_meta( $item_id, 'liked_count', $users_who_like );
-        }
-
-        $liked_count = count( $users_who_like );
-
-
+        /* Do nothing special for now */
 
     } elseif ( $type == 'blog_post' ) {
 
-        /* Remove this from the users liked activities. */
-        $user_likes = get_user_meta( $user_id, 'bp_liked_blogposts', true );
-        unset( $user_likes[ $item_id ] );
-        update_user_meta( $user_id, 'bp_liked_blogposts', $user_likes );
-
-        /* Update the total number of users who have liked this blog post. */
-        $users_who_like = get_post_meta( $item_id, 'liked_count', true );
-        unset( $users_who_like[ $user_id ] );
-
-        $liked_count = count( $users_who_like );
-
-        /* If nobody likes the blog post, delete the meta for it to save space, otherwise, update the meta */
-        if ( !$liked_count ) {
-            delete_post_meta( $item_id , 'liked_count' );
-            delete_post_meta( $item_id , 'bp_liked_count_total' );
-        } else {
-            update_post_meta( $item_id , 'liked_count' , $users_who_like );
-            /* save total like count, so posts can be ordered by likes */
-            update_post_meta( $item_id , 'bp_liked_count_total', $liked_count );
-        }
+        /* update total like count, so posts can be ordered by likes */
+        update_post_meta( $item_id , 'bp_liked_count_total' , $liked_count );
 
         /* Remove the update on the users profile from when they liked the activity. */
         $update_id = bp_activity_get_activity_id(
@@ -350,26 +250,11 @@ function bp_like_remove_user_like( $item_id = '' , $type = '' ) {
         }
     } elseif ( $type == 'blog_post_comment' ) {
 
-        /* Remove this from the users liked activities. */
-        $user_likes = get_user_meta( $user_id , 'bp_liked_blogposts' , true );
-        unset( $user_likes[$item_id] );
-        update_user_meta( $user_id , 'bp_liked_blogposts' , $user_likes );
-
-        /* Update the total number of users who have liked this blog post comment. */
-        $users_who_like = get_comment_meta( $item_id , 'liked_count' , true );
-        unset( $users_who_like[$user_id] );
-        $liked_count = count( $users_who_like );
-
-        /* If nobody likes the blog post comment, delete the meta for it to save space, otherwise, update the meta */
-        if ( !$liked_count ) {
-            delete_comment_meta( $item_id , 'liked_count' );
-        } else {
-            update_comment_meta( $item_id , 'liked_count' , $users_who_like );
-        }
+       /* Do nothing special for now */
     }
 
     echo bp_like_get_text( 'like' );
-    echo ' <span>' . ( $liked_count ? $liked_count : '0' ) . '</span>';
+    echo ' <span>' . ( $liked_count ? $liked_count : '' ) . '</span>';
 }
 
 /*
@@ -380,18 +265,7 @@ function bp_like_remove_user_like( $item_id = '' , $type = '' ) {
  */
 function bp_like_get_some_likes( $id, $type, $start, $end) {
 
-    if ( $type == 'blog_post' ) {
-        $users_who_like = get_post_meta( $id, 'liked_count', true );
-    } elseif ( $type == 'blog_post_comment' ) {
-        $users_who_like = get_comment_meta( $id, 'liked_count', true );
-    } elseif ( $type == 'activity_update' ) {
-        $users_who_like = bp_activity_get_meta( $id , 'liked_count' , true );
-    }
-
-    if ($users_who_like)
-        $users_who_like = array_keys( (array) $users_who_like);
-    else
-        $users_who_like = array();
+	$users_who_like = BPLIKE_LIKES::get_likers($id, $type);
 
     $string = $start . ' class="users-who-like" id="users-who-like-' . $id . '">';
 
@@ -409,10 +283,9 @@ function bp_like_get_some_likes( $id, $type, $start, $end) {
         } elseif ( count( $users_who_like ) == 2 ) {
 
             // find where the current_user is in the array $users_who_like
-            $key = array_search( get_current_user_id(), $users_who_like, true );
+            $key = array_search( get_current_user_id(), $users_who_like );
 
             // removing current user from $users_who_like
-            // TODO is key the same as offset?
             array_splice( $users_who_like, $key, 1 );
 
             $one = bp_core_get_userlink( $users_who_like[0] );

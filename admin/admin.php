@@ -71,6 +71,23 @@ function bp_like_admin_page() {
             )
         );
 
+        // initialize post like count totals
+        if ($_POST['enable_blog_post_support'] == 1 && isset($_POST['bp_like_post_types'])) {
+            $posts = get_posts(array(
+                'post_type' 	 => $_POST['bp_like_post_types'],
+                'posts_per_page' => -1,
+                'meta_query'	 => array(
+                    array(
+                        'key'	   => 'bp_liked_count_total',
+                        'compare'  => 'NOT EXISTS'
+                    )
+                )
+            ));
+            foreach($posts as $post){
+                bp_like_init_like_count_total($post->ID, $post, false);
+            }
+        }
+
         /* Let the user know everything's cool */
         echo '<div class="updated"><p><strong>';
         _e( 'Settings saved.' , 'wordpress' );
@@ -162,9 +179,10 @@ function bp_like_admin_page() {
                             <?php $post_types = get_post_types(array( 'public' => true ));
 
                             foreach ( $post_types as $post_type ) { ?>
+                                <?php $object = get_post_type_object( $post_type ); ?>
                                 <input type="checkbox" name="bp_like_post_types[]"
                                        value="<?php echo $post_type ?>"
-                                       <?php checked(true, in_array($post_type, bp_like_get_settings('bp_like_post_types'))) ?>>&nbsp; <?php echo $post_type ?><br>
+                                       <?php checked(true, in_array($post_type, bp_like_get_settings('bp_like_post_types'))) ?>>&nbsp; <?php echo $object->labels->singular_name ?><br>
                             <?php } ?>
                         </fieldset>
                     </td>

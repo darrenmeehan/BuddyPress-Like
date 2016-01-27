@@ -88,7 +88,7 @@ class BPLIKE_Likes_Component extends BP_Component {
   		$args = array(
               'slug'                  => BPLIKE_LIKES_SLUG,
               'root_slug'             => isset( $bp->pages->likes->slug ) ? $bp->pages->likes->slug : BPLIKE_LIKES_SLUG,
-              'has_directory'         => true,
+              'has_directory'         => false,
               'directory_title'       => _x( 'Likes', 'component directory title', 'buddypress-like' ),
               'notification_callback' => 'bplike_likes_format_notifications',
               'global_tables'         => $global_tables, // todo currently not used, either start using or curl_multi_remove_handle
@@ -163,7 +163,7 @@ class BPLIKE_Likes_Component extends BP_Component {
         'position'        => 10,
         'item_css_id'     => 'activity-likes'
       );
-            
+
       $sub_nav[] = array(
         'name'            => _x( 'Stats', 'Likes screen sub nav', 'buddypress-like' ),
         'slug'            => 'just-me',
@@ -173,7 +173,7 @@ class BPLIKE_Likes_Component extends BP_Component {
         'position'        => 10,
          'item_css_id'    => 'your-likes'
       );
-      
+
         // todo add one for blog posts etc, what makes sense
       parent::setup_nav( $main_nav, $sub_nav );
     }
@@ -191,6 +191,7 @@ class BPLIKE_Likes_Component extends BP_Component {
      */
     public function setup_admin_bar( $wp_admin_nav = array() ) {
 
+      return;
       // Menus for logged in user.
       if ( is_user_logged_in() ) {
 
@@ -205,7 +206,7 @@ class BPLIKE_Likes_Component extends BP_Component {
           'title'  => $title,
           'href'   => $likes_link
         );
-        
+
          // Statistics
         $wp_admin_nav[] = array(
             'parent' => 'my-account-' . $this->id,

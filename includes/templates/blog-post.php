@@ -16,7 +16,7 @@
 function bplike_blog_post_button( $content ) {
     global $post;
 
-    if (!bp_like_get_settings('bp_like_post_types') ||
+    if (!is_singular($post->post_type) || !bp_like_get_settings('bp_like_post_types') ||
         !in_array($post->post_type, bp_like_get_settings('bp_like_post_types')))
         return $content;
 
@@ -24,30 +24,20 @@ function bplike_blog_post_button( $content ) {
 
     if ( is_user_logged_in() ) {
 
-        if ( get_post_meta( get_the_ID(), 'liked_count', true ) ) {
-            $users_who_like = array_keys( get_post_meta( get_the_ID(), 'liked_count', true ) );
-            $liked_count = count( $users_who_like );
-        }
+        $liked_count = count(  BPLIKE_LIKES::get_likers(get_the_ID(), 'blog_post') );
 
         ob_start();
 
-        if ( ! bp_like_is_liked( get_the_ID(), 'blog_post', get_current_user_id() ) ) {
-            ?>
+        if ( ! bp_like_is_liked( get_the_ID(), 'blog_post', get_current_user_id() ) ) { ?>
             <a href="#" class="blogpost like" id="like-blogpost-<?php echo get_the_ID(); ?>" title="<?php echo bp_like_get_text( 'like_this_item' ); ?>">
-                <?php
-                    echo bp_like_get_text( 'like' );
-                    echo ' <span>' . ( $liked_count ? $liked_count : '0' ) . '</span>';
-                ?>
-            </a>
+				<?php echo bp_like_get_text( 'like' ); ?>
         <?php } else { ?>
             <a href="#" class="blogpost unlike" id="unlike-blogpost-<?php echo get_the_ID(); ?>" title="<?php echo bp_like_get_text( 'unlike_this_item' ); ?>">
-                <?php
-                    echo bp_like_get_text( 'unlike' );
-                    echo ' <span>' . ( $liked_count ? $liked_count : '0' ) . '</span>';
-                ?>
-            </a>
-            <?php
-        }
+                <?php echo bp_like_get_text( 'unlike' ); ?>
+        <?php } ?>
+				<span><?php echo ( $liked_count ? $liked_count : '' ) ?></span>
+         	</a>
+        <?php
 
         view_who_likes( get_the_ID(), 'blog_post');
 

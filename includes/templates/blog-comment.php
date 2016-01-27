@@ -24,22 +24,17 @@ function bplike_blog_post_comment_button( $content ) {
 
     if ( is_user_logged_in() ) {
 
-        if ( get_comment_meta( get_comment_ID(), 'liked_count', true ) ) {
-            $users_who_like = array_keys( get_comment_meta( get_comment_ID(), 'liked_count', true ) );
-            $liked_count = count( $users_who_like );
-        }
+        $liked_count = count(  BPLIKE_LIKES::get_likers(get_comment_ID(), 'blog_post_comment') );
 
         ob_start();
 
-        if ( ! bp_like_is_liked( get_comment_ID(), 'blog_post_comment', get_current_user_id() ) ) {
-            ?>
+        if ( ! bp_like_is_liked( get_comment_ID(), 'blog_post_comment', get_current_user_id() ) ) { ?>
             <br><a href="#" class="blogpost_comment like" id="like-blogpost-comment-<?php echo get_comment_ID(); ?>" title="<?php echo bp_like_get_text( 'like_this_item' ); ?>"><?php echo bp_like_get_text( 'like' ); echo ' <span>' . ($liked_count?$liked_count:'') . '</span>'; ?>
             </a>
         <?php } else { ?>
             <br><a href="#" class="blogpost_comment unlike" id="unlike-blogpost-comment-<?php echo get_comment_ID(); ?>" title="<?php echo bp_like_get_text( 'unlike_this_item' ); ?>"><?php echo bp_like_get_text( 'unlike' ); echo ' <span>' . ($liked_count?$liked_count:'') . '</span>'; ?>
             </a>
-            <?php
-        }
+        <?php }
 
         view_who_likes( get_comment_ID(), 'blog_post_comment', '<span', '</span>');
 

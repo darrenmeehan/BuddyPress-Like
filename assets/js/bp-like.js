@@ -13,6 +13,7 @@ jq(document).ready(function bpLike() {
             .replace('button', 'activity_update')               // clearer variable naming
             .replace('acomment-reply', 'activity_comment')
             .replace('blogpost', 'blog_post')
+            .replace('bbp-reply', 'bbp_reply')
             .trim();
         type = type.split(' ');
 
@@ -81,6 +82,7 @@ jq(document).ready(function bpLike() {
           .replace('activity-', '')
           .replace('blogpost-', '')
           .replace('comment-', '')
+          .replace('bbp-reply-', '')
           .replace('un', '');
     }
 
